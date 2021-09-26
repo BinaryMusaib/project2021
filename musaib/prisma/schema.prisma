@@ -1,0 +1,32 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Subject {
+  subjectId    Int       @id @default(autoincrement())
+  subjectName  String    @db.VarChar(255)
+  topic        Topic[]
+}
+model Topic {
+  topicId     Int       @id @default(autoincrement())
+  topicName   String    @db.VarChar(255)
+  subject     Subject   @relation(fields: [subjectId], references: [subjectId])
+  subjectId   Int
+  subtopic    SubTopic[]
+}
+model SubTopic {
+  subtopicId    Int       @id @default(autoincrement())
+  subtopicName  String    @db.VarChar(255)
+  topic         Topic     @relation(fields: [topicId], references: [topicId])
+  topicId       Int
+}
+
+

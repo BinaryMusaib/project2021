@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 @Controller('user')
 export class UserController {
 
-    constructor(private userService: UserService){}
+    constructor(private userService: UserService) { }
 
     @Post('login')
     async login(@Body() authData: AuthDataDto) {
@@ -18,7 +18,7 @@ export class UserController {
     }
 
     @Post('signup')
-    async signup(@Body() userDto: CreateUserDto){
+    async signup(@Body() userDto: CreateUserDto) {
         try {
             return await this.userService.create(userDto);
         } catch (error) {
@@ -27,7 +27,7 @@ export class UserController {
     }
 
     @Get("me/:email")
-    async me(@Param("email") email: string){
+    async me(@Param("email") email: string) {
         return await this.userService.findByEmail(email);
     }
 

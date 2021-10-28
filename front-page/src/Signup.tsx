@@ -7,8 +7,8 @@ import { authenticate } from "./signup.service";
 
 function initSignupData(): SignupData {
   return {
-    fname: "",
-    lname: "",
+    firstName: "",
+    lastName: "",
     email: "",
     password: "",
     confirm_password: "",
@@ -23,9 +23,7 @@ export default function Signup() {
     authenticate(signupData)
         .then(() => {
           alert('You have registered successfully');
-        })
-        .catch(() => alert('Registration Failed'));
-    
+        }).catch(() => alert('Registration Failed'));  
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,21 +40,21 @@ export default function Signup() {
       <form onSubmit={handleSubmit}>
       <div>
           <TextField
-            name="fname"
+            name="firstName"
             type="text"
             label="First Name"
             variant="filled"
             fullWidth
-            value={signupData.fname}
+            value={signupData.firstName}
             onChange={handleChange}
           />
            <TextField
-            name="lname"
+            name="lastName"
             type="text"
             label="Last Name"
             variant="filled"
             fullWidth
-            value={signupData.lname}
+            value={signupData.lastName}
             onChange={handleChange}
           />
         </div>

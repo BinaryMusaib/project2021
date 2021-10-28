@@ -65,8 +65,8 @@ export default function Login() {
             </Button>
           </div>
           <div className="button-signup">
-            <Button variant="contained" color="success">
-              <Link to="/signup">Sign Up</Link>
+            <Button variant="contained" color="success" href="./signup">
+              Sign Up
             </Button>
           </div>
         </div>

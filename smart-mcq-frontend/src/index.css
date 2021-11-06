@@ -14,25 +14,17 @@ code {
 
 .paper{
   padding: 20px;
-  height: 500px;
 }
 
 .form-control, .button-panel{
-  padding: 5px 0;
-  
+  padding: 5px 0;  
 }
 
-.button-signin{
-  width: 50%;
-  float: left;
-  padding: 10px;
-}
-.button-signup{
-  float: right;
-  padding: 10px;
+.button-panel {
+    display: flex;
 }
 
-.forgot{
-  padding: 5px 0;
-  float: left;
+.button-panel button {
+    margin-right: 10px;
 }
+

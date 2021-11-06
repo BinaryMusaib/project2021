@@ -1,5 +1,5 @@
 import Fetch from "./fetch";
-import { AuthDto, SignupDto } from "../dto";
+import { AuthDto, SetPasswordDto, SignupDto } from "../dto";
 
 export default class AuthService {
     static async authenticate(authDto: AuthDto) {
@@ -8,9 +8,16 @@ export default class AuthService {
         });
     }
 
-    static async signup({ confirmPassword, ...signupDto }: SignupDto) {
+    static async signup(signupDto: SignupDto) {
         return await Fetch.postJSON<void>("/api/user/signup", {
             body: signupDto
         });
     }
+
+    static async setPassword(setPasswordDto: SetPasswordDto) {
+        return await Fetch.postJSON<void>("/api/user/set-password", {
+            body: setPasswordDto
+        });
+    }
+
 }

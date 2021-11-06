@@ -4,8 +4,15 @@ export interface AuthDto {
     password: string
 }
 
-export interface SignupDto extends AuthDto {
+export interface SignupDto {
+    email: string
     firstName: string;
     lastName: string;
-    confirmPassword: string;
+}
+
+export interface SetPasswordDto {
+    otp: string;
+    email: string;
+    password: string;
+    confirmPassword?: string;
 }

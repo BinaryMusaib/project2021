@@ -6,3 +6,8 @@ export interface FormField {
     label: string;
     type: string;
 }
+
+export interface FormError {
+    fieldErrors: Partial<Record<string, string>>
+    formErrors: string[];
+}

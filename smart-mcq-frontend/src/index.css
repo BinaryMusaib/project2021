@@ -28,3 +28,19 @@ code {
     margin-right: 10px;
 }
 
+.guest-link button {
+    font-size: 0.75rem !important;
+    text-transform: capitalize;
+}
+
+.guest-link .forgot-password {
+    font-weight: bold;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+form > button {
+    margin-top: 20px !important;
+}

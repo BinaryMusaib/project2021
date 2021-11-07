@@ -1,5 +1,7 @@
 import Paper from "@mui/material/Paper";
 import React from "react";
+import { FetchContext } from "../context";
+import Backdrop from "./Backdrop";
 import "./GuestLayout.css";
 
 interface GuestLayoutProps {
@@ -8,6 +10,8 @@ interface GuestLayoutProps {
 }
 
 export default function GuestLayout({ title, children }: GuestLayoutProps) {
+    const { isLoading } = React.useContext(FetchContext);
+
     return (
         <div className="guest-layout">
             <Paper className="paper" elevation={9}>
@@ -17,6 +21,7 @@ export default function GuestLayout({ title, children }: GuestLayoutProps) {
                 </header>
                 <main>{children}</main>
             </Paper>
+            <Backdrop visible={isLoading} />
         </div>
     );
 }

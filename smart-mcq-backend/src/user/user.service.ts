@@ -50,8 +50,8 @@ export class UserService {
             where: { email: authData.email }
         });
 
-        if (user.password &&
-            await bcrypt.compare(authData.password, user.password))
+        if (user?.password &&
+            await bcrypt.compare(authData.password, user?.password))
             return user;
         else
             return null;

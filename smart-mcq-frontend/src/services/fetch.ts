@@ -45,13 +45,20 @@ async function handleJSONResponse<T>(res: Response): Promise<FetchResponse<T>> {
         return Promise.reject({
             ok: res.ok,
             status: res.status,
-            errors: (await res.json()).message as string[],
+            errors: toFormErrors((await res.json()).message)
         });
     } else if (res.ok) { // Success
-        return {
-            ok: res.ok,
-            status: res.status,
-            body: await res.json() as T
+        try {
+            return {
+                ok: res.ok,
+                status: res.status,
+                body: await res.json() as T
+            };
+        } catch (error) {
+            return {
+                ok: res.ok,
+                status: res.status
+            };
         }
     } else {
         return Promise.reject({
@@ -60,3 +67,33 @@ async function handleJSONResponse<T>(res: Response): Promise<FetchResponse<T>> {
         });
     }
 }
+
+export interface FormError {
+    fieldErrors: Partial<Record<string, string>>
+    formErrors: string[];
+}
+
+function toFormErrors(errors?: string | any[]): FormError {
+    if (typeof errors === "string")
+        return { formErrors: [errors], fieldErrors: {} };
+    else if (Array.isArray(errors)) {
+        const formErrors = errors.filter(error => typeof error === "string");
+        const fieldErrors = errors.filter(error => typeof error !== "string")
+            .reduce((fieldErrors: Partial<Record<string, string>>, error) => {
+                return {
+                    ...fieldErrors,
+                    [error.property]
+                        : error.constraints[Object.keys(error.constraints)[0]]
+                };
+            }, {});
+        return {
+            formErrors,
+            fieldErrors
+        };
+    }
+    else return {
+        fieldErrors: {},
+        formErrors: []
+    };
+
+};

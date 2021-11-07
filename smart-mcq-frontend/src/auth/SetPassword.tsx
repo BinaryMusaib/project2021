@@ -5,6 +5,7 @@ import { SetPasswordDto } from "../dto";
 import AuthService from "../services/auth.service";
 import Form from "../Form";
 import Button from "@mui/material/Button";
+import { FormError } from "../Form/types";
 
 export default function SetPassword() {
     const { otp } = useParams<{ otp: string }>();
@@ -15,7 +16,7 @@ export default function SetPassword() {
         password: "",
         confirmPassword: "",
     });
-    const [errors, setErrors] = React.useState<string[]>([]);
+    const [errors, setErrors] = React.useState<FormError>();
     const history = useHistory();
     const handleChange = (key: string, value: any) =>
         setData((data) => ({ ...data, [key]: value }));
@@ -23,7 +24,10 @@ export default function SetPassword() {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (data.password !== data.confirmPassword) {
-            setErrors(["Passwords don't match"]);
+            setErrors({
+                formErrors: ["Passwords don't match"],
+                fieldErrors: {},
+            });
             return;
         }
 

@@ -15,18 +15,18 @@ import { UserService } from './user.service';
 import express from 'express';
 import { UserDto } from './user.dto';
 
-@Controller('/user')
+@Controller('user')
 export class UserController {
     constructor(private userService: UserService, private mailService: MailService) { }
 
-    @Post('/login')
+    @Post('login')
     async login(@Body() authData: AuthDataDto) {
         const user = await this.userService.authenticate(authData);
         if (!user) throw new BadRequestException();
         return user;
     }
 
-    @Post('/signup')
+    @Post('signup')
     async signup(@Body() userDto: CreateUserDto, @Request() req: express.Request) {
         if (await this.userService.findByEmail(userDto.email))
             throw new BadRequestException('email already exists');
@@ -49,7 +49,7 @@ export class UserController {
             `${user.otp}?email=${encodeURIComponent(user.email)}`;
     }
 
-    @Post('/set-password')
+    @Post('set-password')
     async setPassword(@Body() dto: SetPasswordDto) {
         try {
             const user = await this.userService.findByEmail(dto.email);

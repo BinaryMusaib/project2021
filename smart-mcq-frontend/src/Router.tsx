@@ -1,8 +1,8 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./Home";
-import Login from "./Login";
+import Login from "./auth/Login";
 import Forgot from "./Forgot";
-import Signup from "./Signup";
+import Signup from "./auth/Signup";
 import SetPassword from "./auth/SetPassword";
 
 export default function Router() {

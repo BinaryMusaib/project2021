@@ -46,7 +46,7 @@ export class UserController {
     }
 
     generateSetPasswordLink(user: UserDto, req: express.Request) {
-        return `${req.protocol}://${req.host}/set-password/` +
+        return `${req.protocol}://${req.hostname}:3000/set-password/` +
             `${user.otp}?email=${encodeURIComponent(user.email)}`;
     }
 

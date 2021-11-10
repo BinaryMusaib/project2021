@@ -1,7 +1,6 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Home from "./Home";
 import Login from "./auth/Login";
-import Forgot from "./Forgot";
 import Signup from "./auth/Signup";
 import SetPassword from "./auth/SetPassword";
 import ForgotPassword from "./auth/ForgotPassword";
@@ -11,7 +10,6 @@ export default function Router() {
         <BrowserRouter>
             <Switch>
                 <Route path="/login" exact component={Login} />
-                <Route path="/forgot" exact component={Forgot} />
                 <Route path="/signup" exact component={Signup} />
                 <Route
                     path="/set-password/:otp"

@@ -6,6 +6,7 @@ import AuthService from "../services/auth.service";
 import Form from "../Form";
 import Button from "@mui/material/Button";
 import { FormError } from "../Form/types";
+import { FetchContext } from "../context";
 
 export default function SetPassword() {
     const { otp } = useParams<{ otp: string }>();
@@ -21,6 +22,7 @@ export default function SetPassword() {
     const handleChange = (key: string, value: any) =>
         setData((data) => ({ ...data, [key]: value }));
 
+    const { whileLoading } = React.useContext(FetchContext);
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (data.password !== data.confirmPassword) {
@@ -31,9 +33,11 @@ export default function SetPassword() {
             return;
         }
 
-        AuthService.setPassword(data)
-            .then(() => history.push("/signup-complete"))
-            .catch((res) => setErrors(res.errors));
+        whileLoading(
+            AuthService.setPassword(data)
+                .then(() => history.push("/signup-complete"))
+                .catch((res) => setErrors(res.errors)),
+        );
     };
 
     return (

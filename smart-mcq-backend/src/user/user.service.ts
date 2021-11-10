@@ -18,13 +18,19 @@ export class UserService {
     constructor(private prisma: PrismaService) { }
 
     async create(userDto: CreateUserDto): Promise<UserDto> {
-        return await this.prisma.user.create({
+        const otp = randomstring.generate();
+        const user = await this.prisma.user.create({
             data: {
                 ...userDto,
-                otp: await bcrypt.hash(randomstring.generate(), UserService.SALT_ROUNDS),
+                otp: await bcrypt.hash(otp, UserService.SALT_ROUNDS),
                 otpExpiry: new Date(new Date().getTime() + UserService._10Days),
             }
         });
+
+        return {
+            ...user,
+            otp
+        };
     }
 
     async setPassword(dto: SetPasswordDto): Promise<boolean> {
@@ -32,7 +38,7 @@ export class UserService {
         if (user != null) {
             if (await bcrypt.compare(dto.otp, user.otp)
                 && !this.isExpired(user.otpExpiry)) {
-                this._setPassword(dto);
+                await this._setPassword(dto);
                 return true;
             }
         }
@@ -41,7 +47,7 @@ export class UserService {
 
     private isExpired(date?: Date): boolean {
         if (!date) return true;
-        return date.getTime() > new Date().getTime();
+        return date.getTime() < new Date().getTime();
     }
 
     private async _setPassword(dto: SetPasswordDto): Promise<void> {
@@ -58,15 +64,21 @@ export class UserService {
     }
 
     async resetPasswordRequest(dto: ResetPasswordRequestDto): Promise<UserDto> {
-        return await this.prisma.user.update({
+        const otp = randomstring.generate();
+        const user = await this.prisma.user.update({
             where: {
                 email: dto.email
             },
             data: {
-                otp: await bcrypt.hash(randomstring.generate(), UserService.SALT_ROUNDS),
+                otp: await bcrypt.hash(otp, UserService.SALT_ROUNDS),
                 otpExpiry: new Date(new Date().getTime() + UserService._10Days),
             }
         });
+
+        return {
+            ...user,
+            otp
+        };
     }
 
     async findByEmail(email: string): Promise<UserDto> {

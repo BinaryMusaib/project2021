@@ -14,6 +14,7 @@ import { SetPasswordDto } from './set-password.dto';
 import { UserService } from './user.service';
 import express from 'express';
 import { UserDto } from './user.dto';
+import { ResetPasswordRequestDto } from './reset-password-request.dto';
 
 @Controller('user')
 export class UserController {
@@ -45,27 +46,25 @@ export class UserController {
     }
 
     generateSetPasswordLink(user: UserDto, req: express.Request) {
-        return `${req.protocol}://${req.baseUrl}/set-password/` +
+        return `${req.protocol}://${req.host}/set-password/` +
             `${user.otp}?email=${encodeURIComponent(user.email)}`;
     }
 
     @Post('set-password')
     async setPassword(@Body() dto: SetPasswordDto) {
-        try {
-            const user = await this.userService.findByEmail(dto.email);
-            if (user.otp === dto.otp && this.isExpired(user.otpExpiry)) {
-                this.userService.setPassword(dto);
-                return;
-            } else
-                throw new BadRequestException();
-        } catch (error) {
-            throw new BadRequestException('Invalid link');
-        }
+        if (!await this.userService.setPassword(dto))
+            throw new BadRequestException();
     }
 
-    isExpired(date?: Date): boolean {
-        if (!date) return false;
-        return date.getTime() > new Date().getTime();
+    @Post('reset-password-request')
+    async resetPasswordRequest(@Request() req: express.Request,
+        @Body() dto: ResetPasswordRequestDto) {
+        const user = await this.userService.resetPasswordRequest(dto);
+        if (user != null)
+            await this.mailService.sendUserConfirmation(
+                user,
+                this.generateSetPasswordLink(user, req));
+
     }
 
     @Get('me/:email')

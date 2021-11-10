@@ -16,3 +16,7 @@ export interface SetPasswordDto {
     password: string;
     confirmPassword?: string;
 }
+
+export interface ResetPasswordRequestDto {
+    email: string
+}

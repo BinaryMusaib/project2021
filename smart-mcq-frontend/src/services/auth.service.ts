@@ -1,5 +1,5 @@
 import Fetch from "./fetch";
-import { AuthDto, SetPasswordDto, SignupDto } from "../dto";
+import { AuthDto, ResetPasswordRequestDto, SetPasswordDto, SignupDto } from "../dto";
 
 export default class AuthService {
     static async authenticate(authDto: AuthDto) {
@@ -20,4 +20,9 @@ export default class AuthService {
         });
     }
 
+    static async resetPasswordRequest(dto: ResetPasswordRequestDto) {
+        return await Fetch.postJSON<void>('/api/user/reset-password-request', {
+            body: dto
+        });
+    }
 }

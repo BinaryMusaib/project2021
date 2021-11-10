@@ -4,15 +4,25 @@ import Login from "./auth/Login";
 import Forgot from "./Forgot";
 import Signup from "./auth/Signup";
 import SetPassword from "./auth/SetPassword";
+import ForgotPassword from "./auth/ForgotPassword";
 
 export default function Router() {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/login" component={Login} />
-                <Route path="/forgot" component={Forgot} />
-                <Route path="/signup" component={Signup} />
-                <Route path="/set-password/:otp" component={SetPassword} />
+                <Route path="/login" exact component={Login} />
+                <Route path="/forgot" exact component={Forgot} />
+                <Route path="/signup" exact component={Signup} />
+                <Route
+                    path="/set-password/:otp"
+                    exact
+                    component={SetPassword}
+                />
+                <Route
+                    path="/forgot-password"
+                    exact
+                    component={ForgotPassword}
+                />
                 <Route path="/" component={Home} />
             </Switch>
         </BrowserRouter>

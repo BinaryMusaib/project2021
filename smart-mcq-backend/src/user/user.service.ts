@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { AuthDataDto } from './auth-data.dto';
 import { CreateUserDto } from './create-user.dto';
+import { ResetPasswordRequestDto } from './reset-password-request.dto';
 import { SetPasswordDto } from './set-password.dto';
 import { UserDto } from './user.dto';
 
@@ -20,13 +21,30 @@ export class UserService {
         return await this.prisma.user.create({
             data: {
                 ...userDto,
-                otp: randomstring.generate(),
+                otp: await bcrypt.hash(randomstring.generate(), UserService.SALT_ROUNDS),
                 otpExpiry: new Date(new Date().getTime() + UserService._10Days),
             }
         });
     }
 
-    async setPassword(dto: SetPasswordDto): Promise<void> {
+    async setPassword(dto: SetPasswordDto): Promise<boolean> {
+        const user = await this.findByEmail(dto.email);
+        if (user != null) {
+            if (await bcrypt.compare(dto.otp, user.otp)
+                && !this.isExpired(user.otpExpiry)) {
+                this._setPassword(dto);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private isExpired(date?: Date): boolean {
+        if (!date) return true;
+        return date.getTime() > new Date().getTime();
+    }
+
+    private async _setPassword(dto: SetPasswordDto): Promise<void> {
         await this.prisma.user.update({
             where: {
                 email: dto.email
@@ -35,6 +53,18 @@ export class UserService {
                 password: await bcrypt.hash(dto.password, UserService.SALT_ROUNDS),
                 otp: null,
                 otpExpiry: null
+            }
+        });
+    }
+
+    async resetPasswordRequest(dto: ResetPasswordRequestDto): Promise<UserDto> {
+        return await this.prisma.user.update({
+            where: {
+                email: dto.email
+            },
+            data: {
+                otp: await bcrypt.hash(randomstring.generate(), UserService.SALT_ROUNDS),
+                otpExpiry: new Date(new Date().getTime() + UserService._10Days),
             }
         });
     }

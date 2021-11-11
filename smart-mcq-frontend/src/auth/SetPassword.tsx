@@ -35,7 +35,7 @@ export default function SetPassword() {
 
         whileLoading(
             AuthService.setPassword(data)
-                .then(() => history.push("/signup-complete"))
+                .then(() => history.push("/set-password-page"))
                 .catch((res) => setErrors(res.errors)),
         );
     };

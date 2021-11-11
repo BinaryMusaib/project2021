@@ -28,8 +28,8 @@ export default function Signup() {
         whileLoading(
             AuthService.signup(signupData)
                 .then(() => {
-                    console.log("This is it!");
-                    history.push("/wait-for-confirmation");
+                    //console.log("This is it!");
+                    history.push("/set-password-confirmation");
                 })
                 .catch((res) => {
                     setErrors(res.errors);
@@ -52,7 +52,7 @@ export default function Signup() {
                     onChange={handleChange}
                 />
                 <div className="button-panel">
-                    <Button variant="contained" type="submit">
+                    <Button variant="contained" type="submit"> 
                         Register
                     </Button>
                 </div>

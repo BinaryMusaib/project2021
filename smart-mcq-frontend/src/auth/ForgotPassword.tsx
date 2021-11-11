@@ -23,7 +23,7 @@ export default function ForgotPassword() {
         e.preventDefault();
         whileLoading(
             AuthService.resetPasswordRequest(data)
-                .then(() => history.push("/forgot-password-complete"))
+                .then(() => history.push("/check-email-link"))
                 .catch((res) => setErrors(res.errors)),
         );
     };

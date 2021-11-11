@@ -39,8 +39,9 @@ export default function Login() {
                     fields={fields}
                     data={loginData}
                     onChange={handleChange}
+                    
                 />
-                <Button variant="contained" type="submit">
+                <Button variant="contained" type="submit"> 
                     Login
                 </Button>
             </form>

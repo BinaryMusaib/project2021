@@ -4,10 +4,10 @@ export default function SignUpConfirmation() {
     return (
         <GuestLayout title="Check Email">
             <div className="confirmation-text">
-                <h3>
+                <p>
                     Thanks for signing up. Please check your email to complete
                     the signup process.
-                </h3>
+                </p>
             </div>
         </GuestLayout>
     );

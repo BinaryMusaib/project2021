@@ -26,7 +26,7 @@ export class UserController {
     @Post('login')
     async login(@Body() authData: AuthDataDto) {
         const user = await this.userService.authenticate(authData);
-        if (!user) throw new BadRequestException();
+        if (!user) throw new BadRequestException('Invalid username or password');
         return user;
     }
 

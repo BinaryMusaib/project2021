@@ -5,46 +5,54 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('features-bg.png');
 }
-
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
 .paper{
   padding: 20px;
 }
-
 .form-control, .button-panel{
   padding: 5px 0;  
 }
-
 .button-panel {
     display: flex;
 }
-
 .button-panel button {
     margin-right: 10px;
 }
-
 .guest-link button {
     font-size: 0.75rem !important;
     text-transform: capitalize;
 }
-
 .guest-link .forgot-password {
     font-weight: bold;
 }
-
 .form-control {
     margin-bottom: 10px;
 }
-
 form > button {
     margin-top: 20px !important;
 }
-
-a.MuiButton-root {
-    margin-right: 10px;
+.trylogo {
+  background-image: url('logo.png');
+  background-repeat: no-repeat;
+  height: 60px;
+  width: 400px;
+}
+.padd {
+  padding-left: 300px;
+}
+.faq {
+  margin-left: 30px;
+  padding-left: 25px;
+}
+.card1{
+  float: left;
+  max-width: 375px;
+  margin-left: 30px;
+  margin-right: 20px;
+  text-align: justify;
 }

@@ -44,3 +44,7 @@ code {
 form > button {
     margin-top: 20px !important;
 }
+
+a.MuiButton-root {
+    margin-right: 10px;
+}

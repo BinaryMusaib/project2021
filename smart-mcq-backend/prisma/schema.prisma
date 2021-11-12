@@ -19,3 +19,35 @@ model User {
   otp         String?
   otpExpiry   DateTime?
 }
+
+model Subject {
+   id          Int      @id @default(autoincrement())
+   title       String   @unique
+   description String
+   topics      Topic[]
+}
+
+model Topic {
+   id          Int      @id @default(autoincrement())
+   title       String   @unique
+   description String
+   subjectId   Int
+   subject     Subject @relation(fields: [subjectId], references: [id])
+   questions   Question[]
+}
+
+model Question {
+   id          Int   @id @default(autoincrement())
+   text        String
+   topicId     Int
+   topic       Topic @relation(fields: [topicId], references: [id])
+   option      Option[]
+   answer      Int
+}
+
+model Option {
+   id          Int      @id @default(autoincrement())
+   text        String
+   questionId  Int
+   question    Question @relation(fields: [questionId], references: [id])
+}

@@ -9,6 +9,7 @@
     margin: 20px auto;
     padding: 15px;
     max-width: 300px;
+    min-height: 300px;
 }
 
 .paper form {
@@ -19,3 +20,19 @@
     text-align: center;
     font-variant: small-caps;
 }
+
+
+.guest-layout .logo {
+    width: 70%;
+    display: block;
+    margin: 10px auto;
+    background-color: seagreen;
+    border-radius: 10px;
+}
+
+.confirmation-text {
+    padding: 10px;
+    line-height: 1.3rem;
+    font-weight: normal;
+}
+

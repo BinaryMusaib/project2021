@@ -48,11 +48,20 @@ form > button {
 .faq {
   margin-left: 30px;
   padding-left: 25px;
+  font-size: 30px;
+  font-weight:normal;
 }
+
 .card1{
+  position: relative;
   float: left;
   max-width: 375px;
   margin-left: 30px;
   margin-right: 20px;
   text-align: justify;
 }
+
+.designImage {
+  max-width: 100%;
+}
+

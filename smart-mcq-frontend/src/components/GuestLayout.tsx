@@ -3,7 +3,7 @@ import React from "react";
 import { FetchContext } from "../context";
 import Backdrop from "./Backdrop";
 import "./GuestLayout.css";
-import Logo from "../logo.png";
+import Logo from "../logoGuestLayout.png";
 import { Link } from "react-router-dom";
 
 interface GuestLayoutProps {

@@ -10,6 +10,8 @@ import HowToRegIcon from "@mui/icons-material/HowToReg";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import designImage from "./designImage.png";
+
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -64,8 +66,10 @@ export default function ButtonAppBar() {
         </Toolbar>
       </AppBar>
       <div className="faq">
-        <h2>FAQs </h2>
+        <p>FAQs </p>
        </div>
+       <hr />
+       <div className = "cardParent">
        <Card className="card1" elevation={0}>
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.primary" gutterBottom>
@@ -119,6 +123,10 @@ export default function ButtonAppBar() {
           </Typography>
         </CardContent>
       </Card>
+      </div>
+      <div className = "designImage">
+        <img src={designImage} alt="Smart MCQs" />
+        </div>
     </Box>
   );
 }

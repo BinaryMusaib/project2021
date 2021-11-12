@@ -3,7 +3,7 @@ import GuestLayout from "../components/GuestLayout";
 import Button from "@mui/material/Button";
 export default function StaticSetPassword() {
   return (
-    <GuestLayout title="SignUp Completed">
+    <GuestLayout title="Password Saved">
     <div className= "staticSetPassword">
     
        <h3> Your password has been set. 

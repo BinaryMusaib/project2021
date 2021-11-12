@@ -6,5 +6,6 @@ export default () => ({
         pass: process.env.MAIL_PASSWORD,
         from: process.env.MAIL_FROM,
         templatePath: process.env.MAIL_TEMPLATE_PATH
-    }
+    },
+    baseUri: process.env.BASE_URI
 })

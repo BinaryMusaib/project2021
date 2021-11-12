@@ -5,20 +5,23 @@ import {
     Param,
     Post,
     Get,
-    Request
 } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
 import { AuthDataDto } from './auth-data.dto';
 import { CreateUserDto } from './create-user.dto';
 import { SetPasswordDto } from './set-password.dto';
 import { UserService } from './user.service';
-import express from 'express';
 import { UserDto } from './user.dto';
 import { ResetPasswordRequestDto } from './reset-password-request.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('user')
 export class UserController {
-    constructor(private userService: UserService, private mailService: MailService) { }
+    constructor(
+        private userService: UserService, 
+        private mailService: MailService,
+        private configService: ConfigService)
+         { }
 
     @Post('login')
     async login(@Body() authData: AuthDataDto) {
@@ -28,7 +31,7 @@ export class UserController {
     }
 
     @Post('signup')
-    async signup(@Body() userDto: CreateUserDto, @Request() req: express.Request) {
+    async signup(@Body() userDto: CreateUserDto) {
         if (await this.userService.findByEmail(userDto.email))
             throw new BadRequestException('email already exists');
 
@@ -36,7 +39,7 @@ export class UserController {
             const user = await this.userService.create(userDto);
             await this.mailService.sendUserConfirmation(
                 userDto,
-                this.generateSetPasswordLink(user, req));
+                this.generateSetPasswordLink(user));
         } catch (error) {
             console.log(error);
             throw new BadRequestException(
@@ -45,8 +48,8 @@ export class UserController {
         }
     }
 
-    generateSetPasswordLink(user: UserDto, req: express.Request) {
-        return `${req.protocol}://${req.hostname}:3000/set-password/` +
+    generateSetPasswordLink(user: UserDto) {
+        return `${this.configService.get<string>("baseUri")}set-password/` +
             `${user.otp}?email=${encodeURIComponent(user.email)}`;
     }
 
@@ -57,13 +60,15 @@ export class UserController {
     }
 
     @Post('reset-password-request')
-    async resetPasswordRequest(@Request() req: express.Request,
+    async resetPasswordRequest(
         @Body() dto: ResetPasswordRequestDto) {
         const user = await this.userService.resetPasswordRequest(dto);
         if (user != null)
             await this.mailService.sendUserConfirmation(
                 user,
-                this.generateSetPasswordLink(user, req));
+                this.generateSetPasswordLink(user));
+        else
+            throw new BadRequestException();
 
     }
 

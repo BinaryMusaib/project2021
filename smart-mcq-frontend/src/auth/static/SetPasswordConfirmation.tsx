@@ -8,10 +8,10 @@ export default function SetPasswordConfirmation() {
     return (
         <GuestLayout title="Password Saved">
             <div className="confirmation-text">
-                <h3>
+                <p>
                     Your password has been set. Please click the button below to
                     login with your new password.
-                </h3>
+                </p>
 
                 <div className="loginbutton">
                     <Button

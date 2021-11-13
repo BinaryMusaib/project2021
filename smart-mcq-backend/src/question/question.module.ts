@@ -5,9 +5,11 @@ import { QuestionService } from './question.service';
 import { SubjectController } from './subject/subject.controller';
 import { TopicController } from './topic/topic.controller';
 import { QuestionController } from './question.controller';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
-  providers: [SubjectService, TopicService, QuestionService],
-  controllers: [SubjectController, TopicController, QuestionController]
+    providers: [SubjectService, TopicService, QuestionService],
+    imports: [PrismaModule],
+    controllers: [SubjectController, TopicController, QuestionController]
 })
-export class QuestionModule {}
+export class QuestionModule { }

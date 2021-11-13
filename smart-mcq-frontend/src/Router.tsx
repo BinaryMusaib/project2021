@@ -7,6 +7,8 @@ import ForgotPassword from "./auth/ForgotPassword";
 import SignupConfirmation from "./auth/static/SignupConfirmation";
 import SetPasswordConfirmation from "./auth/static/SetPasswordConfirmation";
 import ForgotPasswordConfirmation from "./auth/static/ForgotPasswordConfirmation";
+import SubjectList from "./questions/subject/List";
+import SubjectAddModify from "./questions/subject/AddModify";
 
 export default function Router() {
     return (
@@ -39,7 +41,25 @@ export default function Router() {
                     exact
                     component={ForgotPassword}
                 />
-                <Route path="/" component={Home} />
+                <Route
+                    path="/questions/subjects"
+                    exact
+                    component={SubjectList}
+                />
+
+                <Route
+                    path="/questions/subject/new"
+                    exact
+                    component={SubjectAddModify}
+                />
+
+                <Route
+                    path="/questions/subject/:id"
+                    exact
+                    component={SubjectAddModify}
+                />
+
+                <Route path="*" component={Home} />
             </Switch>
         </BrowserRouter>
     );

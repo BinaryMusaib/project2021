@@ -25,7 +25,7 @@ async function makeJSONRequest<T>(url: string, method: string, {
     }).then(res => handleJSONResponse<T>(res));
 }
 
-async function getJSON<T>(url: string, options: RequestOptions) {
+async function getJSON<T>(url: string, options: RequestOptions = {}) {
     return await makeJSONRequest<T>(url, "GET", options);
 }
 
@@ -33,9 +33,19 @@ async function postJSON<T>(url: string, options: RequestOptions) {
     return await makeJSONRequest<T>(url, "POST", options);
 }
 
+async function putJSON<T>(url: string, options: RequestOptions) {
+    return await makeJSONRequest<T>(url, "PUT", options);
+}
+
+async function deleteJSON<T>(url: string, options: RequestOptions = {}) {
+    return await makeJSONRequest<T>(url, "DELETE", options);
+}
+
 const Fetch = {
     getJSON,
-    postJSON
+    postJSON,
+    putJSON,
+    deleteJSON
 };
 
 export default Fetch;

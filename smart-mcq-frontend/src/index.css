@@ -65,3 +65,13 @@ form > button {
   max-width: 100%;
 }
 
+.entity-list {
+    max-width: 800px;
+    margin: 10px auto;
+}
+
+.layout .paper-form {
+    max-width: 800px;
+    margin: 10px auto;
+}
+    

@@ -1,6 +1,5 @@
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
@@ -13,13 +12,6 @@ export default function Nav() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                ></IconButton>
                 <div className="trylogo">
                 <Link to="/">
                     <img src={logo} alt="mainLogo"  />

@@ -125,7 +125,7 @@ export default function ButtonAppBar() {
       </Card>
       </div>
       <div className = "designImage">
-        <img src={designImage} alt="Design Image" />
+        <img src={designImage} alt="DesignBg" />
         </div>
     </Box>
   );

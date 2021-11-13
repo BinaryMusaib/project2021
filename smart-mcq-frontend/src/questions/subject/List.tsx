@@ -5,6 +5,7 @@ import { FetchContext } from "../../context";
 import Layout from "../../components/Layout";
 import { List, ListItem, ListItemText, IconButton, Fab } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useHistory } from "react-router-dom";
 
@@ -27,26 +28,31 @@ export default function SubjectList() {
                 <Fab
                     color="primary"
                     aria-label="add"
+                    size="small"
                     onClick={() => history.push("/questions/subject/new")}
                 >
                     <AddIcon />
                 </Fab>
+                <IconButton aria-label="delete" size="large">
+                    <DeleteIcon fontSize="inherit" />
+                </IconButton>
                 <List>
                     {subjects.map((subject, index) => (
                         <ListItem
                             key={index}
                             secondaryAction={
-                                <IconButton
-                                    edge="end"
-                                    aria-label="edit"
-                                    onClick={() =>
-                                        history.push(
-                                            `/questions/subject/${subject.id}`,
-                                        )
-                                    }
-                                >
-                                    <EditIcon />
-                                </IconButton>
+                            <Fab 
+                                color="primary"
+                                aria-label="edit"
+                               size="small"
+                                onClick={() =>
+                                history.push(
+                                `/questions/subject/${subject.id}`,
+                                )
+                                }
+                         >
+                             <EditIcon />
+                             </Fab>
                             }
                         >
                             <ListItemText

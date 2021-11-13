@@ -6,6 +6,8 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
 import AnnouncementIcon from "@mui/icons-material/Announcement";
 import NavBtn from "./NavBtn";
+import { Link } from "react-router-dom";
+import logo from "../logo.png";
 
 export default function Nav() {
     return (
@@ -18,12 +20,16 @@ export default function Nav() {
                     aria-label="menu"
                     sx={{ mr: 2 }}
                 ></IconButton>
-                <div className="trylogo"></div>
+                <div className="trylogo">
+                <Link to="/">
+                    <img src={logo} alt="mainLogo"  />
+                </Link>
+                </div>
                 <div className="padd">
                     <NavBtn
-                        url="/Assessment"
+                        url="/questions/subjects"
                         startIcon={<AssessmentIcon />}
-                        text="Assessment"
+                        text="Subjects"
                     />
                     <NavBtn
                         url="#"

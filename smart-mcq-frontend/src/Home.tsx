@@ -11,6 +11,9 @@ import AnnouncementIcon from "@mui/icons-material/Announcement";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import designImage from "./designImage.png";
+import logo from "./logo.png";
+import { Link } from "react-router-dom";
+
 
 export default function ButtonAppBar() {
   return (
@@ -24,16 +27,20 @@ export default function ButtonAppBar() {
             aria-label="menu"
             sx={{ mr: 2 }}
           ></IconButton>
-          <div className="trylogo"></div>
+          <div className="trylogo">
+          <Link to="/">
+             <img src={logo} alt="mainLogo"  />
+          </Link>
+          </div>
           <div className="padd">
           <Button
             size="large"
             color="inherit"
             variant="text"
-            href="./Assessment"
+            href="/questions/subjects"
             startIcon={<AssessmentIcon />}
           >
-            Assessment
+            Subjects
           </Button>
           <Button
             size="large"

@@ -60,9 +60,14 @@ form > button {
   margin-right: 20px;
   text-align: justify;
 }
+.HomeSlat {
+  padding-top: 60px;
+  max-width: 100%;
+}
 
 .designImage {
   max-width: 100%;
+  
 }
 
 .entity-list {

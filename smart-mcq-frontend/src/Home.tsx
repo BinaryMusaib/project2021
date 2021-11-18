@@ -11,13 +11,14 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import designImage from "./designImage.png";
 import logo from "./logo.png";
+import HomeSlat from "./HomeSlat.jpg";
 import { Link } from "react-router-dom";
 
 
 export default function ButtonAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed" style={{ background: '#20aa94' }}>
         <Toolbar>
           <div className="trylogo">
           <Link to="/">
@@ -63,7 +64,11 @@ export default function ButtonAppBar() {
           </Button>
           </div>
         </Toolbar>
-      </AppBar>
+      </AppBar>    
+        <img src={HomeSlat} alt="Home Slat" className="HomeSlat"/>
+        <div className = "designImage">
+        <img src={designImage} alt="DesignBg" />
+        </div>
       <div className="faq">
         <p>FAQs </p>
        </div>
@@ -123,9 +128,7 @@ export default function ButtonAppBar() {
         </CardContent>
       </Card>
       </div>
-      <div className = "designImage">
-        <img src={designImage} alt="DesignBg" />
-        </div>
+      
     </Box>
   );
 }

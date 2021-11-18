@@ -10,7 +10,7 @@ import logo from "../logo.png";
 
 export default function Nav() {
     return (
-        <AppBar position="static">
+        <AppBar position="static" style={{ background: '#20aa94' }}>
             <Toolbar>
                 <div className="trylogo">
                 <Link to="/">

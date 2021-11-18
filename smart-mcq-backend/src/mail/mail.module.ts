@@ -17,7 +17,8 @@ import configuration from '../config/configuration';
                     port: config.get<string>('mail.port'),
                     secureConnection: false,
                     tls: {
-                        ciphers: 'SSLv3'
+                        ciphers: 'SSLv3',
+                        
                     },
                     auth: {
                         user: config.get<string>('mail.user'),

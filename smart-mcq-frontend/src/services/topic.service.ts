@@ -33,6 +33,12 @@ export default class TopicService {
         );
     }
 
+    static async getManyBySubject(subjectid: number) {
+        return await Fetch.getJSON<TopicDto>(
+            `/api/topic/${subjectid}`
+        );
+    }
+
     static async getAll() {
         return await Fetch.getJSON<TopicDto[]>(
             `/api/topic`

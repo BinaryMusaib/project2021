@@ -1,3 +1,4 @@
+import StorageService from "./storage.services";
 
 interface RequestOptions {
     headers?: Record<string, string>,
@@ -19,6 +20,9 @@ async function makeJSONRequest<T>(url: string, method: string, {
         method,
         headers: {
             "Content-Type": "application/json",
+            ...(StorageService.getToken() ? {
+                "Authorization": "Bearer " + StorageService.getToken()
+            } : {}),
             ...headers,
         },
         body: typeof body === "object" ? JSON.stringify(body) : body,
@@ -56,6 +60,12 @@ async function handleJSONResponse<T>(res: Response): Promise<FetchResponse<T>> {
             ok: res.ok,
             status: res.status,
             errors: toFormErrors((await res.json()).message)
+        });
+    } else if (res.status === 401) { // Authentication error
+        window.location.href = '/login';
+        return Promise.reject({
+            ok: res.ok,
+            status: res.status
         });
     } else if (res.ok) { // Success
         try {

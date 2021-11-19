@@ -1,9 +1,10 @@
 import Fetch from "./fetch";
-import { AuthDto, ResetPasswordRequestDto, SetPasswordDto, SignupDto } from "../dto";
+import { AuthDto, AuthenticationDto, ResetPasswordRequestDto, SetPasswordDto, SignupDto } from "../dto";
+import StorageService from "./storage.services";
 
 export default class AuthService {
     static async authenticate(authDto: AuthDto) {
-        return await Fetch.postJSON<void>("/api/user/login", {
+        return await Fetch.postJSON<AuthenticationDto>("/api/user/login", {
             body: authDto,
         });
     }
@@ -25,4 +26,9 @@ export default class AuthService {
             body: dto
         });
     }
+
+    static logout() {
+        StorageService.clear();
+    }
 }
+

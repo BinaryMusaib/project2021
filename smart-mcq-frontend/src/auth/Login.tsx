@@ -4,9 +4,10 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import Form from "../Form/index";
 import AuthService from "../services/auth.service";
-import { AuthDto } from "../dto";
+import { AuthDto, AuthenticationDto } from "../dto";
 import { FormError } from "../Form/types";
 import { FetchContext } from "../context";
+import StorageService from "../services/storage.services";
 
 export default function Login() {
     const [loginData, setLoginData] = React.useState<AuthDto>(initLoginData());
@@ -19,7 +20,12 @@ export default function Login() {
         e.preventDefault();
         whileLoading(
             AuthService.authenticate(loginData)
-                .then(() => history.push("/"))
+                .then((res) => {
+                    StorageService.setToken(
+                        (res.body as AuthenticationDto).accessToken,
+                    );
+                    history.push("/");
+                })
                 .catch((res) => setErrors(res.errors)),
         );
     };
@@ -39,9 +45,8 @@ export default function Login() {
                     fields={fields}
                     data={loginData}
                     onChange={handleChange}
-                    
                 />
-                <Button variant="contained" type="submit"> 
+                <Button variant="contained" type="submit">
                     Login
                 </Button>
             </form>

@@ -6,4 +6,7 @@ export class CreateTopicDto {
 
     @IsNotEmpty()
     description: string
+
+    @IsNotEmpty()
+    subjectId: number
 }

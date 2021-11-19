@@ -11,7 +11,6 @@ export class TopicService {
     async create(dto: CreateTopicDto): Promise<TopicDto> {
         return await this.prisma.topic.create({
             data: dto
-            
         });
     }
 
@@ -28,6 +27,14 @@ export class TopicService {
         return await this.prisma.topic.findUnique({
             where: {
                 id
+            }
+        });
+    }
+
+    async getManyBySubject(subjectId: number): Promise<TopicDto[]> {
+        return await this.prisma.topic.findMany({
+            where: {
+                subjectId
             }
         });
     }

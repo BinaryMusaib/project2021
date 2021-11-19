@@ -2,9 +2,9 @@ import {
     BadRequestException,
     Body,
     Controller,
-    Param,
     Post,
-    Get,
+    Request,
+    UseGuards,
 } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
 import { AuthDataDto } from './auth-data.dto';
@@ -14,23 +14,39 @@ import { UserService } from './user.service';
 import { UserDto } from './user.dto';
 import { ResetPasswordRequestDto } from './reset-password-request.dto';
 import { ConfigService } from '@nestjs/config';
+import { LocalAuthGuard } from './local-auth.guard';
+import { JwtService } from '@nestjs/jwt';
+import { Public } from './public';
+import express from 'express';
 
 @Controller('user')
 export class UserController {
     constructor(
-        private userService: UserService, 
+        private jwtService: JwtService,
+        private userService: UserService,
         private mailService: MailService,
-        private configService: ConfigService)
-         { }
+        private configService: ConfigService) { }
 
     @Post('login')
-    async login(@Body() authData: AuthDataDto) {
-        const user = await this.userService.authenticate(authData);
-        if (!user) throw new BadRequestException('Invalid username or password');
-        return user;
+    @Public()
+    @UseGuards(LocalAuthGuard)
+    async login(@Request() req: express.Request) {
+        return {
+            accessToken: this.jwtService.sign(this.toPayLoad(req.user as any))
+        };
+    }
+
+    toPayLoad(user: UserDto) {
+        return {
+            email: user.email,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            sub: user.id
+        };
     }
 
     @Post('signup')
+    @Public()
     async signup(@Body() userDto: CreateUserDto) {
         if (await this.userService.findByEmail(userDto.email))
             throw new BadRequestException('email already exists');
@@ -54,12 +70,14 @@ export class UserController {
     }
 
     @Post('set-password')
+    @Public()
     async setPassword(@Body() dto: SetPasswordDto) {
         if (!await this.userService.setPassword(dto))
             throw new BadRequestException();
     }
 
     @Post('reset-password-request')
+    @Public()
     async resetPasswordRequest(
         @Body() dto: ResetPasswordRequestDto) {
         const user = await this.userService.resetPasswordRequest(dto);
@@ -70,10 +88,5 @@ export class UserController {
         else
             throw new BadRequestException();
 
-    }
-
-    @Get('me/:email')
-    async me(@Param('email') email: string) {
-        return await this.userService.findByEmail(email);
     }
 }

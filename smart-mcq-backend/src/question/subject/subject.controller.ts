@@ -1,10 +1,19 @@
-import { Controller, NotFoundException, Post, Get, Body, Put, Delete, Param, ParseIntPipe } from '@nestjs/common';
+import {
+    Controller,
+    NotFoundException,
+    Post,
+    Get,
+    Body,
+    Put,
+    Delete,
+    Param,
+    ParseIntPipe,
+} from '@nestjs/common';
 import { CreateSubjectDto } from './create-subject.dto';
 import { SubjectService } from './subject.service';
 
 @Controller('subject')
 export class SubjectController {
-
     constructor(private subjectService: SubjectService) { }
 
     @Get()
@@ -12,11 +21,10 @@ export class SubjectController {
         return await this.subjectService.getAll();
     }
 
-    @Get(":id")
+    @Get(':id')
     async getById(@Param('id', ParseIntPipe) id: number) {
         const subject = await this.subjectService.getById(id);
-        if (!subject)
-            throw new NotFoundException();
+        if (!subject) throw new NotFoundException();
         return subject;
     }
 
@@ -25,15 +33,16 @@ export class SubjectController {
         return await this.subjectService.create(dto);
     }
 
-    @Put(":id")
-    async update(@Param('id', ParseIntPipe) id: number, @Body() dto: CreateSubjectDto) {
+    @Put(':id')
+    async update(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: CreateSubjectDto,
+    ) {
         await this.subjectService.update(id, dto);
     }
 
-    @Delete(":id")
+    @Delete(':id')
     async delete(@Param('id', ParseIntPipe) id: number) {
         await this.subjectService.delete(id);
     }
-
 }
-

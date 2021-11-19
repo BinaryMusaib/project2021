@@ -20,3 +20,7 @@ export interface SetPasswordDto {
 export interface ResetPasswordRequestDto {
     email: string
 }
+
+export interface AuthenticationDto {
+    accessToken: string;
+}

@@ -17,7 +17,7 @@ import AuthService from "../services/auth.service";
 export default function Nav() {
     const history = useHistory();
     return (
-        <AppBar position="static" style={{ background: "#20aa94" }}>
+        <AppBar position="fixed" style={{ background: "#20aa94" }}>
             <Toolbar>
                 <div className="trylogo">
                     <Link to="/">

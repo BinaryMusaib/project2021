@@ -39,10 +39,10 @@ export default function ButtonAppBar() {
             size="large"
             color="inherit"
             variant="text"
-            href="#"
+            href="questions/topics"
             startIcon={<AnnouncementIcon />}
           >
-            About Us
+            Topics
           </Button>
           <Button
             size="large"

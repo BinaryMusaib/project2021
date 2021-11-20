@@ -16,7 +16,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         });
 
         if (!user) {
-            throw new BadRequestException()
+            throw new BadRequestException("Invalid email or password")
         }
 
         return user;

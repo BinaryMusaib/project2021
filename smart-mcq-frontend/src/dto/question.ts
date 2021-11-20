@@ -9,9 +9,11 @@ export interface SubjectDto extends CreateSubjectDto {
 }
 
 export interface CreateTopicDto {
-    title:string
-    description:string
+    title: string
+    description: string
+    subjectId: number
 }
+
 export interface TopicDto extends CreateTopicDto {
     id: number
 }

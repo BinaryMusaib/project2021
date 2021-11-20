@@ -32,24 +32,24 @@ export default function TopicList() {
                 >
                     <AddIcon />
                 </Fab>
-                
+
                 <List>
                     {topics.map((topic, index) => (
                         <ListItem
                             key={index}
                             secondaryAction={
-                            <Fab 
-                                color="primary"
-                                aria-label="edit"
-                               size="small"
-                                onClick={() =>
-                                history.push(
-                                `/questions/topic/${topic.id}`,
-                                )
-                                }
-                         >
-                             <EditIcon />
-                             </Fab>
+                                <Fab
+                                    color="primary"
+                                    aria-label="edit"
+                                    size="small"
+                                    onClick={() =>
+                                        history.push(
+                                            `/questions/topic/${topic.id}`,
+                                        )
+                                    }
+                                >
+                                    <EditIcon />
+                                </Fab>
                             }
                         >
                             <ListItemText

@@ -8,9 +8,16 @@ export class TopicService {
 
     constructor(private prisma: PrismaService) { }
 
-    async create(dto: CreateTopicDto): Promise<TopicDto> {
+    async create({ subjectId, ...rest }: CreateTopicDto): Promise<TopicDto> {
         return await this.prisma.topic.create({
-            data: dto
+            data: {
+                ...rest,
+                subject: {
+                    connect: {
+                        id: subjectId
+                    }
+                }
+            }
         });
     }
 

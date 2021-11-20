@@ -1,6 +1,6 @@
 import { FormError, FormField, OnChange } from "./types";
-import TextField from "@mui/material/TextField";
 import FormErrors from "./FormErrors";
+import Field from "./Field";
 
 type FormProps = {
     fields: FormField[];
@@ -15,16 +15,12 @@ export default function Form({ fields, data, onChange, errors }: FormProps) {
             <FormErrors errors={errors?.formErrors} />
             {fields.map((field, index) => (
                 <div key={index} className="form-control">
-                    <TextField
-                        name={field.name}
-                        type={field.type}
-                        label={field.label}
-                        value={(data as any)[field.name]}
-                        variant="standard"
-                        fullWidth
-                        error={!!errors?.fieldErrors[field.name]}
+                    <Field
+                        field={field}
+                        hasError={!!errors?.fieldErrors[field.name]}
                         helperText={toHelperText(errors?.fieldErrors, field)}
-                        onChange={(e) => onChange(field.name, e.target.value)}
+                        value={data[field.name]}
+                        onChange={onChange}
                     />
                 </div>
             ))}

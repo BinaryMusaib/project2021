@@ -9,6 +9,8 @@ import SetPasswordConfirmation from "./auth/static/SetPasswordConfirmation";
 import ForgotPasswordConfirmation from "./auth/static/ForgotPasswordConfirmation";
 import SubjectList from "./questions/subject/List";
 import SubjectAddModify from "./questions/subject/AddModify";
+import TopicList from "./questions/subject/ListTopic";
+import TopicAddModify from "./questions/subject/TopicAddModify";
 
 export default function Router() {
     return (
@@ -52,13 +54,26 @@ export default function Router() {
                     exact
                     component={SubjectAddModify}
                 />
-
-                <Route
+                 <Route
                     path="/questions/subject/:id"
                     exact
                     component={SubjectAddModify}
                 />
-
+                 <Route
+                    path="/questions/topics"
+                    exact
+                    component={TopicList}
+                />
+                <Route
+                    path="/questions/topic/new"
+                    exact
+                    component={TopicAddModify}
+                />
+                 <Route
+                    path="/questions/topic/:id"
+                    exact
+                    component={TopicAddModify}
+                />
                 <Route path="*" component={Home} />
             </Switch>
         </BrowserRouter>

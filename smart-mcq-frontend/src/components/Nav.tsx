@@ -24,8 +24,8 @@ export default function Nav() {
                         text="Subjects"
                     />
                     <NavBtn
-                        url="#"
-                        text="About Us"
+                        url="/questions/topics"
+                        text="Topics"
                         startIcon={<AnnouncementIcon />}
                     />
 

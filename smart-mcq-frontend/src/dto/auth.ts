@@ -24,3 +24,10 @@ export interface ResetPasswordRequestDto {
 export interface AuthenticationDto {
     accessToken: string;
 }
+
+export interface AuthProfile {
+    email: string;
+    firstName: string;
+    lastName: string;
+    sub: number
+}

@@ -1,8 +1,11 @@
 import Fetch from "./fetch";
-import { AuthDto, AuthenticationDto, ResetPasswordRequestDto, SetPasswordDto, SignupDto } from "../dto";
+import { AuthDto, AuthenticationDto, AuthProfile, ResetPasswordRequestDto, SetPasswordDto, SignupDto } from "../dto";
 import StorageService from "./storage.services";
+import decode from 'jwt-decode';
 
 export default class AuthService {
+    static profile: AuthProfile | null = null;
+
     static async authenticate(authDto: AuthDto) {
         return await Fetch.postJSON<AuthenticationDto>("/api/user/login", {
             body: authDto,
@@ -30,5 +33,20 @@ export default class AuthService {
     static logout() {
         StorageService.clear();
     }
-}
 
+    static getProfile() {
+        if (this.profile) return this.profile;
+
+        const token = StorageService.getToken();
+        if (token === null)
+            return null;
+
+        try {
+            this.profile = decode<AuthProfile>(token);
+            return this.profile;
+        } catch (error) {
+            StorageService.clear();
+            return null;
+        }
+    }
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import Router from "./Router";
-import { FetchContext } from "./context";
+import { FetchContext, AuthContext } from "./context";
+import AuthService from "./services/auth.service";
 
 function App() {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -12,10 +13,19 @@ function App() {
         [setIsLoading],
     );
 
+    const profile = AuthService.getProfile();
+
     return (
-        <FetchContext.Provider value={{ whileLoading, isLoading }}>
-            <Router />
-        </FetchContext.Provider>
+        <AuthContext.Provider
+            value={{
+                isLoggedIn: profile !== null,
+                profile,
+            }}
+        >
+            <FetchContext.Provider value={{ whileLoading, isLoading }}>
+                <Router />
+            </FetchContext.Provider>
+        </AuthContext.Provider>
     );
 }
 

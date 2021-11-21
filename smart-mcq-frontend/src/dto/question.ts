@@ -17,3 +17,13 @@ export interface CreateTopicDto {
 export interface TopicDto extends CreateTopicDto {
     id: number
 }
+
+export interface CreateQuestionDto {
+    text: string
+    answer: number
+    topicId: number
+}
+
+export interface QuestionDto extends CreateQuestionDto {
+    id: number
+}

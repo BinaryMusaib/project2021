@@ -18,7 +18,7 @@ import configuration from '../config/configuration';
                     secureConnection: false,
                     tls: {
                         ciphers: 'SSLv3',
-                        
+                        rejectUnauthorized: false,
                     },
                     auth: {
                         user: config.get<string>('mail.user'),

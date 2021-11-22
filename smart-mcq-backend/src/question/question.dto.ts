@@ -1,6 +1,10 @@
+import { OptionDto } from "./option.dto";
+import { TopicDto } from "./topic/topic.dto";
 
-import { CreateQuestionDto } from "./create-question.dto";
-
-export class QuestionDto extends CreateQuestionDto {
+export interface QuestionDto {
     id: number;
+    userId: number;
+    topics: TopicDto[];
+    text: string
+    options: OptionDto[]
 }

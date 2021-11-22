@@ -1,13 +1,14 @@
-import { IsNotEmpty, IS_ALPHANUMERIC } from "class-validator"
+import { ArrayNotEmpty, IsArray, IsNotEmpty } from "class-validator"
+import { CreateOptionDto } from "./create-options.dto"
 
 export class CreateQuestionDto {
-
     @IsNotEmpty()
     text: string
 
     @IsNotEmpty()
-    topicId: number
+    topics: number[]
 
-    @IsNotEmpty()
-    answer: number
+    @IsArray()
+    @ArrayNotEmpty()
+    options: CreateOptionDto[]
 }

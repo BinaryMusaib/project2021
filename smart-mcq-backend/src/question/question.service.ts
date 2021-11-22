@@ -2,28 +2,53 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateQuestionDto } from './create-question.dto';
 import { QuestionDto } from './question.dto';
+import { UpdateQuestionDto } from './update-question.dto';
 
 @Injectable()
 export class QuestionService {
 
     constructor(private prisma: PrismaService) { }
 
-    async create({ topicId, ...rest }: CreateQuestionDto): Promise<QuestionDto> {
-        return await this.prisma.question.create({
+    async create(userId: number,
+        { topics, options, ...rest }: CreateQuestionDto): Promise<void> {
+        await this.prisma.question.create({
             data: {
                 ...rest,
-                topic: {
+                questionTopics: {
+                    connect: topics.map(topic => ({
+                        id: topic
+                    }))
+                },
+                options: {
+                    create: options
+                },
+                user: {
                     connect: {
-                        id: topicId
+                        id: userId
                     }
                 }
             }
         });
     }
 
-    async update(id: number, dto: CreateQuestionDto): Promise<void> {
+    async update(id: number, { topics, options, ...rest }: UpdateQuestionDto): Promise<void> {
         await this.prisma.question.update({
-            data: dto,
+            data: {
+                ...rest,
+                questionTopics: {
+                    connect: topics.map(topic => ({
+                        id: topic
+                    }))
+                },
+                options: {
+                    connectOrCreate: options.map(option => ({
+                        create: option,
+                        where: {
+                            id: option.id
+                        }
+                    }))
+                }
+            },
             where: {
                 id
             }
@@ -31,20 +56,47 @@ export class QuestionService {
     }
 
     async getById(id: number): Promise<QuestionDto> {
-        return await this.prisma.question.findUnique({
+        const { questionTopics, ...rest } = await this.prisma.question.findUnique({
             where: {
                 id
+            },
+            include: {
+                options: true,
+                questionTopics: {
+                    include: {
+                        topic: true
+                    }
+                }
             }
         });
+
+        return {
+            ...rest,
+            topics: questionTopics.map(qt => qt.topic)
+        };
     }
 
-    async getManyByTopic(topicId: number): Promise<QuestionDto[]> {
-        return await this.prisma.question.findMany({
+    /*async getManyByTopic(topicId: number): Promise<QuestionDto[]> {
+        return (await this.prisma.question.findMany({
             where: {
-                topicId
+                questionTopics: {
+                    topicId
+                }
+            },
+            include: {
+                options: true,
+                questionTopics: {
+                    include: {
+                        topic: true
+                    }
+                }
             }
-        });
-    }
+        })).map(({ questionTopics, ...rest }) => ({
+            ...rest,
+            options: [],
+            topics: questionTopics.map(qt => qt.topic)
+        }));
+    }*/
 
     async delete(id: number): Promise<void> {
         await this.prisma.question.delete({
@@ -52,10 +104,6 @@ export class QuestionService {
                 id
             }
         });
-    }
-
-    async getAll(): Promise<QuestionDto[]> {
-        return await this.prisma.question.findMany();
     }
 }
 

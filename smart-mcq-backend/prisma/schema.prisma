@@ -18,6 +18,7 @@ model User {
   lastName    String
   otp         String?
   otpExpiry   DateTime?
+  questions   Question[]
 }
 
 model Subject {
@@ -33,16 +34,24 @@ model Topic {
    description String
    subjectId   Int
    subject     Subject @relation(fields: [subjectId], references: [id])
-   questions   Question[]
+   questions   QuestionTopic[]
+}
+
+model QuestionTopic {
+   id          Int  @id @default(autoincrement())
+   topicId     Int
+   topic       Topic @relation(fields: [topicId], references: [id])
+   questionId  Int
+   question    Question @relation(fields: [questionId], references: [id])
 }
 
 model Question {
-   id          Int   @id @default(autoincrement())
-   text        String
-   topicId     Int
-   topic       Topic @relation(fields: [topicId], references: [id])
-   option      Option[]
-   answer      Int
+   id                Int   @id @default(autoincrement())
+   text              String
+   questionTopics    QuestionTopic[]
+   options           Option[]
+   userId            Int
+   user              User @relation(fields: [userId], references: [id])
 }
 
 model Option {
@@ -50,4 +59,5 @@ model Option {
    text        String
    questionId  Int
    question    Question @relation(fields: [questionId], references: [id])
+   isCorrect   Boolean
 }

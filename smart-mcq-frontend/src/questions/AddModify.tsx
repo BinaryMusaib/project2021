@@ -81,8 +81,8 @@ const formFields = (topicOptions: SelectOption[]): FormField[] => [
         coerce: "int",
         options: topicOptions,
     },
-    { name: "text", label: "text", type: "text" },
-    { name: "answer", label: "answer", type: "number"},
+    { name: "text", label: "Question", type: "text" },
+    { name: "answer", label: "Answer", type: "number"},
 ];
 
 const initQuestion = (): CreateQuestionDto => ({

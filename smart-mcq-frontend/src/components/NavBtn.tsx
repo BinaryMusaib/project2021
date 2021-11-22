@@ -13,7 +13,7 @@ export default function NavBtn({ startIcon, url, text }: NavBtnProps) {
     return (
         <Button
             size="large"
-            color="inherit"
+            color="primary"
             variant="text"
             onClick={() => history.push(url)}
             startIcon={startIcon}

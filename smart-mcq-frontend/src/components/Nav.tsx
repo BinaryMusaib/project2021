@@ -17,7 +17,7 @@ import AuthService from "../services/auth.service";
 export default function Nav() {
     const history = useHistory();
     return (
-        <AppBar position="fixed" style={{ background: "#20aa94" }}>
+        <AppBar position="fixed" style={{ background: "#FFFFFF" }}>
             <Toolbar>
                 <div className="trylogo">
                     <Link to="/">
@@ -41,7 +41,7 @@ export default function Nav() {
                         />
                         <Button
                             size="large"
-                            color="inherit"
+                            color="primary"
                             variant="text"
                             onClick={() => {
                                 AuthService.logout();

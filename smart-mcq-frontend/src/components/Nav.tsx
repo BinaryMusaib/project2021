@@ -39,6 +39,11 @@ export default function Nav() {
                             text="Topics"
                             startIcon={<AnnouncementIcon />}
                         />
+                        <NavBtn
+                            url="/questions"
+                            text="Questions"
+                            startIcon={<AnnouncementIcon />}
+                        />
                         <Button
                             size="large"
                             color="primary"

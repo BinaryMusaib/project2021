@@ -11,6 +11,8 @@ import SubjectList from "./questions/subject/List";
 import SubjectAddModify from "./questions/subject/AddModify";
 import TopicList from "./questions/topic/List";
 import TopicAddModify from "./questions/topic/AddModify";
+import QuestionList from "./questions/List";
+import QuestionAddModify from "./questions/AddModify";
 
 export default function Router() {
     return (
@@ -69,6 +71,17 @@ export default function Router() {
                     path="/questions/topic/:id"
                     exact
                     component={TopicAddModify}
+                />
+                 <Route path="/questions" exact component={QuestionList} />
+                <Route
+                    path="/questions/new"
+                    exact
+                    component={QuestionAddModify}
+                />
+                <Route
+                    path="/questions/:id"
+                    exact
+                    component={QuestionAddModify}
                 />
                 <Route path="*" component={Home} />
             </Switch>

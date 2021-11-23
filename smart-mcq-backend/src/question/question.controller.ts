@@ -7,6 +7,7 @@ import {
     Put,
     Delete,
     Param,
+    Request,
     ParseIntPipe,
 } from '@nestjs/common';
 import { CreateQuestionDto } from './create-question.dto';
@@ -16,12 +17,7 @@ import { QuestionService } from './question.service';
 export class QuestionController {
     constructor(private questionService: QuestionService) { }
 
-    @Get()
-    async getAll() {
-        return await this.questionService.getAll();
-    }
-
-    @Get('/topic/:topicId/question')
+    @Get('/topic/:topicId/questions')
     async getByTopic(@Param('topicId', ParseIntPipe) topicId: number) {
         return await this.questionService.getManyByTopic(topicId);
     }
@@ -34,8 +30,8 @@ export class QuestionController {
     }
 
     @Post()
-    async create(@Body() dto: CreateQuestionDto) {
-        return await this.questionService.create(dto);
+    async create(@Body() dto: CreateQuestionDto, @Request() req: any) {
+        return await this.questionService.create(req.user.sub, dto);
     }
 
     @Put(':id')

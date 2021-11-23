@@ -20,10 +20,32 @@ export interface TopicDto extends CreateTopicDto {
 
 export interface CreateQuestionDto {
     text: string
-    answer: number
-    topicId: number
+    options: CreateOptionDto[];
+    topics: number[];
 }
 
-export interface QuestionDto extends CreateQuestionDto {
-    id: number
+export interface CreateOptionDto {
+    text: string
+    isCorrect: boolean
+}
+
+export interface UpdateQuestionDto {
+    text: string
+    options: UpdateOptionDto[];
+    topics: number[];
+}
+
+export interface UpdateOptionDto extends CreateOptionDto {
+    id?: number
+}
+
+export interface OptionDto extends CreateOptionDto {
+    id: number;
+}
+
+export interface QuestionDto {
+    id: number;
+    text: string;
+    options: OptionDto[];
+    topics: TopicDto[];
 }

@@ -21,7 +21,7 @@ export class TopicController {
         return await this.topicService.getAll();
     }
 
-    @Get('/subject/:subjectId/topic')
+    @Get('/subject/:subjectId/topics')
     async getBySubject(@Param('subjectId', ParseIntPipe) subjectId: number) {
         return await this.topicService.getManyBySubject(subjectId);
     }

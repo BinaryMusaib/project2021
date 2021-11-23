@@ -76,18 +76,16 @@ export class QuestionService {
         };
     }
 
-    /*async getManyByTopic(topicId: number): Promise<QuestionDto[]> {
+    async getManyByTopic(topicId: number): Promise<QuestionDto[]> {
         return (await this.prisma.question.findMany({
-            where: {
-                questionTopics: {
-                    topicId
-                }
-            },
             include: {
                 options: true,
                 questionTopics: {
                     include: {
                         topic: true
+                    },
+                    where: {
+                        topicId
                     }
                 }
             }
@@ -96,7 +94,7 @@ export class QuestionService {
             options: [],
             topics: questionTopics.map(qt => qt.topic)
         }));
-    }*/
+    }
 
     async delete(id: number): Promise<void> {
         await this.prisma.question.delete({

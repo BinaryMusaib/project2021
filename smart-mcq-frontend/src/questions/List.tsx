@@ -52,10 +52,7 @@ export default function QuestionList() {
                                 </Fab>
                             }
                         >
-                            <ListItemText
-                                primary={question.text}
-                                secondary={question.answer}
-                            />
+                            <ListItemText primary={question.text} />
                         </ListItem>
                     ))}
                 </List>

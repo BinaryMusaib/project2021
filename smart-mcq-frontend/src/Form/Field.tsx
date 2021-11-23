@@ -1,6 +1,7 @@
 import { FormField, OnChange } from "./types";
 import Text from "./Text";
 import Select from "./Select";
+import OptionList from "./OptionList";
 
 type FieldProps = {
     field: FormField;
@@ -21,6 +22,9 @@ export default function Field(props: FieldProps) {
 
         case "select":
             return <Select {...props} />;
+
+        case "option-list":
+            return <OptionList {...props} />;
 
         default:
             return <></>;

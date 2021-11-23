@@ -1,6 +1,7 @@
 import { FormError, FormField, OnChange } from "./types";
 import FormErrors from "./FormErrors";
 import Field from "./Field";
+import "./index.css";
 
 type FormProps = {
     fields: FormField[];

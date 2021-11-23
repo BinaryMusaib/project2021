@@ -1,6 +1,11 @@
 import { FormField, OnChange } from "./types";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
+import {
+    Select as SelectField,
+    InputLabel,
+    MenuItem,
+    FormControl,
+    FormHelperText,
+} from "@mui/material";
 import { coercer } from "./utils";
 
 type SelectProps = {
@@ -20,24 +25,35 @@ export default function Select({
 }: SelectProps) {
     const coerceFn = coercer(field.coerce);
 
+    console.log(value, "select value");
     return (
-        <TextField
-            select
-            name={field.name}
-            type={field.type}
-            label={field.label}
-            value={value}
-            variant="standard"
-            fullWidth
-            error={hasError}
-            helperText={helperText}
-            onChange={(e) => onChange(field.name, coerceFn(e.target.value))}
-        >
-            {(field.options || []).map((o) => (
-                <MenuItem key={o.value} value={o.value}>
-                    {o.label}
-                </MenuItem>
-            ))}
-        </TextField>
+        <FormControl fullWidth>
+            <InputLabel>{field.label}</InputLabel>
+            <SelectField
+                name={field.name}
+                multiple={!!field.multiple}
+                variant="standard"
+                fullWidth
+                value={value}
+                error={hasError}
+                onChange={(e) => {
+                    const value = e.target.value;
+                    const coerced =
+                        typeof value === "string"
+                            ? field.multiple
+                                ? value.split(",").map((v) => coerceFn(v))
+                                : coerceFn(value)
+                            : value;
+                    onChange(field.name, coerced);
+                }}
+            >
+                {(field.options || []).map((o) => (
+                    <MenuItem key={o.value} value={o.value}>
+                        {o.label}
+                    </MenuItem>
+                ))}
+            </SelectField>
+            <FormHelperText>{helperText}</FormHelperText>
+        </FormControl>
     );
 }

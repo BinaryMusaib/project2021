@@ -7,6 +7,7 @@ export interface FormField {
     type: string;
     options?: SelectOption[]
     coerce?: 'int'
+    multiple?: boolean
 }
 
 export interface FormError {
@@ -17,4 +18,5 @@ export interface FormError {
 export interface SelectOption {
     label: string;
     value: string;
+    checked?: boolean
 }

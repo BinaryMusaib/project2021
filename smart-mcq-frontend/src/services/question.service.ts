@@ -33,9 +33,9 @@ export default class QuestionService {
         );
     }
 
-    static async getManyByTopic(topicid: number) {
-        return await Fetch.getJSON<QuestionDto>(
-            `/api/question/${topicid}`
+    static async getManyByTopic(topicId: number) {
+        return await Fetch.getJSON<QuestionDto[]>(
+            `/api/question/topic/${topicId}/questions`
         );
     }
 

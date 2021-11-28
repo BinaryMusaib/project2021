@@ -32,7 +32,7 @@ export default function AddModify() {
         e.preventDefault();
         whileLoading(
             SubjectService.save(id, subject)
-                .then(() => history.push("/questions/subjects"))
+                .then(() => history.push("/subjects"))
                 .catch((res) => setErrors(res.errors)),
         );
     };

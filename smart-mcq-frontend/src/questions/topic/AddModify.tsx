@@ -45,7 +45,7 @@ export default function AddModify() {
         e.preventDefault();
         whileLoading(
             TopicService.save(id, topic)
-                .then(() => history.push("/questions/topics"))
+                .then(() => history.push("/topics"))
                 .catch((res) => setErrors(res.errors)),
         );
     };

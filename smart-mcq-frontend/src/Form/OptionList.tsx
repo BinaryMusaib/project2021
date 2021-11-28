@@ -65,6 +65,8 @@ export default function OptionList({
                     error={hasError}
                     helperText={helperText}
                     variant="standard"
+                    multiline={!!field.rows}
+                    rows={field.rows}
                 />
 
                 <Button onClick={handleAdd} color="primary" variant="contained">

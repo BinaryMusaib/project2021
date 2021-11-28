@@ -19,6 +19,7 @@ model User {
   otp         String?
   otpExpiry   DateTime?
   questions   Question[]
+  papers      QuestionPaper[]
 }
 
 model Subject {
@@ -35,6 +36,7 @@ model Topic {
    subjectId   Int
    subject     Subject @relation(fields: [subjectId], references: [id])
    questions   QuestionTopic[]
+   paperTopics QuestionPaperTopic[]
 }
 
 model QuestionTopic {
@@ -43,6 +45,14 @@ model QuestionTopic {
    topic       Topic @relation(fields: [topicId], references: [id])
    questionId  Int
    question    Question @relation(fields: [questionId], references: [id])
+   @@unique([topicId, questionId])
+}
+
+enum QuestionLevel {
+   Easy
+   Medium
+   Difficult
+   Expert
 }
 
 model Question {
@@ -52,6 +62,10 @@ model Question {
    options           Option[]
    userId            Int
    user              User @relation(fields: [userId], references: [id])
+   randomize         Boolean @default(true)
+   level             QuestionLevel @default(Easy)
+   updatedAt         DateTime @updatedAt @default(now())
+   createdAt         DateTime @default(now())
 }
 
 model Option {
@@ -61,3 +75,25 @@ model Option {
    question    Question @relation(fields: [questionId], references: [id])
    isCorrect   Boolean
 }
+
+model QuestionPaper {
+   id          Int      @id @default(autoincrement())
+   userId      Int
+   user        User @relation(fields: [userId], references: [id])
+   title       String
+   updatedAt   DateTime @updatedAt @default(now())
+   createdAt   DateTime @default(now())
+   duration    Int @default(60)
+   paperTopics QuestionPaperTopic[]
+}
+
+model QuestionPaperTopic {
+   id          Int      @id @default(autoincrement())
+   paperId     Int
+   paper       QuestionPaper @relation(fields: [paperId], references: [id])
+   topicId     Int
+   topic       Topic @relation(fields: [topicId], references: [id])
+   level       QuestionLevel
+   numberOfQuestions Int
+}
+   

@@ -45,44 +45,30 @@ export default function Router() {
                     exact
                     component={ForgotPassword}
                 />
+                <Route path="/subjects" exact component={SubjectList} />
+
+                <Route path="/subject/new" exact component={SubjectAddModify} />
+                <Route path="/subject/:id" exact component={SubjectAddModify} />
+                <Route path="/topics" exact component={TopicList} />
+                <Route path="/topic/new" exact component={TopicAddModify} />
+                <Route path="/topic/:id" exact component={TopicAddModify} />
+                <Route path="/questions" exact component={QuestionList} />
                 <Route
-                    path="/questions/subjects"
+                    path="/topic/:topicId/questions/new"
                     exact
-                    component={SubjectList}
+                    component={QuestionAddModify}
+                />
+                <Route
+                    path="/topic/:topicId/questions/:id"
+                    exact
+                    component={QuestionAddModify}
+                />
+                <Route
+                    path="/topic/:topicId/questions"
+                    exact
+                    component={QuestionList}
                 />
 
-                <Route
-                    path="/questions/subject/new"
-                    exact
-                    component={SubjectAddModify}
-                />
-                <Route
-                    path="/questions/subject/:id"
-                    exact
-                    component={SubjectAddModify}
-                />
-                <Route path="/questions/topics" exact component={TopicList} />
-                <Route
-                    path="/questions/topic/new"
-                    exact
-                    component={TopicAddModify}
-                />
-                <Route
-                    path="/questions/topic/:id"
-                    exact
-                    component={TopicAddModify}
-                />
-                 <Route path="/questions" exact component={QuestionList} />
-                <Route
-                    path="/questions/new"
-                    exact
-                    component={QuestionAddModify}
-                />
-                <Route
-                    path="/questions/:id"
-                    exact
-                    component={QuestionAddModify}
-                />
                 <Route path="*" component={Home} />
             </Switch>
         </BrowserRouter>

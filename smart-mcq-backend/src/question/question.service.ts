@@ -6,102 +6,138 @@ import { UpdateQuestionDto } from './update-question.dto';
 
 @Injectable()
 export class QuestionService {
-
     constructor(private prisma: PrismaService) { }
 
-    async create(userId: number,
-        { topics, options, ...rest }: CreateQuestionDto): Promise<void> {
+    async create(
+        userId: number,
+        { topics, options, ...rest }: CreateQuestionDto,
+    ): Promise<void> {
         await this.prisma.question.create({
             data: {
                 ...rest,
                 questionTopics: {
-                    connect: topics.map(topic => ({
-                        id: topic
-                    }))
+                    create: topics.map((topic) => ({
+                        topicId: topic,
+                    })),
                 },
                 options: {
-                    create: options
+                    create: options,
                 },
                 user: {
                     connect: {
-                        id: userId
-                    }
-                }
-            }
+                        id: userId,
+                    },
+                },
+            },
         });
     }
 
-    async update(id: number, { topics, options, ...rest }: UpdateQuestionDto): Promise<void> {
+    async update(
+        id: number,
+        { topics, options, ...rest }: UpdateQuestionDto,
+    ): Promise<void> {
         await this.prisma.question.update({
             data: {
                 ...rest,
                 questionTopics: {
-                    connect: topics.map(topic => ({
-                        id: topic
-                    }))
+                    deleteMany: {
+                        topicId: {
+                            notIn: topics
+                        }
+                    },
+                    upsert: topics.map((topicId) => ({
+                        create: { topicId },
+                        update: { topicId },
+                        where: {
+                            topicId_questionId: {
+                                topicId: topicId,
+                                questionId: id,
+                            },
+                        }
+                    })),
                 },
                 options: {
-                    connectOrCreate: options.map(option => ({
-                        create: option,
-                        where: {
-                            id: option.id
+                    deleteMany: {
+                        id: {
+                            notIn: options.filter(o => !!o.id).map(o => o.id)
                         }
-                    }))
-                }
+                    },
+                    createMany: {
+                        data: options.filter(o => !o.id)
+                            .map(({ questionId, ...option }) => option),
+                    },
+                    updateMany: options.filter(o => !!o.id)
+                        .map(({ questionId, id, ...option }) => ({
+                            data: option,
+                            where: {
+                                id
+                            }
+                        }))
+                },
             },
             where: {
-                id
-            }
+                id,
+            },
         });
     }
 
     async getById(id: number): Promise<QuestionDto> {
-        const { questionTopics, ...rest } = await this.prisma.question.findUnique({
-            where: {
-                id
+        const { questionTopics, ...rest } = await this.prisma.question.findUnique(
+            {
+                where: {
+                    id,
+                },
+                include: {
+                    options: true,
+                    questionTopics: {
+                        include: {
+                            topic: true,
+                        },
+                    },
+                },
             },
-            include: {
-                options: true,
-                questionTopics: {
-                    include: {
-                        topic: true
-                    }
-                }
-            }
-        });
+        );
 
         return {
             ...rest,
-            topics: questionTopics.map(qt => qt.topic)
+            topics: questionTopics.map((qt) => qt.topic),
         };
     }
 
     async getManyByTopic(topicId: number): Promise<QuestionDto[]> {
-        return (await this.prisma.question.findMany({
-            include: {
-                options: true,
-                questionTopics: {
-                    include: {
-                        topic: true
+        return (
+            await this.prisma.question.findMany({
+                include: {
+                    options: true,
+                    questionTopics: {
+                        include: {
+                            topic: true,
+                        },
+                        where: {
+                            topicId,
+                        },
                     },
-                    where: {
-                        topicId
+                },
+                where: {
+                    questionTopics: {
+                        some: {
+                            topicId
+                        }
                     }
                 }
-            }
-        })).map(({ questionTopics, ...rest }) => ({
+            })
+        ).map(({ questionTopics, ...rest }) => ({
             ...rest,
             options: [],
-            topics: questionTopics.map(qt => qt.topic)
+            topics: questionTopics.map((qt) => qt.topic),
         }));
     }
 
     async delete(id: number): Promise<void> {
         await this.prisma.question.delete({
             where: {
-                id
-            }
+                id,
+            },
         });
     }
 }
-

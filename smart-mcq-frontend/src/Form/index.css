@@ -1,3 +1,4 @@
 .option-list-text {
     display: flex;
+    align-items: center;
 }

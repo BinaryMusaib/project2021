@@ -18,10 +18,12 @@ export default function Text({
 }: TextProps) {
     return (
         <TextField
+            multiline={!!field.rows}
             name={field.name}
             type={field.type}
             label={field.label}
             value={value}
+            rows={field.rows}
             variant="standard"
             fullWidth
             error={hasError}

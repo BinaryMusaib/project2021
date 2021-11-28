@@ -8,6 +8,7 @@ export interface FormField {
     options?: SelectOption[]
     coerce?: 'int'
     multiple?: boolean
+    rows?: number
 }
 
 export interface FormError {

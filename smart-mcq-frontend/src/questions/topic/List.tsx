@@ -3,10 +3,10 @@ import TopicService from "../../services/topic.service";
 import React from "react";
 import { FetchContext } from "../../context";
 import Layout from "../../components/Layout";
-import { List, ListItem, ListItemText, Fab } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { List, ListItem, ListItemText, Fab, Paper } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useHistory } from "react-router-dom";
+import TopicMenu from "./Menu";
 
 export default function TopicList() {
     const [topics, setTopics] = React.useState<TopicDto[]>([]);
@@ -23,12 +23,12 @@ export default function TopicList() {
 
     return (
         <Layout title="Topics">
-            <div className="entity-list">
+            <Paper className="entity-list paper paper-list">
                 <Fab
                     color="primary"
                     aria-label="add"
                     size="small"
-                    onClick={() => history.push("/questions/topic/new")}
+                    onClick={() => history.push("/topic/new")}
                 >
                     <AddIcon />
                 </Fab>
@@ -37,20 +37,7 @@ export default function TopicList() {
                     {topics.map((topic, index) => (
                         <ListItem
                             key={index}
-                            secondaryAction={
-                                <Fab
-                                    color="primary"
-                                    aria-label="edit"
-                                    size="small"
-                                    onClick={() =>
-                                        history.push(
-                                            `/questions/topic/${topic.id}`,
-                                        )
-                                    }
-                                >
-                                    <EditIcon />
-                                </Fab>
-                            }
+                            secondaryAction={<TopicMenu topicId={topic.id} />}
                         >
                             <ListItemText
                                 primary={topic.title}
@@ -59,7 +46,7 @@ export default function TopicList() {
                         </ListItem>
                     ))}
                 </List>
-            </div>
+            </Paper>
         </Layout>
     );
 }

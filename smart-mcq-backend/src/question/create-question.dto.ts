@@ -1,5 +1,6 @@
 import { ArrayNotEmpty, IsArray, IsNotEmpty } from "class-validator"
 import { CreateOptionDto } from "./create-options.dto"
+import { QuestionLevel } from "./question-level.dto"
 
 export class CreateQuestionDto {
     @IsNotEmpty()
@@ -11,4 +12,8 @@ export class CreateQuestionDto {
     @IsArray()
     @ArrayNotEmpty()
     options: CreateOptionDto[]
+
+    randomize: boolean;
+
+    level: QuestionLevel
 }

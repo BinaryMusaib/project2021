@@ -30,18 +30,13 @@ export default function Nav() {
                 <div className="padd">
                     <IfAuthenticated>
                         <NavBtn
-                            url="/questions/subjects"
+                            url="/subjects"
                             startIcon={<AssessmentIcon />}
                             text="Subjects"
                         />
                         <NavBtn
-                            url="/questions/topics"
+                            url="/topics"
                             text="Topics"
-                            startIcon={<AnnouncementIcon />}
-                        />
-                        <NavBtn
-                            url="/questions"
-                            text="Questions"
                             startIcon={<AnnouncementIcon />}
                         />
                         <Button

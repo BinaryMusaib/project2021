@@ -31,7 +31,7 @@ export class QuestionController {
 
     @Post()
     async create(@Body() dto: CreateQuestionDto, @Request() req: any) {
-        return await this.questionService.create(req.user.sub, dto);
+        return await this.questionService.create(req.user.id, dto);
     }
 
     @Put(':id')

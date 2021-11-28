@@ -25,7 +25,6 @@ export default function Select({
 }: SelectProps) {
     const coerceFn = coercer(field.coerce);
 
-    console.log(value, "select value");
     return (
         <FormControl fullWidth>
             <InputLabel>{field.label}</InputLabel>
@@ -34,7 +33,13 @@ export default function Select({
                 multiple={!!field.multiple}
                 variant="standard"
                 fullWidth
-                value={value}
+                value={
+                    value
+                        ? field.multiple
+                            ? value.map((v: any) => v.toString())
+                            : value.toString()
+                        : value
+                }
                 error={hasError}
                 onChange={(e) => {
                     const value = e.target.value;
@@ -43,7 +48,9 @@ export default function Select({
                             ? field.multiple
                                 ? value.split(",").map((v) => coerceFn(v))
                                 : coerceFn(value)
-                            : value;
+                            : Array.isArray(value)
+                                ? value.map((v) => coerceFn(v))
+                                : value;
                     onChange(field.name, coerced);
                 }}
             >

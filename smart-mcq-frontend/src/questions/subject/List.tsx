@@ -3,9 +3,8 @@ import SubjectService from "../../services/subject.service";
 import React from "react";
 import { FetchContext } from "../../context";
 import Layout from "../../components/Layout";
-import { List, ListItem, ListItemText, IconButton, Fab } from "@mui/material";
+import { List, ListItem, ListItemText, Paper, Fab } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import { useHistory } from "react-router-dom";
 
@@ -24,35 +23,30 @@ export default function SubjectList() {
 
     return (
         <Layout title="Subjects">
-            <div className="entity-list">
+            <Paper className="entity-list paper paper-list">
                 <Fab
                     color="primary"
                     aria-label="add"
                     size="small"
-                    onClick={() => history.push("/questions/subject/new")}
+                    onClick={() => history.push("/subject/new")}
                 >
                     <AddIcon />
                 </Fab>
-                <IconButton aria-label="delete" size="large">
-                    <DeleteIcon fontSize="inherit" />
-                </IconButton>
                 <List>
                     {subjects.map((subject, index) => (
                         <ListItem
                             key={index}
                             secondaryAction={
-                            <Fab 
-                                color="primary"
-                                aria-label="edit"
-                               size="small"
-                                onClick={() =>
-                                history.push(
-                                `/questions/subject/${subject.id}`,
-                                )
-                                }
-                         >
-                             <EditIcon />
-                             </Fab>
+                                <Fab
+                                    color="primary"
+                                    aria-label="edit"
+                                    size="small"
+                                    onClick={() =>
+                                        history.push(`subject/${subject.id}`)
+                                    }
+                                >
+                                    <EditIcon />
+                                </Fab>
                             }
                         >
                             <ListItemText
@@ -62,7 +56,7 @@ export default function SubjectList() {
                         </ListItem>
                     ))}
                 </List>
-            </div>
+            </Paper>
         </Layout>
     );
 }

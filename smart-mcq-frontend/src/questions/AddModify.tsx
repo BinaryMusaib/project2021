@@ -21,7 +21,7 @@ export default function AddModify() {
     );
     const [topics, setTopics] = React.useState<SelectOption[]>([]);
     const [errors, setErrors] = React.useState<FormError>();
-    const { id } = useParams<{ id: string }>();
+    const { topicId, id } = useParams<{ topicId: string; id: string }>();
     const { whileLoading } = React.useContext(FetchContext);
     const history = useHistory();
 
@@ -56,7 +56,7 @@ export default function AddModify() {
         e.preventDefault();
         whileLoading(
             QuestionService.save(id, question)
-                .then(() => history.push("/questions"))
+                .then(() => history.push(`/topic/${topicId}/questions`))
                 .catch((res) => setErrors(res.errors)),
         );
     };
@@ -124,20 +124,32 @@ const formFields = (
     topicOptions: SelectOption[],
     options: UpdateOptionDto[],
 ): FormField[] => {
-    console.log(options);
     return [
         {
             name: "topics",
             label: "Topic",
             type: "select",
             multiple: true,
+            coerce: "int",
             options: topicOptions,
         },
-        { name: "text", label: "Question", type: "text" },
+        { name: "text", label: "Question", type: "text", rows: 3 },
+        { name: "randomize", type: "checkbox", label: "Randomize?" },
+        {
+            name: "level",
+            label: "Level",
+            type: "select",
+            options: ["Easy", "Medium", "Difficult", "Expert"].map((s) => ({
+                label: s,
+                value: s,
+            })),
+        },
         {
             name: "options",
             label: "Answer",
             type: "option-list",
+            coerce: "int",
+            rows: 3,
             options: options.map((o) => ({
                 label: o.text,
                 value: o.id?.toString() || "",
@@ -151,4 +163,6 @@ const initQuestion = (): UpdateQuestionDto => ({
     topics: [],
     text: "",
     options: [],
+    randomize: true,
+    level: "Easy",
 });

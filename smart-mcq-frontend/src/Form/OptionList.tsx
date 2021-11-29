@@ -100,8 +100,8 @@ export default function OptionList({
                             />
                         </ListItemIcon>
                         <ListItemText className="list-item-text"
-                        primaryTypographyProps={{fontSize: '12px'}}
-                        primary={label}
+                        primaryTypographyProps = {{fontSize: '12px'}}
+                        primary = {label}
                         />
                     </ListItem>
                 ))}

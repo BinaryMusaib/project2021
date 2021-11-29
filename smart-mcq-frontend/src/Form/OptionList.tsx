@@ -88,7 +88,7 @@ export default function OptionList({
                             </Fab>
                         }
                     >
-                        <ListItemIcon>
+                        <ListItemIcon >
                             <Checkbox
                                 edge="start"
                                 checked={checked}
@@ -99,7 +99,10 @@ export default function OptionList({
                                 disableRipple
                             />
                         </ListItemIcon>
-                        <ListItemText primary={label}></ListItemText>
+                        <ListItemText className="demo"
+                        primaryTypographyProps={{fontSize: '12px'}}
+                        primary={label}
+                        />
                     </ListItem>
                 ))}
             </List>

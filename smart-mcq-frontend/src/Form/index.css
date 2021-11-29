@@ -2,3 +2,8 @@
     display: flex;
     align-items: center;
 }
+
+.demo {
+    word-wrap: break-word;
+    
+}

@@ -29,7 +29,7 @@ export default function QuestionList() {
                 },
             ),
         );
-    }, [whileLoading]);
+    }, [whileLoading, topicId]);
 
     const topNav = [
         { link: `/topics`, text: topicName || "Topic" },

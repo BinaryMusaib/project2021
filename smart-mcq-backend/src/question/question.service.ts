@@ -33,6 +33,7 @@ export class QuestionService {
     }
 
     async update(
+        userId: number,
         id: number,
         { topics, options, ...rest }: UpdateQuestionDto,
     ): Promise<void> {
@@ -76,16 +77,22 @@ export class QuestionService {
                 },
             },
             where: {
-                id,
+                id_userId: {
+                    id,
+                    userId
+                }
             },
         });
     }
 
-    async getById(id: number): Promise<QuestionDto> {
+    async getById(userId: number, id: number): Promise<QuestionDto> {
         const { questionTopics, ...rest } = await this.prisma.question.findUnique(
             {
                 where: {
-                    id,
+                    id_userId: {
+                        id,
+                        userId
+                    }
                 },
                 include: {
                     options: true,
@@ -104,7 +111,7 @@ export class QuestionService {
         };
     }
 
-    async getManyByTopic(topicId: number): Promise<QuestionDto[]> {
+    async getManyByTopic(userId: number, topicId: number): Promise<QuestionDto[]> {
         return (
             await this.prisma.question.findMany({
                 include: {
@@ -114,14 +121,15 @@ export class QuestionService {
                             topic: true,
                         },
                         where: {
-                            topicId,
+                            topicId
                         },
                     },
                 },
                 where: {
+                    userId,
                     questionTopics: {
                         some: {
-                            topicId
+                            topicId,
                         }
                     }
                 }
@@ -133,10 +141,13 @@ export class QuestionService {
         }));
     }
 
-    async delete(id: number): Promise<void> {
+    async delete(userId: number, id: number): Promise<void> {
         await this.prisma.question.delete({
             where: {
-                id,
+                id_userId: {
+                    id,
+                    userId
+                }
             },
         });
     }

@@ -18,13 +18,13 @@ export class QuestionController {
     constructor(private questionService: QuestionService) { }
 
     @Get('/topic/:topicId/questions')
-    async getByTopic(@Param('topicId', ParseIntPipe) topicId: number) {
-        return await this.questionService.getManyByTopic(topicId);
+    async getByTopic(@Param('topicId', ParseIntPipe) topicId: number, @Request() req: any) {
+        return await this.questionService.getManyByTopic(req.user.id, topicId);
     }
 
     @Get(':id')
-    async getById(@Param('id', ParseIntPipe) id: number) {
-        const question = await this.questionService.getById(id);
+    async getById(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
+        const question = await this.questionService.getById(req.user.id, id);
         if (!question) throw new NotFoundException();
         return question;
     }
@@ -38,13 +38,14 @@ export class QuestionController {
     async update(
         @Param('id', ParseIntPipe) id: number,
         @Body() dto: CreateQuestionDto,
+        @Request() req: any
     ) {
-        await this.questionService.update(id, dto);
+        await this.questionService.update(req.user.id, id, dto);
     }
 
     @Delete(':id')
-    async delete(@Param('id', ParseIntPipe) id: number) {
-        await this.questionService.delete(id);
+    async delete(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
+        await this.questionService.delete(req.user.id, id);
     }
 }
 

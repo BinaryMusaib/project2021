@@ -70,7 +70,9 @@ export default function QuestionList() {
                                 </Fab>
                             }
                         >
-                            <ListItemText primary={question.text} />
+                            <ListItemText className="list-item-text-topic"
+                            primary = {question.text}
+                            />
                         </ListItem>
                     ))}
                 </List>

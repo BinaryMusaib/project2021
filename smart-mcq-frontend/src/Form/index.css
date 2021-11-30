@@ -3,7 +3,7 @@
     align-items: center;
 }
 
-.list-item-text {
+.list-item-text, .list-item-text-topic {
     word-wrap: break-word;
     
 }

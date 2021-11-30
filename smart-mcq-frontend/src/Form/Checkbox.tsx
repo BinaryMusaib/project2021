@@ -10,12 +10,11 @@ type CheckboxProps = {
 };
 
 export default function Checkbox({ field, value, onChange }: CheckboxProps) {
-    console.log(field.name);
     return (
-        <FormControlLabel
+        <FormControlLabel className="checkbox-text"
             label={field.label}
             control={
-                <CheckboxField
+                <CheckboxField 
                     name={field.name}
                     checked={value}
                     onChange={(e) => onChange(field.name, e.target.checked)}

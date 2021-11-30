@@ -29,7 +29,7 @@ export default function QuestionList() {
                 },
             ),
         );
-    }, [whileLoading]);
+    }, [whileLoading, topicId]);
 
     const topNav = [
         { link: `/topics`, text: topicName || "Topic" },
@@ -70,7 +70,8 @@ export default function QuestionList() {
                                 </Fab>
                             }
                         >
-                            <ListItemText primary={question.text} />
+                            <ListItemText className="listtext"
+                            primary={question.text}  />
                         </ListItem>
                     ))}
                 </List>

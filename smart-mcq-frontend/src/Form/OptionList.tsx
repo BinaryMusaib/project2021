@@ -99,7 +99,7 @@ export default function OptionList({
                                 disableRipple
                             />
                         </ListItemIcon>
-                        <ListItemText primary={label}></ListItemText>
+                        <ListItemText className="optiontext" primary={label}></ListItemText>
                     </ListItem>
                 ))}
             </List>

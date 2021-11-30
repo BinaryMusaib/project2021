@@ -3,8 +3,7 @@
     align-items: center;
 }
 
-.list-item-text, .list-item-text-topic {
+.listtext, .optiontext {
     word-break: break-all;
     padding-right: 20px;
-    
 }

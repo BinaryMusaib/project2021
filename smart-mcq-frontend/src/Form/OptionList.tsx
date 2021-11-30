@@ -99,14 +99,7 @@ export default function OptionList({
                                 disableRipple
                             />
                         </ListItemIcon>
-<<<<<<< HEAD
-                        <ListItemText className="optiontext" primary={label}></ListItemText>
-=======
-                        <ListItemText className="list-item-text"
-                        primaryTypographyProps = {{fontSize: '12px'}}
-                        primary = {label}
-                        />
->>>>>>> 4c54ac00e16fd9a521093669558d6372baa65f4b
+                 <ListItemText className="optiontext" primary={label}></ListItemText>
                     </ListItem>
                 ))}
             </List>

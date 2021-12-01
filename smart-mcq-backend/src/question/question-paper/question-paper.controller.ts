@@ -18,7 +18,6 @@ import { UpdateQuestionPaperDto } from './update-question-paper.dto';
 export class QuestionPaperController {
     constructor(private questionPaperService: QuestionPaperService) { }
 
-
     @Get(':id')
     async getById(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
         const questionPaper = await this.questionPaperService.getById(req.user.id, id);
@@ -45,4 +44,3 @@ export class QuestionPaperController {
         await this.questionPaperService.delete(req.user.id, id);
     }
 }
-

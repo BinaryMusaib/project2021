@@ -13,8 +13,8 @@ import TopicList from "./questions/topic/List";
 import TopicAddModify from "./questions/topic/AddModify";
 import QuestionList from "./questions/List";
 import QuestionAddModify from "./questions/AddModify";
-import QuestionPaper from "./question-paper/question-paper";
-import QuestionPaperAddModify from "./question-paper/question-paperAddModify";
+import QuestionPaperList from "./question-paper/List";
+import QuestionPaperAddModify from "./question-paper/AddModify";
 
 export default function Router() {
     return (
@@ -70,9 +70,16 @@ export default function Router() {
                     exact
                     component={QuestionList}
                 />
-                <Route path="/question-paper" exact component={QuestionPaper}/>
-                <Route path="/question-paper/new" exact component={QuestionPaperAddModify}/>
-                
+                <Route
+                    path="/question-papers"
+                    exact
+                    component={QuestionPaperList}
+                />
+                <Route
+                    path="/question-paper/new"
+                    exact
+                    component={QuestionPaperAddModify}
+                />
 
                 <Route path="*" component={Home} />
             </Switch>

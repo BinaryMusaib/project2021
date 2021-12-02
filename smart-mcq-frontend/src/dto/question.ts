@@ -75,6 +75,7 @@ export interface CreateQuestionPaperDto {
 }
 
 export interface QuestionPaperDto {
+    id: number;
     title: string;
     duration: number;
     paperTopics: PaperTopicDto[]

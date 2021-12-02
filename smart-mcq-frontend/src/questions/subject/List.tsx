@@ -5,7 +5,7 @@ import { FetchContext } from "../../context";
 import Layout from "../../components/Layout";
 import { List, ListItem, ListItemText, Paper, Fab } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useHistory } from "react-router-dom";
 
 export default function SubjectList() {
@@ -30,7 +30,7 @@ export default function SubjectList() {
                     size="small"
                     onClick={() => history.push("/subject/new")}
                 >
-                    <AddIcon />
+                    <AddCircleIcon />
                 </Fab>
                 <List>
                     {subjects.map((subject, index) => (

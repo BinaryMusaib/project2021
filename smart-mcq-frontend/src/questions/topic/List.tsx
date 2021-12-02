@@ -4,15 +4,12 @@ import React from "react";
 import { FetchContext } from "../../context";
 import Layout from "../../components/Layout";
 import { List, ListItem, ListItemText, Fab, Paper } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useHistory } from "react-router-dom";
 import TopicMenu from "./Menu";
-import Button from "@mui/material/Button";
 
 export default function TopicList() {
     const [topics, setTopics] = React.useState<TopicDto[]>([]);
-
-    const toQuestionPaper = () => history.push("/question-paper");
 
     const history = useHistory();
     const { whileLoading } = React.useContext(FetchContext);
@@ -33,7 +30,7 @@ export default function TopicList() {
                     size="small"
                     onClick={() => history.push("/topic/new")}
                 >
-                    <AddIcon />
+                    <AddCircleIcon />
                 </Fab>
 
                 <List>
@@ -49,9 +46,6 @@ export default function TopicList() {
                         </ListItem>
                     ))}
                 </List>
-                <Button variant="contained" fullWidth color="success" type="button" onClick={toQuestionPaper}>
-                    Test
-                </Button>
             </Paper>
         </Layout>
     );

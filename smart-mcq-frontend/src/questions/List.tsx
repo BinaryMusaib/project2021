@@ -5,7 +5,7 @@ import { FetchContext } from "../context";
 import Layout from "../components/Layout";
 import { List, ListItem, ListItemText, Fab, Paper } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useHistory, useParams } from "react-router-dom";
 import TopNav from "../components/TopNav";
 
@@ -45,10 +45,10 @@ export default function QuestionList() {
                     aria-label="add"
                     size="small"
                     onClick={() =>
-                        history.push(`/topic/${topicId}/questions/new`)
+                        history.push(`/topic/${topicId}/question/new`)
                     }
                 >
-                    <AddIcon />
+                    <AddCircleIcon />
                 </Fab>
 
                 <List>
@@ -62,7 +62,7 @@ export default function QuestionList() {
                                     size="small"
                                     onClick={() =>
                                         history.push(
-                                            `/topic/${topicId}/questions/${question.id}`,
+                                            `/topic/${topicId}/question/${question.id}`,
                                         )
                                     }
                                 >

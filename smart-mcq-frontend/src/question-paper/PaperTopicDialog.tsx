@@ -3,7 +3,6 @@ import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Form from "../Form";
 import { FormField, SelectOption } from "../Form/types";
@@ -36,9 +35,8 @@ export default function FormDialog({ topicOptions, onSave }: FormDialogProps) {
                 Add Topic
             </Button>
             <Dialog open={open} onClose={() => setOpen(false)}>
-                <DialogTitle>Subscribe</DialogTitle>
+                <DialogTitle>Add a New Topic</DialogTitle>
                 <DialogContent>
-                    <DialogContentText>Add a new topic</DialogContentText>
                     <Form
                         fields={fields}
                         data={paperTopic}
@@ -72,7 +70,7 @@ function getFields(topicOptions: SelectOption[]): FormField[] {
             name: "level",
             label: "Difficulty Level",
             type: "select",
-            options: ["Easy", "Medium", "Difficult", "Export"].map((s) => ({
+            options: ["Easy", "Medium", "Difficult", "Expert"].map((s) => ({
                 label: s,
                 value: s,
             })),

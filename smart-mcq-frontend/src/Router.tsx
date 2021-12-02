@@ -54,14 +54,13 @@ export default function Router() {
                 <Route path="/topics" exact component={TopicList} />
                 <Route path="/topic/new" exact component={TopicAddModify} />
                 <Route path="/topic/:id" exact component={TopicAddModify} />
-                <Route path="/questions" exact component={QuestionList} />
                 <Route
-                    path="/topic/:topicId/questions/new"
+                    path="/topic/:topicId/question/new"
                     exact
                     component={QuestionAddModify}
                 />
                 <Route
-                    path="/topic/:topicId/questions/:id"
+                    path="/topic/:topicId/question/:id"
                     exact
                     component={QuestionAddModify}
                 />
@@ -77,6 +76,11 @@ export default function Router() {
                 />
                 <Route
                     path="/question-paper/new"
+                    exact
+                    component={QuestionPaperAddModify}
+                />
+                 <Route
+                    path="/question-paper/:id"
                     exact
                     component={QuestionPaperAddModify}
                 />

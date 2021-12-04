@@ -57,3 +57,35 @@ export interface QuestionDto {
     randomize: boolean;
     level: QuestionLevel;
 }
+
+export interface CreatePaperTopicDto {
+    topicId: number;
+    level: QuestionLevel;
+    numberOfQuestions: number;
+}
+
+export interface PaperTopicDto extends CreatePaperTopicDto {
+    id: number;
+}
+
+export interface CreateQuestionPaperDto {
+    title: string;
+    paperTopics: CreatePaperTopicDto[];
+    duration: number;
+}
+
+export interface QuestionPaperDto {
+    id: number;
+    title: string;
+    duration: number;
+    paperTopics: PaperTopicDto[]
+}
+
+export interface UpdateQuestionPaperDto extends CreateQuestionPaperDto {
+    paperTopics: UpdatePaperTopicDto[];
+}
+
+export interface UpdatePaperTopicDto extends CreatePaperTopicDto {
+    id?: number
+}
+

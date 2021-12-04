@@ -2,10 +2,10 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import AssessmentIcon from "@mui/icons-material/Assessment";
+import SubjectIcon from "@mui/icons-material/Subject";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import HowToRegIcon from "@mui/icons-material/HowToReg";
-import AnnouncementIcon from "@mui/icons-material/Announcement";
+import TopicIcon from '@mui/icons-material/Topic';
 import LogoutIcon from "@mui/icons-material/ExitToApp";
 import NavBtn from "./NavBtn";
 import { Link, useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ import logo from "../logo.png";
 import IfAuthenticated from "./IfAuthenticated";
 import IfNotAuthenticated from "./IfNotAuthenticated";
 import AuthService from "../services/auth.service";
+import PagesIcon from '@mui/icons-material/Pages';
 
 export default function Nav() {
     const history = useHistory();
@@ -31,13 +32,18 @@ export default function Nav() {
                     <IfAuthenticated>
                         <NavBtn
                             url="/subjects"
-                            startIcon={<AssessmentIcon />}
+                            startIcon={<SubjectIcon/>}
                             text="Subjects"
                         />
                         <NavBtn
                             url="/topics"
                             text="Topics"
-                            startIcon={<AnnouncementIcon />}
+                            startIcon={<TopicIcon />}
+                        />
+                        <NavBtn
+                            url="/question-papers"
+                            text="Paper"
+                            startIcon={<PagesIcon />}
                         />
                         <Button
                             size="large"

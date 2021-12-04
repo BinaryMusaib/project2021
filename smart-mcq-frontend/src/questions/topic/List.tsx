@@ -4,7 +4,7 @@ import React from "react";
 import { FetchContext } from "../../context";
 import Layout from "../../components/Layout";
 import { List, ListItem, ListItemText, Fab, Paper } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { useHistory } from "react-router-dom";
 import TopicMenu from "./Menu";
 
@@ -30,7 +30,7 @@ export default function TopicList() {
                     size="small"
                     onClick={() => history.push("/topic/new")}
                 >
-                    <AddIcon />
+                    <AddCircleIcon />
                 </Fab>
 
                 <List>

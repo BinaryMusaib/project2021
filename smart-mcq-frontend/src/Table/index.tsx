@@ -35,6 +35,8 @@ export default function Table({ columns, data }: TableProps) {
                                     <CellRenderer
                                         value={row[col.name]}
                                         column={col}
+                                        row={row}
+                                        rowIndex={rowIndex}
                                     />
                                 </TableCell>
                             ))}

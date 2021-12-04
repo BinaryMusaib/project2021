@@ -1,8 +1,10 @@
 import Layout from "../components/Layout";
-import { Paper, Button } from "@mui/material";
+import { Paper, Button, IconButton } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
     CreatePaperTopicDto,
     CreateQuestionPaperDto,
+    PaperTopicDto,
 } from "../dto/question";
 import React from "react";
 import Form from "../Form";
@@ -48,7 +50,22 @@ export default function AddModify() {
     }, [id, whileLoading]);
 
     const fields = React.useMemo(() => getFields(), []);
-    const topicColumns = React.useMemo(() => getTopicColumns(), []);
+
+    const handleDelete = React.useCallback(
+        (index: number) =>
+            setPaper(({ paperTopics, ...paper }) => ({
+                ...paper,
+                paperTopics: paperTopics.filter(
+                    (pt, ptIndex) => ptIndex !== index,
+                ),
+            })),
+        [],
+    );
+
+    const topicColumns = React.useMemo(
+        () => getTopicColumns(topicOptions, handleDelete),
+        [topicOptions, handleDelete],
+    );
 
     const handleChange = (key: string, value: any) => {
         setPaper((paper) => ({ ...paper, [key]: value }));
@@ -124,11 +141,24 @@ function getFields() {
     ];
 }
 
-function getTopicColumns(): TableColumn[] {
+function getTopicColumns(
+    topicOptions: SelectOption[],
+    onDelete: (id: number) => void,
+): TableColumn[] {
     return [
         {
+            type: "custom",
             name: "topicId",
             label: "Topic",
+            format: (topicId: any) => (
+                <span>
+                    {
+                        topicOptions.find(
+                            (o) => o.value === topicId?.toString(),
+                        )?.label
+                    }
+                </span>
+            ),
         },
         {
             name: "numberOfQuestions",
@@ -138,6 +168,16 @@ function getTopicColumns(): TableColumn[] {
         {
             name: "level",
             label: "Level",
+        },
+        {
+            type: "custom",
+            label: "Actions",
+            name: "topicId",
+            format: (topicId: number, _: any, rowIndex: number) => (
+                <IconButton onClick={() => onDelete(rowIndex)}>
+                    <DeleteIcon />
+                </IconButton>
+            ),
         },
     ];
 }

@@ -2,10 +2,17 @@ import { TableColumn } from "./types";
 
 interface CellRendererProps {
     value?: any;
+    row: any;
+    rowIndex: number;
     column: TableColumn;
 }
 
-export default function CellRenderer({ value, column }: CellRendererProps) {
+export default function CellRenderer({
+    value,
+    column,
+    row,
+    rowIndex,
+}: CellRendererProps) {
     switch (column.type || "text") {
         case "text":
             return <>{value}</>;
@@ -25,6 +32,13 @@ export default function CellRenderer({ value, column }: CellRendererProps) {
                     {(value as Date)?.toLocaleDateString()}{" "}
                     {(value as Date)?.toLocaleTimeString()}
                 </>
+            );
+
+        case "custom":
+            return column.format ? (
+                column.format(value, row, rowIndex)
+            ) : (
+                <>{value}</>
             );
 
         default:

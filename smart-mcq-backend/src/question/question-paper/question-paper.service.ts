@@ -36,7 +36,7 @@ export class QuestionPaperService {
                     createMany: {
                         data: paperTopics.filter(pt => !pt.id)
                     },
-                    updateMany: paperTopics.filter(pt => !!pt.id).map(pt => ({
+                    updateMany: paperTopics.filter(pt => !!pt.id).map(({ topicId, ...pt }) => ({
                         data: pt,
                         where: {
                             id: pt.id

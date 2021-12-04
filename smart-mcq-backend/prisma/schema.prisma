@@ -11,15 +11,17 @@ datasource db {
 }
 
 model User {
-  id          Int      @id @default(autoincrement())
-  email       String   @unique
-  password    String?
-  firstName   String
-  lastName    String
-  otp         String?
-  otpExpiry   DateTime?
-  questions   Question[]
-  papers      QuestionPaper[]
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  password     String?
+  firstName    String
+  lastName     String
+  otp          String?
+  otpExpiry    DateTime?
+  questions    Question[]
+  papers       QuestionPaper[]
+  examinees    UserExamineeList[]
+  examineeList ExamineeList[]
 }
 
 model Subject {
@@ -98,4 +100,24 @@ model QuestionPaperTopic {
    level       QuestionLevel
    numberOfQuestions Int
 }
+   
+model ExamineeList {
+   id          Int     @id @default(autoincrement())
+   userId      Int
+   user        User @relation(fields: [userId], references: [id])
+   title       String  @unique
+   description String?
+   examinees   UserExamineeList[]
+   @@unique([id, userId])
+}
+
+model UserExamineeList {
+   id          Int     @id @default(autoincrement())
+   listId      Int
+   list        ExamineeList @relation(fields: [listId], references: [id])
+   userId      Int
+   user        User @relation(fields: [userId], references: [id])
+   @@unique([listId, userId])
+}
+
    

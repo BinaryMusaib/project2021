@@ -42,7 +42,9 @@ export default function QuestionPaperList() {
                                     aria-label="edit"
                                     size="small"
                                     onClick={() =>
-                                        history.push(`question-paper/${paper.id}`)
+                                        history.push(
+                                            `question-paper/${paper.id}`,
+                                        )
                                     }
                                 >
                                     <EditIcon />
@@ -51,7 +53,7 @@ export default function QuestionPaperList() {
                         >
                             <ListItemText
                                 primary={paper.title}
-                                secondary={paper.id}
+                                secondary={`${paper.duration} min`}
                             />
                         </ListItem>
                     ))}

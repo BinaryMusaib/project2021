@@ -4,7 +4,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import {
     CreatePaperTopicDto,
     CreateQuestionPaperDto,
-    PaperTopicDto,
 } from "../dto/question";
 import React from "react";
 import Form from "../Form";

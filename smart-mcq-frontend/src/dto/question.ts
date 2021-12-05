@@ -89,3 +89,20 @@ export interface UpdatePaperTopicDto extends CreatePaperTopicDto {
     id?: number
 }
 
+export interface CreateExamineeListDto {
+    title: string
+    description: string
+    examinees: ExamineesDto[]
+    
+}
+
+export interface ExamineeListDto extends CreateExamineeListDto {
+    id: number;
+}
+
+export interface CreateExamineesDto {
+    email: string;
+}
+
+export interface ExamineesDto extends CreateExamineesDto {    
+}

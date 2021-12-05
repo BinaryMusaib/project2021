@@ -14,6 +14,7 @@ import IfAuthenticated from "./IfAuthenticated";
 import IfNotAuthenticated from "./IfNotAuthenticated";
 import AuthService from "../services/auth.service";
 import PagesIcon from '@mui/icons-material/Pages';
+import GroupIcon from '@mui/icons-material/Group';
 
 export default function Nav() {
     const history = useHistory();
@@ -42,8 +43,13 @@ export default function Nav() {
                         />
                         <NavBtn
                             url="/question-papers"
-                            text="Paper"
+                            text="Papers"
                             startIcon={<PagesIcon />}
+                        />
+                        <NavBtn
+                            url="/examinee-lists"
+                            text="Examinees"
+                            startIcon={<GroupIcon />}
                         />
                         <Button
                             size="large"

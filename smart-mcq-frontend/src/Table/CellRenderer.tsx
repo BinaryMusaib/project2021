@@ -16,6 +16,9 @@ export default function CellRenderer({
     switch (column.type || "text") {
         case "text":
             return <>{value}</>;
+        
+        case "email":
+            return <>{value}</>;
 
         case "number":
             return <span className="number-cell">{value}</span>;

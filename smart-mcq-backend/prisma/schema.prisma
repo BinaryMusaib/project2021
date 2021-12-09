@@ -22,6 +22,8 @@ model User {
   papers       QuestionPaper[]
   examinees    UserExamineeList[]
   examineeList ExamineeList[]
+  tests        Test[]
+  testQuestions ExamineeQuestionTest[]
 }
 
 model Subject {
@@ -68,6 +70,7 @@ model Question {
    level             QuestionLevel @default(Easy)
    updatedAt         DateTime @updatedAt @default(now())
    createdAt         DateTime @default(now())
+   testQuestions     ExamineeQuestionTest[]
    @@unique([id, userId])
 }
 
@@ -77,6 +80,7 @@ model Option {
    questionId  Int
    question    Question @relation(fields: [questionId], references: [id])
    isCorrect   Boolean
+   testQuestions ExamineeQuestionTest[]
 }
 
 model QuestionPaper {
@@ -89,6 +93,7 @@ model QuestionPaper {
    duration    Int @default(60)
    paperTopics QuestionPaperTopic[]
    @@unique([id, userId])
+   tests       Test[]
 }
 
 model QuestionPaperTopic {
@@ -108,6 +113,7 @@ model ExamineeList {
    title       String  @unique
    description String?
    examinees   UserExamineeList[]
+   tests       Test[]
    @@unique([id, userId])
 }
 
@@ -120,4 +126,35 @@ model UserExamineeList {
    @@unique([listId, userId])
 }
 
-   
+model Test {
+   id          Int     @id @default(autoincrement())
+   title       String
+   startTime   DateTime
+   endTime     DateTime
+   userId      Int
+   user        User @relation(fields: [userId], references: [id])
+   paperId     Int
+   paper       QuestionPaper @relation(fields: [paperId], references: [id])
+   listId      Int
+   list        ExamineeList @relation(fields: [listId], references: [id])
+   testQuestions ExamineeQuestionTest[]
+   updatedAt   DateTime @updatedAt @default(now())
+   createdAt   DateTime @default(now())
+
+   @@unique([userId, id])
+}
+
+model ExamineeQuestionTest {
+    id          Int     @id @default(autoincrement())
+    userId      Int
+    user        User @relation(fields: [userId], references: [id])
+    questionId  Int
+    question    Question @relation(fields: [questionId], references: [id])
+    testId      Int
+    test        Test @relation(fields: [testId], references: [id])
+    answerId    Int
+    answer      Option @relation(fields: [answerId], references: [id])
+    updatedAt   DateTime @updatedAt @default(now())
+    createdAt   DateTime @default(now())
+}
+

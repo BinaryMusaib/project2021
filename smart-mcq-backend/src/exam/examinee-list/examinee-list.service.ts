@@ -11,7 +11,7 @@ export class ExamineeListService {
         userId: number,
         { examinees, ...rest }: CreateExamineeListDto,
     ): Promise<void> {
-        const users = await this.getUserIdsFromEmails(examinees);
+        const users = await this.getUserIdsFromEmails(examinees.map(e => e.email));
         await this.prisma.examineeList.create({
             data: {
                 ...rest,
@@ -43,7 +43,7 @@ export class ExamineeListService {
         id: number,
         { examinees, ...rest }: CreateExamineeListDto,
     ): Promise<void> {
-        const users = await this.getUserIdsFromEmails(examinees);
+        const users = await this.getUserIdsFromEmails(examinees.map(e => e.email));
         await this.prisma.examineeList.update({
             data: {
                 ...rest,
@@ -91,7 +91,7 @@ export class ExamineeListService {
 
         return {
             ...rest,
-            examinees: examinees.map((e) => e.user.email),
+            examinees: examinees.map(e => e.user),
         };
     }
 

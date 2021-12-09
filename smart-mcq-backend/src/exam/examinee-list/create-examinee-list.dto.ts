@@ -1,4 +1,5 @@
 import { ArrayNotEmpty, IsNotEmpty } from "class-validator"
+import { CreateExamineeDto } from './create-examinee.dto';
 
 export class CreateExamineeListDto {
     @IsNotEmpty()
@@ -7,5 +8,5 @@ export class CreateExamineeListDto {
     description: string
 
     @ArrayNotEmpty()
-    examinees: string[]
+    examinees: CreateExamineeDto[];
 }

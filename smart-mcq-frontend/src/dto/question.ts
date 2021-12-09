@@ -93,7 +93,6 @@ export interface CreateExamineeListDto {
     title: string
     description: string
     examinees: ExamineesDto[]
-    
 }
 
 export interface ExamineeListDto extends CreateExamineeListDto {
@@ -104,5 +103,5 @@ export interface CreateExamineesDto {
     email: string;
 }
 
-export interface ExamineesDto extends CreateExamineesDto {    
+export interface ExamineesDto extends CreateExamineesDto {
 }

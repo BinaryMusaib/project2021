@@ -25,9 +25,9 @@ export class ExamineeListController {
         return examineeList;
     }
 
-    @Get('/user/:userId/examinee-lists')
-    async getByUser(@Param('userId', ParseIntPipe) userId: number) {
-        return await this.examineeListService.getManyByUser(userId);
+    @Get()
+    async getByUser(@User() user: UserPrincipal) {
+        return await this.examineeListService.getManyByUser(user.id);
     }
 
     @Get(':id')

@@ -17,6 +17,7 @@ export default function Field(props: FieldProps) {
         case "text":
         case "number":
         case "email":
+        case "date":
         case "tel":
         case "password":
             return <Text {...props} />;

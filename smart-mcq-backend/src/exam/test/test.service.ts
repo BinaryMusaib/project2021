@@ -49,4 +49,12 @@ export class TestService {
         });
     }
 
+    async delete(id: number): Promise<void> {
+        await this.prisma.test.delete({
+            where: {
+                id
+            }
+        });
+    }
+
 }

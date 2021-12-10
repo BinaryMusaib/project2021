@@ -17,6 +17,8 @@ import QuestionPaperList from "./question-paper/List";
 import QuestionPaperAddModify from "./question-paper/AddModify";
 import ExamineeList from "./examinee-list/List";
 import ExamineeListAddModify from "./examinee-list/AddModify";
+import Test from "./test/List";
+import TestAddModify from "./test/AddModify";
 
 export default function Router() {
     return (
@@ -100,6 +102,21 @@ export default function Router() {
                     path="/examinee-list/:id"
                     exact
                     component={ExamineeListAddModify}
+                />
+                <Route
+                    path="/tests"
+                    exact
+                    component={Test}
+                />
+                <Route
+                    path="/test/new"
+                    exact
+                    component={TestAddModify}
+                />
+                <Route
+                    path="/test/:id"
+                    exact
+                    component={TestAddModify}
                 />
                 <Route path="*" component={Home} />
             </Switch>

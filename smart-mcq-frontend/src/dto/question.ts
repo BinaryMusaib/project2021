@@ -105,3 +105,21 @@ export interface CreateExamineesDto {
 
 export interface ExamineesDto extends CreateExamineesDto {
 }
+
+export interface CreateTestDto {
+    title: string
+    startTime: Date
+    endTime: Date
+    paperId: number
+    listId: number
+}
+
+export interface UpdateTestDto {
+    title: string
+    startTime: Date
+    endTime: Date
+}
+
+export interface TestDto extends CreateTestDto {
+    id: number;
+}

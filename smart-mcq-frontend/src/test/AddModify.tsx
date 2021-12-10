@@ -2,7 +2,11 @@ import TestService from "../services/test.service";
 import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Form from "../Form";
-import { CreateTestDto, ExamineeListDto, QuestionPaperDto } from "../dto/question";
+import {
+    CreateTestDto,
+    ExamineeListDto,
+    QuestionPaperDto,
+} from "../dto/question";
 import Button from "@mui/material/Button";
 import Layout from "../components/Layout";
 import { FetchContext } from "../context";
@@ -68,7 +72,10 @@ export default function AddModify() {
     const handleChange = (key: string, value: any) =>
         setTest((test) => ({ ...test, [key]: value }));
 
-    const fields = React.useMemo(() => formFields(examinees, papers), [examinees, papers]);
+    const fields = React.useMemo(
+        () => formFields(examinees, papers),
+        [examinees, papers],
+    );
     return (
         <Layout title="Add/Modify Test">
             <Paper className="paper-form paper">
@@ -88,30 +95,33 @@ export default function AddModify() {
     );
 }
 
-const formFields = (examineeListOptions: SelectOption[], questionPaperOptions: SelectOption[]): FormField[] => [
-    { name: "title", label: "Title", type: "text" },
-    {
-        name: "listId",
-        label: "ExamineeList",
-        type: "select",
-        coerce: "int",
-        options: examineeListOptions,
-    },
-    {
-        name: "paperId",
-        label: "Question Paper",
-        type: "select",
-        coerce: "int",
-        options: questionPaperOptions,
-    },
-    { name: "startTime", label: "Start Time", type: "number" },
-    { name: "endTime", label: "End Time", type: "number" },
-];
+const formFields = (
+    examineeListOptions: SelectOption[],
+    questionPaperOptions: SelectOption[],
+): FormField[] => [
+        { name: "title", label: "Title", type: "text" },
+        {
+            name: "listId",
+            label: "ExamineeList",
+            type: "select",
+            coerce: "int",
+            options: examineeListOptions,
+        },
+        {
+            name: "paperId",
+            label: "Question Paper",
+            type: "select",
+            coerce: "int",
+            options: questionPaperOptions,
+        },
+        { name: "startTime", label: "Start Time", type: "datetime" },
+        { name: "endTime", label: "End Time", type: "datetime" },
+    ];
 
 const initTest = (): CreateTestDto => ({
     title: "",
-    listId: "" as any,
-    startTime: "" as any,
-    endTime: "" as any,
-    paperId: "" as any,
+    listId: 0,
+    startTime: new Date(),
+    endTime: new Date(),
+    paperId: 0,
 });

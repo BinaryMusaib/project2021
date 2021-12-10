@@ -2,6 +2,8 @@ import React from "react";
 import Router from "./Router";
 import { FetchContext, AuthContext } from "./context";
 import AuthService from "./services/auth.service";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
 
 function App() {
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -16,16 +18,18 @@ function App() {
     const profile = AuthService.getProfile();
 
     return (
-        <AuthContext.Provider
-            value={{
-                isLoggedIn: profile !== null,
-                profile,
-            }}
-        >
-            <FetchContext.Provider value={{ whileLoading, isLoading }}>
-                <Router />
-            </FetchContext.Provider>
-        </AuthContext.Provider>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <AuthContext.Provider
+                value={{
+                    isLoggedIn: profile !== null,
+                    profile,
+                }}
+            >
+                <FetchContext.Provider value={{ whileLoading, isLoading }}>
+                    <Router />
+                </FetchContext.Provider>
+            </AuthContext.Provider>
+        </LocalizationProvider>
     );
 }
 

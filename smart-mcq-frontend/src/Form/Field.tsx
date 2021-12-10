@@ -3,6 +3,7 @@ import Text from "./Text";
 import Select from "./Select";
 import OptionList from "./OptionList";
 import Checkbox from "./Checkbox";
+import DateTimeField from "./DateTimeField";
 
 type FieldProps = {
     field: FormField;
@@ -17,7 +18,6 @@ export default function Field(props: FieldProps) {
         case "text":
         case "number":
         case "email":
-        case "date":
         case "tel":
         case "password":
             return <Text {...props} />;
@@ -30,6 +30,9 @@ export default function Field(props: FieldProps) {
 
         case "option-list":
             return <OptionList {...props} />;
+
+        case "datetime":
+            return <DateTimeField {...props} />;
 
         default:
             return <></>;

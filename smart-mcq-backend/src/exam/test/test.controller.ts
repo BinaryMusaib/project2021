@@ -33,7 +33,7 @@ export class TestController {
 
     @Post()
     async create(@Body() dto: CreateTestDto, @User() user: UserPrincipal) {
-        return await this.testService.create(user.id, dto);
+        await this.testService.create(user.id, dto);
     }
 
     @Put(':id')

@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { QuestionLevel } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CreateQuestionDto } from './create-question.dto';
 import { QuestionDto } from './question.dto';
@@ -111,7 +112,9 @@ export class QuestionService {
         };
     }
 
-    async getManyByTopic(userId: number, topicId: number): Promise<QuestionDto[]> {
+    async getManyByTopic(userId: number, topicId: number, level?: QuestionLevel):
+        Promise<QuestionDto[]> {
+        const levelQuery = level ? { level } : {};
         return (
             await this.prisma.question.findMany({
                 include: {
@@ -130,7 +133,10 @@ export class QuestionService {
                     questionTopics: {
                         some: {
                             topicId,
-                        }
+                            question: {
+                                ...levelQuery
+                            }
+                        },
                     }
                 }
             })

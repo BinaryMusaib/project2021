@@ -12,6 +12,7 @@ import { QuestionPaperController } from './question-paper/question-paper.control
 @Module({
     providers: [SubjectService, TopicService, QuestionService, QuestionPaperService],
     imports: [PrismaModule],
+    exports: [QuestionService, QuestionPaperService],
     controllers: [SubjectController, TopicController, QuestionController, QuestionPaperController]
 })
 export class QuestionModule { }

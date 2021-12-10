@@ -23,7 +23,7 @@ model User {
   examinees    UserExamineeList[]
   examineeList ExamineeList[]
   tests        Test[]
-  testQuestions ExamineeQuestionTest[]
+  userTests    UserTest[]
 }
 
 model Subject {
@@ -70,7 +70,7 @@ model Question {
    level             QuestionLevel @default(Easy)
    updatedAt         DateTime @updatedAt @default(now())
    createdAt         DateTime @default(now())
-   testQuestions     ExamineeQuestionTest[]
+   sheets            AnswerSheet[]
    @@unique([id, userId])
 }
 
@@ -80,7 +80,7 @@ model Option {
    questionId  Int
    question    Question @relation(fields: [questionId], references: [id])
    isCorrect   Boolean
-   testQuestions ExamineeQuestionTest[]
+   sheets      AnswerSheet[]
 }
 
 model QuestionPaper {
@@ -137,23 +137,30 @@ model Test {
    paper       QuestionPaper @relation(fields: [paperId], references: [id])
    listId      Int
    list        ExamineeList @relation(fields: [listId], references: [id])
-   testQuestions ExamineeQuestionTest[]
    updatedAt   DateTime @updatedAt @default(now())
    createdAt   DateTime @default(now())
-
+   userTests   UserTest[]
    @@unique([userId, id])
 }
 
-model ExamineeQuestionTest {
+model UserTest {
     id          Int     @id @default(autoincrement())
-    userId      Int
-    user        User @relation(fields: [userId], references: [id])
-    questionId  Int
-    question    Question @relation(fields: [questionId], references: [id])
     testId      Int
     test        Test @relation(fields: [testId], references: [id])
-    answerId    Int
-    answer      Option @relation(fields: [answerId], references: [id])
+    userId      Int
+    user        User @relation(fields: [userId], references: [id])
+    sheets      AnswerSheet[]
+    @@unique([id, userId])
+}
+
+model AnswerSheet {
+    id          Int     @id @default(autoincrement())
+    userTestId  Int
+    userTest    UserTest @relation(fields: [userTestId], references: [id])
+    questionId  Int
+    question    Question @relation(fields: [questionId], references: [id])
+    answerId    Int?
+    answer      Option? @relation(fields: [answerId], references: [id])
     updatedAt   DateTime @updatedAt @default(now())
     createdAt   DateTime @default(now())
 }

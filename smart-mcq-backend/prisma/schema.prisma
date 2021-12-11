@@ -150,6 +150,8 @@ model UserTest {
     userId      Int
     user        User @relation(fields: [userId], references: [id])
     sheets      AnswerSheet[]
+    startTime   DateTime?
+    endTime     DateTime?
     @@unique([id, userId])
 }
 
@@ -163,5 +165,6 @@ model AnswerSheet {
     answer      Option? @relation(fields: [answerId], references: [id])
     updatedAt   DateTime @updatedAt @default(now())
     createdAt   DateTime @default(now())
+    @@unique([id, userTestId])
 }
 

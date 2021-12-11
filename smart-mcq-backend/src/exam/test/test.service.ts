@@ -24,7 +24,6 @@ export class TestService {
             throw new NotFoundException("Examinee list not found");
 
         const questions = await this.getQuestionsFromPaper(userId, dto.paperId);
-        console.log(questions);
         await this.prisma.test.create({
             data: {
                 ...dto,

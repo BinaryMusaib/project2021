@@ -62,6 +62,7 @@ export default function Nav() {
         </Typography>
         <div className="padd">
           <IfAuthenticated>
+            <NavBtn url="/exams" startIcon={<QuizIcon />} text="Assigned Tests" />
             <NavBtn url="/tests" startIcon={<QuizIcon />} text="Create Tests" />
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>

@@ -13,17 +13,11 @@ import { Link, useHistory } from "react-router-dom";
 import logo from "../logo.png";
 import IfAuthenticated from "./IfAuthenticated";
 import IfNotAuthenticated from "./IfNotAuthenticated";
-import AuthService from "../services/auth.service";
-import PagesIcon from "@mui/icons-material/Pages";
-import GroupIcon from "@mui/icons-material/Group";
-import QuizIcon from "@mui/icons-material/Quiz";
-import IconButton from "@mui/material/IconButton";
-import Avatar from "@mui/material/Avatar";
-import Tooltip from "@mui/material/Tooltip";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import UserNav from "./UserNav";
+import GuestNav from "./GuestNav";
 
 export default function Nav() {
+<<<<<<< HEAD
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -164,12 +158,32 @@ export default function Nav() {
                     text="Login"
                     startIcon={<LockOpenIcon />}
                   />
+=======
+    return (
+        <AppBar
+            position="fixed"
+            style={{ background: "#FFFFFF" }}
+            className="navbar"
+        >
+            <Toolbar>
+                <div className="trylogo">
+                    <Link to="/">
+                        <img src={logo} alt="mainLogo" />
+                    </Link>
+                </div>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    {" "}
+>>>>>>> 2a6efbd155ca5e09742176087989d86afc4bcfe0
                 </Typography>
-              </MenuItem>
-            </Menu>
-          </IfNotAuthenticated>
-        </div>
-      </Toolbar>
-    </AppBar>
-  );
-};
+                <div className="padd">
+                    <IfAuthenticated>
+                        <UserNav />
+                    </IfAuthenticated>
+                    <IfNotAuthenticated>
+                        <GuestNav />
+                    </IfNotAuthenticated>
+                </div>
+            </Toolbar>
+        </AppBar>
+    );
+}

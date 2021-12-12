@@ -1,20 +1,14 @@
-import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import SubjectIcon from "@mui/icons-material/Subject";
-import LockOpenIcon from "@mui/icons-material/LockOpen";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
-import TopicIcon from "@mui/icons-material/Topic";
-import LogoutIcon from "@mui/icons-material/ExitToApp";
-import NavBtn from "./NavBtn";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../logo.png";
 import IfAuthenticated from "./IfAuthenticated";
 import IfNotAuthenticated from "./IfNotAuthenticated";
 import UserNav from "./UserNav";
 import GuestNav from "./GuestNav";
+import IfAdmin from "./IfAdmin";
+import AdminNav from "./AdminNav";
 
 export default function Nav() {
     return (
@@ -34,6 +28,9 @@ export default function Nav() {
                 </Typography>
                 <div className="padd">
                     <IfAuthenticated>
+                        <IfAdmin>
+                            <AdminNav />
+                        </IfAdmin>
                         <UserNav />
                     </IfAuthenticated>
                     <IfNotAuthenticated>

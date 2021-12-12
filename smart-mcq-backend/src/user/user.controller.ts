@@ -2,12 +2,15 @@ import {
     BadRequestException,
     Body,
     Controller,
+    Get,
+    Put,
     Post,
     Request,
     UseGuards,
+    Param,
+    ParseIntPipe,
 } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
-import { AuthDataDto } from './auth-data.dto';
 import { CreateUserDto } from './create-user.dto';
 import { SetPasswordDto } from './set-password.dto';
 import { UserService } from './user.service';
@@ -18,6 +21,10 @@ import { LocalAuthGuard } from './local-auth.guard';
 import { JwtService } from '@nestjs/jwt';
 import { Public } from './public';
 import express from 'express';
+import { UpdateUserDto } from './update-user.dto';
+import { Roles } from './role.decorator';
+import { Role } from './role.enum';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -41,7 +48,8 @@ export class UserController {
             email: user.email,
             firstName: user.firstName,
             lastName: user.lastName,
-            sub: user.id
+            sub: user.id,
+            role: user.role
         };
     }
 
@@ -57,7 +65,6 @@ export class UserController {
                 userDto,
                 this.generateSetPasswordLink(user));
         } catch (error) {
-            console.log(error);
             throw new BadRequestException(
                 'Sorry. Unable to create your user at this time.'
             );
@@ -89,4 +96,28 @@ export class UserController {
             throw new BadRequestException();
 
     }
+
+    @Get()
+    @UseGuards(JwtAuthGuard)
+    @Roles(Role.Admin)
+    async getUsers() {
+        return await this.userService.getAll();
+    }
+
+    @Put(":id")
+    @UseGuards(JwtAuthGuard)
+    @Roles(Role.Admin)
+    async updateUser(
+        @Param('id', ParseIntPipe) id: number,
+        @Body() dto: UpdateUserDto) {
+        return await this.userService.update(id, dto);
+    }
+
+    @Get(":id")
+    @UseGuards(JwtAuthGuard)
+    @Roles(Role.Admin)
+    async getById(@Param('id', ParseIntPipe) id: number) {
+        return await this.userService.getById(id);
+    }
+
 }

@@ -5,4 +5,5 @@ export interface UserPrincipal {
     firstName: string;
     lastName: string;
     name: string;
+    role: string;
 }

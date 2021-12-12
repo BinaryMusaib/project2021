@@ -25,6 +25,7 @@ export default function Text({
             value={value}
             rows={field.rows}
             variant="standard"
+            disabled={!!field.disabled}
             fullWidth
             error={hasError}
             helperText={helperText}

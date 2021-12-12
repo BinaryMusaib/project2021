@@ -10,12 +10,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+   User
+   Admin
+}
+
 model User {
   id           Int      @id @default(autoincrement())
   email        String   @unique
   password     String?
   firstName    String
   lastName     String
+  role         UserRole @default(User)
   otp          String?
   otpExpiry    DateTime?
   questions    Question[]
@@ -24,6 +30,7 @@ model User {
   examineeList ExamineeList[]
   tests        Test[]
   userTests    UserTest[]
+  isActive     Boolean @default(true)
 }
 
 model Subject {

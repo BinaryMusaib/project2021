@@ -15,6 +15,7 @@ export default function NavBtn({ startIcon, url, text }: NavBtnProps) {
             size="large"
             color="primary"
             variant="text"
+            className="navbtn"
             onClick={() => history.push(url)}
             startIcon={startIcon}
         >

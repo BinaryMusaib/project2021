@@ -1,4 +1,4 @@
-import { CreateTestDto, TestDto, UpdateTestDto} from '../dto/question';
+import { CreateTestDto, PaperTopicDto, TestDto, UpdateTestDto, QuestionDto} from '../dto/question';
 import Fetch from './fetch';
 
 export default class TestService {
@@ -23,7 +23,7 @@ export default class TestService {
 
     static async delete(id: number) {
         return await Fetch.deleteJSON<void>(
-            `/api/test/${id}`,
+            `/api/test/${id}`
         );
     }
 
@@ -36,6 +36,18 @@ export default class TestService {
     static async getByUserId(userid: number) {
         return await Fetch.getJSON<TestDto>(
             `/api/test/${userid}`
+        );
+    }
+
+    static async getQuestionsFromPaper(questionid: number){
+        return await Fetch.getJSON<QuestionDto>(
+            `/api/test/${questionid}`
+        );
+    }
+
+    static async randomQuestions(topicid: number){
+        return await Fetch.getJSON<PaperTopicDto>(
+            `/api/test/${topicid}`
         );
     }
 

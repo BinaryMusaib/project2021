@@ -21,6 +21,8 @@ import Test from "./test/List";
 import TestAddModify from "./test/AddModify";
 import Users from "./auth/user/List";
 import ModifyUser from "./auth/user/Modify";
+import AssignedTest from "./exam/Assigned-Test";
+import TakeTest from "./exam/Take-Test";
 
 export default function Router() {
     return (
@@ -106,6 +108,31 @@ export default function Router() {
                 <Route path="/test/:id" exact component={TestAddModify} />
                 <Route path="/admin/users" exact component={Users} />
                 <Route path="/admin/user/:id" exact component={ModifyUser} />
+                <Route
+                    path="/tests"
+                    exact
+                    component={Test}
+                />
+                <Route
+                    path="/test/new"
+                    exact
+                    component={TestAddModify}
+                />
+                <Route
+                    path="/test/:id"
+                    exact
+                    component={TestAddModify}
+                />
+                <Route
+                    path="/exams"
+                    exact
+                    component={AssignedTest}
+                />
+                <Route
+                    path="/exam/new"
+                    exact
+                    component={TakeTest}
+                />
                 <Route path="*" component={Home} />
             </Switch>
         </BrowserRouter>

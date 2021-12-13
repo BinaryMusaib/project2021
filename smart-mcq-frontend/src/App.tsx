@@ -15,14 +15,12 @@ function App() {
         [setIsLoading],
     );
 
-    const profile = AuthService.getProfile();
-
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <AuthContext.Provider
                 value={{
-                    isLoggedIn: profile !== null,
-                    profile,
+                    isLoggedIn: AuthService.getProfile() !== null,
+                    getProfile: () => AuthService.getProfile(),
                 }}
             >
                 <FetchContext.Provider value={{ whileLoading, isLoading }}>

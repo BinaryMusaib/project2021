@@ -1,7 +1,14 @@
 import Fetch from "./fetch";
-import { AuthDto, AuthenticationDto, AuthProfile, ResetPasswordRequestDto, SetPasswordDto, SignupDto } from "../dto";
+import {
+    AuthDto,
+    AuthenticationDto,
+    AuthProfile,
+    ResetPasswordRequestDto,
+    SetPasswordDto,
+    SignupDto,
+} from "../dto";
 import StorageService from "./storage.services";
-import decode from 'jwt-decode';
+import decode from "jwt-decode";
 
 export default class AuthService {
     static profile: AuthProfile | null = null;
@@ -14,19 +21,19 @@ export default class AuthService {
 
     static async signup(signupDto: SignupDto) {
         return await Fetch.postJSON<void>("/api/user/signup", {
-            body: signupDto
+            body: signupDto,
         });
     }
 
     static async setPassword(setPasswordDto: SetPasswordDto) {
         return await Fetch.postJSON<void>("/api/user/set-password", {
-            body: setPasswordDto
+            body: setPasswordDto,
         });
     }
 
     static async resetPasswordRequest(dto: ResetPasswordRequestDto) {
-        return await Fetch.postJSON<void>('/api/user/reset-password-request', {
-            body: dto
+        return await Fetch.postJSON<void>("/api/user/reset-password-request", {
+            body: dto,
         });
     }
 
@@ -38,8 +45,7 @@ export default class AuthService {
         if (this.profile) return this.profile;
 
         const token = StorageService.getToken();
-        if (token === null)
-            return null;
+        if (token === null) return null;
 
         try {
             this.profile = decode<AuthProfile>(token);

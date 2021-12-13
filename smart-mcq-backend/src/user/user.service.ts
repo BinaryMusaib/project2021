@@ -4,6 +4,7 @@ import { AuthDataDto } from './auth-data.dto';
 import { CreateUserDto } from './create-user.dto';
 import { ResetPasswordRequestDto } from './reset-password-request.dto';
 import { SetPasswordDto } from './set-password.dto';
+import { UpdateUserDto } from './update-user.dto';
 import { UserDto } from './user.dto';
 
 const bcrypt = require('bcrypt');
@@ -31,6 +32,27 @@ export class UserService {
             ...user,
             otp
         };
+    }
+
+    async update(id: number, dto: UpdateUserDto) {
+        await this.prisma.user.update({
+            data: dto,
+            where: {
+                id
+            }
+        });
+    }
+
+    async getAll(): Promise<UserDto[]> {
+        return await this.prisma.user.findMany({});
+    }
+
+    async getById(id: number): Promise<UserDto> {
+        return await this.prisma.user.findUnique({
+            where: {
+                id
+            }
+        });
     }
 
     async setPassword(dto: SetPasswordDto): Promise<boolean> {

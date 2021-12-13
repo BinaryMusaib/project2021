@@ -30,4 +30,20 @@ export interface AuthProfile {
     firstName: string;
     lastName: string;
     sub: number
+    role: string
 }
+
+export interface UserDto {
+    id: number
+    email: string
+    firstName: string
+    lastName: string
+    isActive: boolean
+    role: string
+}
+
+export interface UpdateUserDto {
+    role: string
+    isActive: boolean
+}
+

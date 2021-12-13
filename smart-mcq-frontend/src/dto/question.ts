@@ -123,3 +123,21 @@ export interface UpdateTestDto {
 export interface TestDto extends CreateTestDto {
     id: number;
 }
+
+export interface UserTestDto {
+    id: number;
+    userId: number;
+    test: TestDto;
+    startTime?: Date
+    endTime?: Date
+}
+
+export interface UserTestFilterDto {
+    startDate: Date,
+    endDate: Date
+}
+
+export interface SetAnswerDto {
+    answerSheetId: number;
+    optionId: number;
+}

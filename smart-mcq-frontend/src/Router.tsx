@@ -19,6 +19,11 @@ import ExamineeList from "./examinee-list/List";
 import ExamineeListAddModify from "./examinee-list/AddModify";
 import Test from "./test/List";
 import TestAddModify from "./test/AddModify";
+import Users from "./auth/user/List";
+import ModifyUser from "./auth/user/Modify";
+import AssignedTest from "./exam/Assigned-Test";
+import TakeTest from "./exam/Take-Test";
+import UserTests from "./user-tests/List";
 
 export default function Router() {
     return (
@@ -83,41 +88,33 @@ export default function Router() {
                     exact
                     component={QuestionPaperAddModify}
                 />
-                 <Route
+                <Route
                     path="/question-paper/:id"
                     exact
                     component={QuestionPaperAddModify}
                 />
-                <Route
-                    path="/examinee-lists"
-                    exact
-                    component={ExamineeList}
-                />
+                <Route path="/examinee-lists" exact component={ExamineeList} />
                 <Route
                     path="/examinee-list/new"
                     exact
                     component={ExamineeListAddModify}
                 />
-                 <Route
+                <Route
                     path="/examinee-list/:id"
                     exact
                     component={ExamineeListAddModify}
                 />
-                <Route
-                    path="/tests"
-                    exact
-                    component={Test}
-                />
-                <Route
-                    path="/test/new"
-                    exact
-                    component={TestAddModify}
-                />
-                <Route
-                    path="/test/:id"
-                    exact
-                    component={TestAddModify}
-                />
+                <Route path="/tests" exact component={Test} />
+                <Route path="/test/new" exact component={TestAddModify} />
+                <Route path="/test/:id" exact component={TestAddModify} />
+                <Route path="/admin/users" exact component={Users} />
+                <Route path="/admin/user/:id" exact component={ModifyUser} />
+                <Route path="/tests" exact component={Test} />
+                <Route path="/test/new" exact component={TestAddModify} />
+                <Route path="/test/:id" exact component={TestAddModify} />
+                <Route path="/exams" exact component={AssignedTest} />
+                <Route path="/exam/new" exact component={TakeTest} />
+                <Route path="/user-tests" exact component={UserTests} />
                 <Route path="*" component={Home} />
             </Switch>
         </BrowserRouter>

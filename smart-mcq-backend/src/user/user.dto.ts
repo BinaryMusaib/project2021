@@ -1,7 +1,9 @@
 import { CreateUserDto } from "./create-user.dto";
 
 export class UserDto extends CreateUserDto {
-    id: number;
+    id: number
     otp?: string
     otpExpiry?: Date
+    role: string
+    isActive: boolean
 }

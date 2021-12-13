@@ -1,4 +1,4 @@
-import { TestDto } from "./test/test.dto";
+import { TestDto } from "../test/test.dto";
 
 export class UserTestDto {
     id: number;

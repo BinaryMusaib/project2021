@@ -10,8 +10,9 @@ import {
 } from '@nestjs/common';
 import { User } from 'src/user/user.decorator';
 import { UserPrincipal } from 'src/user/user.principal';
-import { ExamService } from './exam.service';
+import { UserTestService } from './user-test.service';
 import { SetAnswerDto } from './set-answer.dto';
+import { UserTestFilterDto } from './user-test-filter.dto';
 import { UserTestDto } from './user-test.dto';
 
 enum TestStatus {
@@ -20,27 +21,35 @@ enum TestStatus {
     Finished,
 }
 
-@Controller('exam')
-export class ExamController {
-    constructor(private examService: ExamService) { }
+@Controller('user-test')
+export class UserTestController {
+    constructor(private UserTestService: UserTestService) { }
 
     @Get(':userTestId')
     async getById(
         @Param('userTestId', ParseIntPipe) id: number,
         @User() user: UserPrincipal,
     ) {
-        return await this.getMyTest(user.id, id);
+        return await this.getUserTest(user.id, id);
     }
 
-    private async getMyTest(userId: number, id: number) {
-        const userTest = await this.examService.getMyTest(userId, id);
+    private async getUserTest(userId: number, id: number) {
+        const userTest = await this.UserTestService.getUserTest(userId, id);
         if (!userTest) throw new NotFoundException();
         return userTest;
     }
 
     @Get()
-    async getMyTests(@User() user: UserPrincipal) {
-        return await this.examService.getMyTests(user.id);
+    async getUserTests(@User() user: UserPrincipal) {
+        return await this.UserTestService.getUserTests(user.id);
+    }
+
+    @Post('query')
+    async queryUserTests(
+        @Body() filter: UserTestFilterDto,
+        @User() user: UserPrincipal,
+    ) {
+        return await this.UserTestService.queryUserTests(user.id, filter);
     }
 
     @Post('start/:userTestId')
@@ -48,9 +57,9 @@ export class ExamController {
         @Param('userTestId', ParseIntPipe) id: number,
         @User() user: UserPrincipal,
     ) {
-        const userTest = await this.getMyTest(user.id, id);
+        const userTest = await this.getUserTest(user.id, id);
         this.ensureTestInProgress(userTest);
-        return this.examService.startTest(user.id, userTest);
+        return this.UserTestService.startTest(user.id, userTest);
     }
 
     @Post('answer/:userTestId')
@@ -59,10 +68,10 @@ export class ExamController {
         @Body() { answerSheetId, optionId }: SetAnswerDto,
         @User() user: UserPrincipal,
     ) {
-        const userTest = await this.getMyTest(user.id, id);
+        const userTest = await this.getUserTest(user.id, id);
         this.ensureTestInProgress(userTest);
-        this.ensureMyTestInProgress(userTest);
-        await this.examService.setAnswer(userTest.id, answerSheetId, optionId);
+        this.ensureUserTestInProgress(userTest);
+        await this.UserTestService.setAnswer(userTest.id, answerSheetId, optionId);
     }
 
     private ensureTestInProgress(userTest: UserTestDto) {
@@ -73,7 +82,7 @@ export class ExamController {
         else throw new BadRequestException('The test has already concluded.');
     }
 
-    private ensureMyTestInProgress(userTest: UserTestDto) {
+    private ensureUserTestInProgress(userTest: UserTestDto) {
         const now = new Date().valueOf();
         if (
             now < userTest.startTime.valueOf() &&

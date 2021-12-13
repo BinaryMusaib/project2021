@@ -4,6 +4,7 @@ import Select from "./Select";
 import OptionList from "./OptionList";
 import Checkbox from "./Checkbox";
 import DateTimeField from "./DateTimeField";
+import DateField from "./DateField";
 
 type FieldProps = {
     field: FormField;
@@ -30,6 +31,9 @@ export default function Field(props: FieldProps) {
 
         case "option-list":
             return <OptionList {...props} />;
+
+        case "date":
+            return <DateField {...props} />;
 
         case "datetime":
             return <DateTimeField {...props} />;

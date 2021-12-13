@@ -15,7 +15,7 @@ import Divider from "@mui/material/Divider";
 import React from "react";
 import AuthService from "../services/auth.service";
 import { useHistory } from "react-router-dom";
-import ApiIcon from '@mui/icons-material/Api';
+import ApiIcon from "@mui/icons-material/Api";
 
 export default function UserNav() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -35,8 +35,7 @@ export default function UserNav() {
 
     return (
         <>
-            <NavBtn url="/exams" startIcon={<ApiIcon />} text="Assigned Test" />
-            <NavBtn url="/tests" startIcon={<QuizIcon />} text="Create Tests" />
+            <NavBtn url="/user-tests" startIcon={<ApiIcon />} text="My Tests" />
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpen} sx={{ p: 0 }}>
                     <Avatar alt="Remy Sharp" />
@@ -57,6 +56,13 @@ export default function UserNav() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
+                <NavMenuItem
+                    url="/tests"
+                    startIcon={<QuizIcon />}
+                    text="Tests"
+                    description="Create your own tests"
+                />
+
                 <NavMenuItem
                     url="/question-papers"
                     text="Question Papers"

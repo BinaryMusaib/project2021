@@ -1,35 +1,58 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuestionPaperService } from 'src/question/question-paper/question-paper.service';
+import { UserTestFilterDto } from './user-test-filter.dto';
 import { UserTestDto } from './user-test.dto';
 
 @Injectable()
-export class ExamService {
+export class UserTestService {
+    constructor(
+        private prisma: PrismaService,
+        private paperService: QuestionPaperService,
+    ) { }
 
-    constructor(private prisma: PrismaService, private paperService: QuestionPaperService) { }
-
-    async getMyTests(userId: number): Promise<UserTestDto[]> {
+    async getUserTests(userId: number): Promise<UserTestDto[]> {
         return await this.prisma.userTest.findMany({
             where: {
-                userId
+                userId,
             },
             include: {
-                test: true
-            }
+                test: true,
+            },
         });
     }
 
-    async getMyTest(userId: number, id: number): Promise<UserTestDto> {
+    async queryUserTests(
+        userId: number,
+        { startDate, endDate }: UserTestFilterDto,
+    ): Promise<UserTestDto[]> {
+        return await this.prisma.userTest.findMany({
+            where: {
+                userId,
+                test: {
+                    startTime: {
+                        gte: startDate,
+                        lte: endDate,
+                    },
+                },
+            },
+            include: {
+                test: true,
+            },
+        });
+    }
+
+    async getUserTest(userId: number, id: number): Promise<UserTestDto> {
         const userTest = await this.prisma.userTest.findUnique({
             where: {
                 id_userId: {
                     userId,
-                    id
-                }
+                    id,
+                },
             },
             include: {
                 test: true,
-            }
+            },
         });
         return userTest;
     }
@@ -37,19 +60,21 @@ export class ExamService {
     async startTest(userId: number, dto: UserTestDto) {
         const startTime = new Date();
         const paper = await this.paperService.getById(userId, dto.test.listId);
-        const endTime = new Date(startTime.valueOf() + paper.duration * 1000 * 1000);
+        const endTime = new Date(
+            startTime.valueOf() + paper.duration * 1000 * 1000,
+        );
 
         await this.prisma.userTest.update({
             data: {
                 startTime,
-                endTime
+                endTime,
             },
             where: {
                 id_userId: {
                     userId,
-                    id: dto.id
-                }
-            }
+                    id: dto.id,
+                },
+            },
         });
 
         return await this.prisma.userTest.findUnique({
@@ -57,32 +82,30 @@ export class ExamService {
                 id_userId: {
                     userId,
                     id: dto.id,
-                }
+                },
             },
             include: {
                 test: true,
                 sheets: true,
-            }
+            },
         });
-
     }
 
-    async setAnswer(userTestId: number,
+    async setAnswer(
+        userTestId: number,
         answerSheetId: number,
-        optionId: number) {
+        optionId: number,
+    ) {
         await this.prisma.answerSheet.update({
             data: {
-                answerId: optionId
+                answerId: optionId,
             },
             where: {
                 id_userTestId: {
                     id: answerSheetId,
-                    userTestId
-                }
-            }
+                    userTestId,
+                },
+            },
         });
     }
-
 }
-
-

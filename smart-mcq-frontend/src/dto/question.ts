@@ -132,6 +132,11 @@ export interface UserTestDto {
     endTime?: Date
 }
 
+export interface UserTestFilterDto {
+    startDate: Date,
+    endDate: Date
+}
+
 export interface SetAnswerDto {
     answerSheetId: number;
     optionId: number;

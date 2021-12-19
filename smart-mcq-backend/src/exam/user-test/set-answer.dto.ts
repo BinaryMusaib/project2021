@@ -6,6 +6,6 @@ export class SetAnswerDto {
     answerSheetId: number;
 
     @IsNotEmpty()
-    optionId: number;
+    answer: string;
 
 }

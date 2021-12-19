@@ -1,3 +1,4 @@
+import { UserDto } from "./auth";
 
 export interface CreateSubjectDto {
     title: string
@@ -24,11 +25,13 @@ export interface CreateQuestionDto {
     topics: number[];
     randomize: boolean;
     level: QuestionLevel;
+    multi: boolean;
 }
 
 export interface CreateOptionDto {
     text: string
     isCorrect: boolean
+    index: number
 }
 
 export interface UpdateQuestionDto {
@@ -37,6 +40,7 @@ export interface UpdateQuestionDto {
     topics: number[];
     randomize: boolean;
     level: QuestionLevel;
+    multi: boolean;
 }
 
 export interface UpdateOptionDto extends CreateOptionDto {
@@ -56,6 +60,7 @@ export interface QuestionDto {
     topics: TopicDto[];
     randomize: boolean;
     level: QuestionLevel;
+    multi: boolean;
 }
 
 export interface CreatePaperTopicDto {
@@ -66,6 +71,7 @@ export interface CreatePaperTopicDto {
 
 export interface PaperTopicDto extends CreatePaperTopicDto {
     id: number;
+    topic?: TopicDto;
 }
 
 export interface CreateQuestionPaperDto {
@@ -122,14 +128,38 @@ export interface UpdateTestDto {
 
 export interface TestDto extends CreateTestDto {
     id: number;
+    closed: boolean;
 }
 
-export interface UserTestDto {
+export interface UserTestLightDto {
     id: number;
     userId: number;
-    test: TestDto;
     startTime?: Date
     endTime?: Date
+    finished: boolean;
+    marks: number;
+    totalMarks: number;
+}
+
+export interface TestUserTestDto extends UserTestLightDto {
+    user: UserDto
+}
+
+export interface TestDetailsDto extends TestDto {
+    userTests: TestUserTestDto[];
+}
+
+export interface UserTestDto extends UserTestLightDto {
+    test: TestDto;
+    sheets: AnswerSheetDto[]
+}
+
+export interface UserTestDetailsDto extends UserTestDto {
+    test: TestDetailsDto & {
+        paper: QuestionPaperDto
+    };
+    results: ResultDto[]
+    user: UserDto
 }
 
 export interface UserTestFilterDto {
@@ -139,5 +169,20 @@ export interface UserTestFilterDto {
 
 export interface SetAnswerDto {
     answerSheetId: number;
-    optionId: number;
+    answer: string;
+}
+
+export interface AnswerSheetDto {
+    id: number;
+    question: QuestionDto;
+    answer?: string;
+    mark: number;
+    isCorrect: boolean;
+}
+
+export interface ResultDto {
+    userTestId: number;
+    topicId: number;
+    marks: number;
+    totalMarks: number
 }

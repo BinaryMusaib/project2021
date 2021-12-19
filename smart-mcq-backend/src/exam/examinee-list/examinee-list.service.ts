@@ -11,19 +11,20 @@ export class ExamineeListService {
         userId: number,
         { examinees, ...rest }: CreateExamineeListDto,
     ): Promise<void> {
-        const users = await this.getUserIdsFromEmails(examinees.map(e => e.email));
+        const users = await this.getUserIdsFromEmails(
+            examinees.map((e) => e.email),
+        );
         await this.prisma.examineeList.create({
             data: {
                 ...rest,
                 userId,
                 examinees: {
                     createMany: {
-                        data: users.map(user => ({
-                            userId: user.id
-                        }
-                        ))
-                    }
-                }
+                        data: users.map((user) => ({
+                            userId: user.id,
+                        })),
+                    },
+                },
             },
         });
     }
@@ -32,9 +33,9 @@ export class ExamineeListService {
         return await this.prisma.user.findMany({
             where: {
                 email: {
-                    in: emails
-                }
-            }
+                    in: emails,
+                },
+            },
         });
     }
 
@@ -43,55 +44,61 @@ export class ExamineeListService {
         id: number,
         { examinees, ...rest }: CreateExamineeListDto,
     ): Promise<void> {
-        const users = await this.getUserIdsFromEmails(examinees.map(e => e.email));
+        const users = await this.getUserIdsFromEmails(
+            examinees.map((e) => e.email),
+        );
+        console.log(users);
         await this.prisma.examineeList.update({
             data: {
                 ...rest,
                 examinees: {
                     deleteMany: {
                         userId: {
-                            notIn: users.map(u => u.id)
-                        }
+                            notIn: users.map((u) => u.id),
+                        },
                     },
-
-                    createMany: {
-                        data: users.map(user => ({
-                            userId: user.id
-                        }))
-                    }
-                }
+                    connectOrCreate: users.map((u) => ({
+                        create: {
+                            userId: u.id,
+                        },
+                        where: {
+                            listId_userId: {
+                                userId: u.id,
+                                listId: id,
+                            },
+                        },
+                    })),
+                },
             },
             where: {
                 id_userId: {
                     id,
-                    userId
-                }
+                    userId,
+                },
             },
         });
     }
 
     async getById(userId: number, id: number): Promise<ExamineeListDto> {
-        const { examinees, ...rest } = await this.prisma.examineeList.findUnique(
-            {
-                where: {
-                    id_userId: {
-                        id,
-                        userId
-                    }
+        const { examinees, ...rest } = await this.prisma.examineeList.findUnique({
+            where: {
+                id_userId: {
+                    id,
+                    userId,
                 },
-                include: {
-                    examinees: {
-                        include: {
-                            user: true,
-                        },
+            },
+            include: {
+                examinees: {
+                    include: {
+                        user: true,
                     },
                 },
             },
-        );
+        });
 
         return {
             ...rest,
-            examinees: examinees.map(e => e.user),
+            examinees: examinees.map((e) => e.user),
         };
     }
 
@@ -99,10 +106,10 @@ export class ExamineeListService {
         return (
             await this.prisma.examineeList.findMany({
                 where: {
-                    userId
-                }
+                    userId,
+                },
             })
-        ).map(e => ({ ...e, examinees: [] }));
+        ).map((e) => ({ ...e, examinees: [] }));
     }
 
     async delete(userId: number, id: number): Promise<void> {
@@ -110,8 +117,8 @@ export class ExamineeListService {
             where: {
                 id_userId: {
                     id,
-                    userId
-                }
+                    userId,
+                },
             },
         });
     }

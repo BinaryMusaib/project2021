@@ -78,6 +78,7 @@ model Question {
    updatedAt         DateTime @updatedAt @default(now())
    createdAt         DateTime @default(now())
    sheets            AnswerSheet[]
+   multi             Boolean @default(false)
    @@unique([id, userId])
 }
 
@@ -87,7 +88,7 @@ model Option {
    questionId  Int
    question    Question @relation(fields: [questionId], references: [id])
    isCorrect   Boolean
-   sheets      AnswerSheet[]
+   index       Int @default(0)
 }
 
 model QuestionPaper {
@@ -111,6 +112,7 @@ model QuestionPaperTopic {
    topic       Topic @relation(fields: [topicId], references: [id])
    level       QuestionLevel
    numberOfQuestions Int
+   results     Result[]
 }
    
 model ExamineeList {
@@ -144,6 +146,7 @@ model Test {
    paper       QuestionPaper @relation(fields: [paperId], references: [id])
    listId      Int
    list        ExamineeList @relation(fields: [listId], references: [id])
+   closed      Boolean @default(false)
    updatedAt   DateTime @updatedAt @default(now())
    createdAt   DateTime @default(now())
    userTests   UserTest[]
@@ -159,7 +162,23 @@ model UserTest {
     sheets      AnswerSheet[]
     startTime   DateTime?
     endTime     DateTime?
+    finished    Boolean @default(false)
+    marks       Int @default(0)
+    totalMarks  Int @default(0)
+    results     Result[]
     @@unique([id, userId])
+}
+
+model Result {
+    id          Int  @id @default(autoincrement()) 
+    userTestId  Int
+    UserTest    UserTest @relation(fields: [userTestId], references: [id])
+    marks       Int @default(0)
+    totalMarks  Int @default(0)
+    topicId     Int
+    topic       QuestionPaperTopic @relation(fields: [topicId], references: [id])
+    updatedAt   DateTime @updatedAt @default(now())
+    createdAt   DateTime @default(now())
 }
 
 model AnswerSheet {
@@ -168,8 +187,7 @@ model AnswerSheet {
     userTest    UserTest @relation(fields: [userTestId], references: [id])
     questionId  Int
     question    Question @relation(fields: [questionId], references: [id])
-    answerId    Int?
-    answer      Option? @relation(fields: [answerId], references: [id])
+    answer      String?
     updatedAt   DateTime @updatedAt @default(now())
     createdAt   DateTime @default(now())
     @@unique([id, userTestId])

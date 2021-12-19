@@ -1,3 +1,4 @@
+import { parseDates, removeSpaces, removeZerosInIds } from "./response-utils";
 import StorageService from "./storage.services";
 
 interface RequestOptions {
@@ -5,7 +6,7 @@ interface RequestOptions {
     body?: any
 }
 
-interface FetchResponse<T> {
+export interface FetchResponse<T> {
     ok: boolean
     status: number
     body?: T
@@ -25,7 +26,7 @@ async function makeJSONRequest<T>(url: string, method: string, {
             } : {}),
             ...headers,
         },
-        body: typeof body === "object" ? JSON.stringify(body) : body,
+        body: preprocessBody(body)
     }).then(res => handleJSONResponse<T>(res));
 }
 
@@ -61,7 +62,7 @@ async function handleJSONResponse<T>(res: Response): Promise<FetchResponse<T>> {
             status: res.status,
             errors: toFormErrors((await res.json()).message)
         });
-    } else if (res.status === 401) { // Authentication error
+    } else if (res.status === 401 || res.status === 403) { // Authentication error
         window.location.href = '/login';
         return Promise.reject({
             ok: res.ok,
@@ -69,10 +70,13 @@ async function handleJSONResponse<T>(res: Response): Promise<FetchResponse<T>> {
         });
     } else if (res.ok) { // Success
         try {
+            const json = await res.json();
             return {
                 ok: res.ok,
                 status: res.status,
-                body: await res.json() as T
+                body: (Array.isArray(json)
+                    ? ((json as any[]).map((e) => parseDates(e)) as any)
+                    : parseDates(json)) as T,
             };
         } catch (error) {
             return {
@@ -116,4 +120,17 @@ function toFormErrors(errors?: string | any[]): FormError {
         formErrors: []
     };
 
+};
+
+const clientProperties = ["error", "errors"];
+
+const preprocessBody = (body: any): string | undefined => {
+    if (body && typeof body !== "string") {
+        clientProperties.forEach((prop) => delete body[prop]);
+        removeZerosInIds(body);
+        removeSpaces(body);
+        return JSON.stringify(body);
+    } else {
+        return body;
+    }
 };

@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Result" ADD COLUMN     "totalMarks" INTEGER NOT NULL DEFAULT 0,
+ALTER COLUMN "marks" SET DEFAULT 0;

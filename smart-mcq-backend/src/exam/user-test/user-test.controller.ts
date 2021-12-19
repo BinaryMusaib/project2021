@@ -2,6 +2,7 @@ import {
     Controller,
     Post,
     Get,
+    Put,
     Param,
     NotFoundException,
     ParseIntPipe,
@@ -39,6 +40,14 @@ export class UserTestController {
         return userTest;
     }
 
+    @Get('details/:userTestId')
+    async getDetailsById(
+        @Param('userTestId', ParseIntPipe) id: number,
+        @User() user: UserPrincipal,
+    ) {
+        return await this.UserTestService.getUserTestDetails(user.id, id);
+    }
+
     @Get()
     async getUserTests(@User() user: UserPrincipal) {
         return await this.UserTestService.getUserTests(user.id);
@@ -52,26 +61,52 @@ export class UserTestController {
         return await this.UserTestService.queryUserTests(user.id, filter);
     }
 
+    @Get('list/upcoming')
+    async getUpcomingTests(
+        @User() user: UserPrincipal,
+    ) {
+        return await this.UserTestService.getUpcomingTests(user.id);
+    }
+
+    @Get('list/in-progress')
+    async getInProgressTests(
+        @User() user: UserPrincipal,
+    ) {
+        return await this.UserTestService.getInProgressTests(user.id);
+    }
+
     @Post('start/:userTestId')
     async startTest(
         @Param('userTestId', ParseIntPipe) id: number,
         @User() user: UserPrincipal,
     ) {
         const userTest = await this.getUserTest(user.id, id);
-        this.ensureTestInProgress(userTest);
-        return this.UserTestService.startTest(user.id, userTest);
+        try {
+            this.ensureTestInProgress(userTest);
+            return this.UserTestService.startTest(user.id, userTest);
+        } catch (ex) {
+            return userTest;
+        }
     }
 
-    @Post('answer/:userTestId')
+    @Put('submit/:userTestId')
+    async finishTest(
+        @Param('userTestId', ParseIntPipe) id: number,
+        @User() user: UserPrincipal,
+    ) {
+        this.UserTestService.finishTest(user.id, id);
+    }
+
+    @Put('answer/:userTestId')
     async answer(
         @Param('userTestId', ParseIntPipe) id: number,
-        @Body() { answerSheetId, optionId }: SetAnswerDto,
+        @Body() { answerSheetId, answer }: SetAnswerDto,
         @User() user: UserPrincipal,
     ) {
         const userTest = await this.getUserTest(user.id, id);
         this.ensureTestInProgress(userTest);
         this.ensureUserTestInProgress(userTest);
-        await this.UserTestService.setAnswer(userTest.id, answerSheetId, optionId);
+        await this.UserTestService.setAnswer(userTest.id, answerSheetId, answer);
     }
 
     private ensureTestInProgress(userTest: UserTestDto) {
@@ -83,6 +118,9 @@ export class UserTestController {
     }
 
     private ensureUserTestInProgress(userTest: UserTestDto) {
+        if (userTest.finished)
+            throw new BadRequestException('The test is over');
+
         const now = new Date().valueOf();
         if (
             now < userTest.startTime.valueOf() &&

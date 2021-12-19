@@ -1,0 +1,12 @@
+.date-range {
+    display: flex;
+}
+
+.user-test-text {
+    display: flex;
+}
+
+.user-test-text .test-status {
+    font-variant: small-caps;
+    margin-left:10px;
+}

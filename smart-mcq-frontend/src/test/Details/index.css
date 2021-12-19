@@ -1,0 +1,9 @@
+.test-details-header {
+    display: flex;
+    justify-content: center;
+    margin: 10px auto;
+}
+
+.user-status {
+    font-variant:small-caps;
+}

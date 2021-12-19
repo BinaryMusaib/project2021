@@ -76,6 +76,13 @@ export default function AddModify() {
         () => formFields(examinees, papers),
         [examinees, papers],
     );
+
+    const handleDelete = () => {
+        TestService.delete(Number.parseInt(id)).then(() =>
+            history.push("/tests"),
+        );
+    };
+
     return (
         <Layout title="Add/Modify Test">
             <Paper className="paper-form paper">
@@ -88,6 +95,15 @@ export default function AddModify() {
                     />
                     <Button type="submit" variant="contained" color="primary">
                         Save
+                    </Button>
+                    <Button
+                        onClick={handleDelete}
+                        disabled={!id}
+                        type="button"
+                        variant="contained"
+                        color="secondary"
+                    >
+                        Delete
                     </Button>
                 </form>
             </Paper>

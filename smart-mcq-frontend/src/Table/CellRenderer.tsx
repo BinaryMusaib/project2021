@@ -16,7 +16,7 @@ export default function CellRenderer({
     switch (column.type || "text") {
         case "text":
             return <>{value}</>;
-        
+
         case "email":
             return <>{value}</>;
 

@@ -15,7 +15,6 @@ import { FormError, FormField, SelectOption } from "../Form/types";
 import Paper from "@mui/material/Paper";
 import TopicService from "../services/topic.service";
 
-
 export default function AddModify() {
     const [question, setQuestion] = React.useState<UpdateQuestionDto>(
         initQuestion(),
@@ -71,7 +70,11 @@ export default function AddModify() {
                         ...question,
                         options: [
                             ...question.options,
-                            { text: item, isCorrect: false },
+                            {
+                                text: item,
+                                isCorrect: false,
+                                index: question.options.length,
+                            },
                         ],
                     }));
                     break;
@@ -157,6 +160,11 @@ const formFields = (
                 checked: o.isCorrect,
             })),
         },
+        {
+            name: "multi",
+            label: "Multiple answers",
+            type: "checkbox",
+        },
     ];
 };
 
@@ -166,4 +174,5 @@ const initQuestion = (): UpdateQuestionDto => ({
     options: [],
     randomize: true,
     level: "Easy",
+    multi: false,
 });

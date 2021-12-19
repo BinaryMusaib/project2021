@@ -2,10 +2,9 @@ import LogoutIcon from "@mui/icons-material/ExitToApp";
 import NavMenuItem from "./NavMenuItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemIcon from "@mui/material/ListItemIcon";
-import NavBtn from "./NavBtn";
 import PagesIcon from "@mui/icons-material/Pages";
 import GroupIcon from "@mui/icons-material/Group";
-import QuizIcon from "@mui/icons-material/Quiz";
+import QuizIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
@@ -15,7 +14,7 @@ import Divider from "@mui/material/Divider";
 import React from "react";
 import AuthService from "../services/auth.service";
 import { useHistory } from "react-router-dom";
-import ApiIcon from "@mui/icons-material/Api";
+import MyTestIcon from "@mui/icons-material/Assessment";
 
 export default function UserNav() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -35,7 +34,6 @@ export default function UserNav() {
 
     return (
         <>
-            <NavBtn url="/user-tests" startIcon={<ApiIcon />} text="My Tests" />
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpen} sx={{ p: 0 }}>
                     <Avatar alt="Remy Sharp" />
@@ -57,9 +55,16 @@ export default function UserNav() {
                 onClose={handleClose}
             >
                 <NavMenuItem
+                    url="/home"
+                    startIcon={<MyTestIcon />}
+                    text="Take a Test"
+                    description="Take a test you have been assigned"
+                />
+
+                <NavMenuItem
                     url="/tests"
                     startIcon={<QuizIcon />}
-                    text="Tests"
+                    text="Create Test"
                     description="Create your own tests"
                 />
 

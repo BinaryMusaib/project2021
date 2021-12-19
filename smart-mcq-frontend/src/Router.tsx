@@ -19,11 +19,13 @@ import ExamineeList from "./examinee-list/List";
 import ExamineeListAddModify from "./examinee-list/AddModify";
 import Test from "./test/List";
 import TestAddModify from "./test/AddModify";
+import TestDetails from "./test/Details";
 import Users from "./auth/user/List";
 import ModifyUser from "./auth/user/Modify";
-import AssignedTest from "./exam/Assigned-Test";
-import TakeTest from "./exam/Take-Test";
 import UserTests from "./user-tests/List";
+import TakeUserTest from "./user-tests/Take";
+import UserTestDetails from "./user-tests/Details";
+import UserHome from "./UserHome";
 
 export default function Router() {
     return (
@@ -112,9 +114,27 @@ export default function Router() {
                 <Route path="/tests" exact component={Test} />
                 <Route path="/test/new" exact component={TestAddModify} />
                 <Route path="/test/:id" exact component={TestAddModify} />
-                <Route path="/exams" exact component={AssignedTest} />
-                <Route path="/exam/new" exact component={TakeTest} />
+                <Route path="/test/details/:id" exact component={TestDetails} />
                 <Route path="/user-tests" exact component={UserTests} />
+                <Route
+                    path="/user-test/take/:testId"
+                    exact
+                    component={TakeUserTest}
+                />
+                <Route
+                    path="/user-test/take/:testId/:id"
+                    exact
+                    component={TakeUserTest}
+                />
+
+                <Route
+                    path="/user-test/details/:id"
+                    exact
+                    component={UserTestDetails}
+                />
+
+                <Route path="/home" exact component={UserHome} />
+
                 <Route path="*" component={Home} />
             </Switch>
         </BrowserRouter>

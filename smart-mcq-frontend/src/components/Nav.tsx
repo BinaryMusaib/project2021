@@ -9,6 +9,8 @@ import UserNav from "./UserNav";
 import GuestNav from "./GuestNav";
 import IfAdmin from "./IfAdmin";
 import AdminNav from "./AdminNav";
+import HomeIcon from "@mui/icons-material/Home";
+import NavBtn from "./NavBtn";
 
 export default function Nav() {
     return (
@@ -28,6 +30,11 @@ export default function Nav() {
                 </Typography>
                 <div className="padd">
                     <IfAuthenticated>
+                        <NavBtn
+                            text="Home"
+                            startIcon={<HomeIcon />}
+                            url="/home"
+                        />
                         <IfAdmin>
                             <AdminNav />
                         </IfAdmin>

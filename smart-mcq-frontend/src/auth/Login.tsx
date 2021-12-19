@@ -24,7 +24,7 @@ export default function Login() {
                     StorageService.setToken(
                         (res.body as AuthenticationDto).accessToken,
                     );
-                    history.push("/");
+                    history.push("/home");
                 })
                 .catch((res) => setErrors(res.errors)),
         );

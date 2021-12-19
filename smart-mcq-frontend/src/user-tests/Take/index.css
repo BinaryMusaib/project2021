@@ -1,0 +1,29 @@
+.user-test-progress {
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+    margin: 10px auto;
+    font-variant: small-caps;
+}
+
+.user-test-progress .progress-bar {
+    display: flex;
+    align-items: center;
+}
+
+.view-select {
+    margin-right: 10px;
+}
+
+.action-panel {
+    display: flex;
+    max-width: 700px;
+    margin: 0 auto;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.question-panel {
+    max-width: 800px;
+    margin: 20px auto;
+}

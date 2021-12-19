@@ -44,8 +44,8 @@ export class QuestionService {
                 questionTopics: {
                     deleteMany: {
                         topicId: {
-                            notIn: topics
-                        }
+                            notIn: topics,
+                        },
                     },
                     upsert: topics.map((topicId) => ({
                         create: { topicId },
@@ -55,33 +55,37 @@ export class QuestionService {
                                 topicId: topicId,
                                 questionId: id,
                             },
-                        }
+                        },
                     })),
                 },
                 options: {
                     deleteMany: {
                         id: {
-                            notIn: options.filter(o => !!o.id).map(o => o.id)
-                        }
+                            notIn: options
+                                .filter((o) => !!o.id)
+                                .map((o) => o.id),
+                        },
                     },
                     createMany: {
-                        data: options.filter(o => !o.id)
+                        data: options
+                            .filter((o) => !o.id)
                             .map(({ questionId, ...option }) => option),
                     },
-                    updateMany: options.filter(o => !!o.id)
+                    updateMany: options
+                        .filter((o) => !!o.id)
                         .map(({ questionId, id, ...option }) => ({
                             data: option,
                             where: {
-                                id
-                            }
-                        }))
+                                id,
+                            },
+                        })),
                 },
             },
             where: {
                 id_userId: {
                     id,
-                    userId
-                }
+                    userId,
+                },
             },
         });
     }
@@ -92,8 +96,8 @@ export class QuestionService {
                 where: {
                     id_userId: {
                         id,
-                        userId
-                    }
+                        userId,
+                    },
                 },
                 include: {
                     options: true,
@@ -112,8 +116,11 @@ export class QuestionService {
         };
     }
 
-    async getManyByTopic(userId: number, topicId: number, level?: QuestionLevel):
-        Promise<QuestionDto[]> {
+    async getManyByTopic(
+        userId: number,
+        topicId: number,
+        level?: QuestionLevel,
+    ): Promise<QuestionDto[]> {
         const levelQuery = level ? { level } : {};
         return (
             await this.prisma.question.findMany({
@@ -124,7 +131,7 @@ export class QuestionService {
                             topic: true,
                         },
                         where: {
-                            topicId
+                            topicId,
                         },
                     },
                 },
@@ -134,11 +141,11 @@ export class QuestionService {
                         some: {
                             topicId,
                             question: {
-                                ...levelQuery
-                            }
+                                ...levelQuery,
+                            },
                         },
-                    }
-                }
+                    },
+                },
             })
         ).map(({ questionTopics, ...rest }) => ({
             ...rest,
@@ -152,9 +159,42 @@ export class QuestionService {
             where: {
                 id_userId: {
                     id,
-                    userId
-                }
+                    userId,
+                },
             },
         });
+    }
+
+    calculateMarks(question: QuestionDto, answer: string): [number, number] {
+        const marks = this.levelToMarks(question.level);
+        const zero = [0, marks] as [number, number];
+
+        if (!answer) return zero;
+
+        const selection = new Set<number>(
+            answer.split(',').map((s) => Number.parseInt(s)),
+        );
+
+        for (const option of question.options) {
+            if (selection.has(option.id) != option.isCorrect) return zero;
+        }
+
+        return [marks, marks];
+    }
+
+    levelToMarks(level: QuestionLevel) {
+        switch (level) {
+            case 'Easy':
+                return 1;
+
+            case 'Medium':
+                return 2;
+
+            case 'Difficult':
+                return 3;
+
+            case 'Expert':
+                return 4;
+        }
     }
 }

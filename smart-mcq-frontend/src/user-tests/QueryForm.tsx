@@ -23,7 +23,9 @@ export default function QueryForm({ onSubmit }: QueryFormProps) {
     return (
         <form onSubmit={handleSubmit}>
             <Form fields={fields} data={filter} onChange={handleChange} />
-            <Button variant="contained">Filter</Button>
+            <Button type="submit" variant="contained">
+                Filter
+            </Button>
         </form>
     );
 }

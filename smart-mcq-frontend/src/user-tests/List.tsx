@@ -3,16 +3,13 @@ import UserTestService from "../services/user-test.service";
 import React from "react";
 import { FetchContext } from "../context";
 import Layout from "../components/Layout";
-import { List, ListItem, ListItemText, Paper, Fab } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import { useHistory } from "react-router-dom";
+import { Paper } from "@mui/material";
 import QueryForm from "./QueryForm";
 import { addMonths } from "date-fns";
+import ListPanel from "./ListPanel";
 
 export default function UserTestList() {
     const [userTests, setUserTests] = React.useState<UserTestDto[]>([]);
-
-    const history = useHistory();
     const { whileLoading } = React.useContext(FetchContext);
 
     const loadUserTests = React.useCallback(
@@ -37,29 +34,7 @@ export default function UserTestList() {
         <Layout title="UserTests">
             <Paper className="entity-list paper paper-list">
                 <QueryForm onSubmit={loadUserTests} />
-                <List>
-                    {userTests.map((userTest, index) => (
-                        <ListItem
-                            key={index}
-                            secondaryAction={
-                                <Fab
-                                    color="primary"
-                                    aria-label="edit"
-                                    size="small"
-                                    onClick={() =>
-                                        history.push(
-                                            `/start-test/${userTest.id}`,
-                                        )
-                                    }
-                                >
-                                    <EditIcon />
-                                </Fab>
-                            }
-                        >
-                            <ListItemText primary={userTest.test.title} />
-                        </ListItem>
-                    ))}
-                </List>
+                <ListPanel userTests={userTests} />
             </Paper>
         </Layout>
     );

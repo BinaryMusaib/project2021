@@ -1,0 +1,20 @@
+.user-test-details-header {
+    width: 600px;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.user-test-summary-paper {
+    width: 300px;
+}
+
+.user-test-details {
+    display: flex;
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.user-test-details > div {
+    margin-right: 20px;
+}
+

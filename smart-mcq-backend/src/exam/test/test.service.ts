@@ -37,9 +37,9 @@ export class TestService {
                         },
                         sheets: {
                             createMany: {
-                                data: questions.map(q => ({
+                                data: this.shuffle(questions.map(q => ({
                                     questionId: q.id,
-                                }))
+                                })))
                             }
                         }
 
@@ -87,6 +87,20 @@ export class TestService {
         });
     }
 
+    async closeTest(userId: number, id: number) {
+        await this.prisma.test.update({
+            data: {
+                closed: true
+            },
+            where: {
+                userId_id: {
+                    userId,
+                    id
+                }
+            }
+        });
+    }
+
     async getById(userId: number, id: number): Promise<TestDto> {
         return await this.prisma.test.findUnique({
             where: {
@@ -98,6 +112,23 @@ export class TestService {
         });
     }
 
+    async getDetailsById(userId: number, id: number): Promise<TestDto> {
+        return await this.prisma.test.findUnique({
+            where: {
+                userId_id: {
+                    userId,
+                    id
+                }
+            },
+            include: {
+                userTests: {
+                    include: {
+                        user: true,
+                    }
+                },
+            },
+        });
+    }
     async getByUserId(userId: number): Promise<TestDto[]> {
         return await this.prisma.test.findMany({
             where: {

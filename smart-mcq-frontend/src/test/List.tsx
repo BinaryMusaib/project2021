@@ -7,6 +7,8 @@ import { List, ListItem, ListItemText, Paper, Fab } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import { useHistory } from "react-router-dom";
+import DateRange from "../user-tests/DateRange";
+import { Link } from "react-router-dom";
 
 export default function TestList() {
     const [tests, setTests] = React.useState<TestDto[]>([]);
@@ -15,9 +17,7 @@ export default function TestList() {
     const { whileLoading } = React.useContext(FetchContext);
     React.useEffect(() => {
         whileLoading(
-            TestService.getAll().then((res) =>
-                setTests(res.body as TestDto[]),
-            ),
+            TestService.getAll().then((res) => setTests(res.body as TestDto[])),
         );
     }, [whileLoading]);
 
@@ -50,8 +50,12 @@ export default function TestList() {
                             }
                         >
                             <ListItemText
-                                primary={test.title}
-
+                                primary={
+                                    <Link to={`/test/details/${test.id}`}>
+                                        {test.title}
+                                    </Link>
+                                }
+                                secondary={<DateRange test={test} />}
                             />
                         </ListItem>
                     ))}

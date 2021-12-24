@@ -96,6 +96,7 @@ export default function AddModify() {
                     <Button type="submit" variant="contained" color="primary">
                         Save
                     </Button>
+                    &emsp;
                     <Button
                         onClick={handleDelete}
                         disabled={!id}

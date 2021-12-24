@@ -3,7 +3,7 @@ import React from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Form from "../Form";
 import { CreateExamineeListDto, CreateExamineesDto } from "../dto/question";
-import { Paper, Button,IconButton } from "@mui/material";
+import { Paper, Button, IconButton } from "@mui/material";
 import Layout from "../components/Layout";
 import { FetchContext } from "../context";
 import { FormError } from "../Form/types";
@@ -17,7 +17,7 @@ export default function AddModify() {
         initExaminee(),
     );
     const [errors, setErrors] = React.useState<FormError>();
-    const [examineeOptions, setExamineeOptions] = React.useState<SelectOption[]>([]);
+    const [examineeOptions] = React.useState<SelectOption[]>([]);
     const { id } = useParams<{ id: string }>();
     const { whileLoading } = React.useContext(FetchContext);
     const history = useHistory();
@@ -38,9 +38,7 @@ export default function AddModify() {
         (index: number) =>
             setExaminee(({ examinees, ...examinee }) => ({
                 ...examinee,
-                examinees: examinees.filter(
-                    (e, eIndex) => eIndex !== index,
-                ),
+                examinees: examinees.filter((e, eIndex) => eIndex !== index),
             })),
         [],
     );
@@ -78,7 +76,10 @@ export default function AddModify() {
                         onChange={handleChange}
                         errors={errors}
                     />
-                    <Table columns={examineeColumns} data={examinee.examinees} />
+                    <Table
+                        columns={examineeColumns}
+                        data={examinee.examinees}
+                    />
                     <ExamineesDialog
                         examineeOptions={examineeOptions}
                         onSave={handleSave}
@@ -93,7 +94,6 @@ export default function AddModify() {
         </Layout>
     );
 }
-
 
 function initExaminee(): CreateExamineeListDto {
     return {

@@ -172,7 +172,7 @@ model UserTest {
 model Result {
     id          Int  @id @default(autoincrement()) 
     userTestId  Int
-    UserTest    UserTest @relation(fields: [userTestId], references: [id])
+    userTest    UserTest @relation(fields: [userTestId], references: [id])
     marks       Int @default(0)
     totalMarks  Int @default(0)
     topicId     Int

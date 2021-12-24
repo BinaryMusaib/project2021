@@ -24,7 +24,7 @@ export default function TestDetails() {
                 ),
             );
         },
-        [whileLoading, id],
+        [whileLoading],
     );
 
     const handleClose = () => {
@@ -37,7 +37,7 @@ export default function TestDetails() {
     React.useEffect(() => {
         const testId = Number.parseInt(id);
         if (!Number.isNaN(testId)) loadTest(testId);
-    }, [loadTest]);
+    }, [loadTest, id]);
 
     if (!test) return <LoadingPage />;
 

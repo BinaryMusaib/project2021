@@ -9,7 +9,7 @@ import {
     CardActions,
     Button,
 } from "@mui/material";
-import { AnswerSheetDto, OptionDto, QuestionDto } from "../../dto/question";
+import { AnswerSheetDto, OptionDto } from "../../dto/question";
 import React from "react";
 import OptionItem from "./OptionItem";
 import "./QuestionPanel.css";

@@ -5,7 +5,6 @@ import NavMenuItem from "./NavMenuItem";
 import UserIcon from "@mui/icons-material/AccountBox";
 import AdminIcon from "@mui/icons-material/AdminPanelSettings";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import React from "react";
 
 export default function AdminNav() {

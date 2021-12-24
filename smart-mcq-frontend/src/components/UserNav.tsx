@@ -80,6 +80,13 @@ export default function UserNav() {
                     description="Manage your list of students/examinees"
                     startIcon={<GroupIcon />}
                 />
+                <NavMenuItem
+                    url="/subjects-undertaken"
+                    startIcon={<MyTestIcon />}
+                    text="Subject Statistics"
+                    description="Your performance statistics"
+                />
+
                 <Divider />
                 <MenuItem className="navbtn" onClick={handleLogout}>
                     <ListItemIcon>

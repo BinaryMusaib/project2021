@@ -2,10 +2,12 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { QuestionPaperTopic } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuestionPaperService } from 'src/question/question-paper/question-paper.service';
-import { QuestionDto } from 'src/question/question.dto';
 import { QuestionService } from 'src/question/question.service';
+import { SubjectDto } from 'src/question/subject/subject.dto';
 import { AnswerSheetDto } from './answer-sheet.dto';
 import { CreateResultDto } from './create-result.dto';
+import { ResultDto } from './result.dto';
+import { SubjectStatisticsFilterDto } from './subject-statistics-filter.dto';
 import { UserTestDetailsDto } from './user-test-details.dto';
 import { UserTestFilterDto } from './user-test-filter.dto';
 import { UserTestDto } from './user-test.dto';
@@ -419,4 +421,84 @@ export class UserTestService {
             },
         });
     }
+
+    async getSubjectsUndertaken(userId: number): Promise<SubjectDto[]> {
+        const userTests = await this.prisma.userTest.findMany({
+            where: {
+                user: {
+                    id: userId
+                }
+            },
+            include: {
+                test: {
+                    include: {
+                        paper: {
+                            include: {
+                                paperTopics: {
+                                    include: {
+                                        topic: {
+                                            include: {
+                                                subject: true
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        const subjectMap = new Map<number, SubjectDto>();
+        for (const subjects of userTests
+            .map(ut => ut.test.paper.paperTopics.map(pt => pt.topic.subject)))
+            for (const subject of subjects)
+                if (!subjectMap.has(subject.id))
+                    subjectMap.set(subject.id, subject);
+
+        return Array.from(subjectMap.values());
+    }
+
+    async getSubjectStatistics(
+        currentUserId: number,
+        { userId, subjectId, startTime, endTime }: SubjectStatisticsFilterDto):
+        Promise<ResultDto[]> {
+        return await this.prisma.result.findMany({
+            where: {
+                topic: {
+                    topic: {
+                        subject: {
+                            id: subjectId
+                        }
+                    }
+                },
+                userTest: {
+                    userId: userId || currentUserId,
+                    startTime: {
+                        gte: startTime,
+                        lte: endTime
+                    },
+                    OR: [
+                        {
+                            userId: currentUserId
+                        },
+                        {
+                            test: {
+                                userId: currentUserId
+                            }
+                        }
+                    ],
+                },
+            },
+            include: {
+                topic: {
+                    include: {
+                        topic: true
+                    }
+                }
+            }
+        });
+    }
+
 }

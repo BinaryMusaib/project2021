@@ -45,13 +45,6 @@ export default function TakeTest() {
 
     if (!userTest || !sheet) return <LoadingPage />;
 
-    const saveAnswer = (answer: string) => {
-        UserTestService.answer(Number.parseInt(testId), {
-            answerSheetId: sheet.id,
-            answer,
-        });
-    };
-
     const handleNext = () => {
         if (userTest) {
             const next = Math.min(

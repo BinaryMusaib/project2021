@@ -54,7 +54,9 @@ export const removeZerosInIds = (body: any | any[]) => {
 const defaultDateKey = (key: string): boolean =>
     key.indexOf("Date") !== -1 ||
     key.indexOf("date") === 0 ||
-    key.indexOf("Time") !== -1;
+    key.indexOf("Time") !== -1 ||
+    key === "createdAt" ||
+    key === "updatedAt";
 
 export function lowercaseFirstLetter(key: string) {
     if (key.toUpperCase() === key) return key.toLocaleLowerCase();

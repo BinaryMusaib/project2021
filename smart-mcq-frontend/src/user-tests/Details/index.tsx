@@ -1,13 +1,12 @@
 import { useParams } from "react-router-dom";
 import React from "react";
-import { TopicDto, UserTestDetailsDto } from "../../dto/question";
+import { UserTestDetailsDto } from "../../dto/question";
 import UserTestService from "../../services/user-test.service";
 import { FetchContext } from "../../context";
 import LoadingPage from "../../components/LoadingPage";
 import Layout from "../../components/Layout";
 import Header from "./Header";
 import Summary from "./Summary";
-import TopicService from "../../services/topic.service";
 import { Box } from "@mui/material";
 import SheetPanel from "../Take/SheetPanel";
 import "./index.css";
@@ -26,7 +25,7 @@ export default function UserTestDetails() {
                     setUserTestDetails(res.body!),
                 ),
             );
-    }, [id]);
+    }, [id, whileLoading]);
 
     if (!userTestDetails) return <LoadingPage />;
 

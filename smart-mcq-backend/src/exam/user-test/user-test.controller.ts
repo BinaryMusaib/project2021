@@ -15,6 +15,7 @@ import { UserTestService } from './user-test.service';
 import { SetAnswerDto } from './set-answer.dto';
 import { UserTestFilterDto } from './user-test-filter.dto';
 import { UserTestDto } from './user-test.dto';
+import { SubjectStatisticsFilterDto } from './subject-statistics-filter.dto';
 
 enum TestStatus {
     InProgress,
@@ -136,5 +137,18 @@ export class UserTestController {
         else if (now > userTest.test.endTime.valueOf())
             return TestStatus.Finished;
         else return TestStatus.InProgress;
+    }
+
+    @Post('subject/statistics')
+    async getSubjectStatistics(
+        @User() user: UserPrincipal, @Body() filter: SubjectStatisticsFilterDto) {
+        return this.UserTestService.getSubjectStatistics(user.id, filter);
+    }
+
+    @Get('subjects/under-taken')
+    async getSubjectsUndertaken(
+        @User() user: UserPrincipal
+    ) {
+        return this.UserTestService.getSubjectsUndertaken(user.id);
     }
 }

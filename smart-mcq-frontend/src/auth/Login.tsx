@@ -4,7 +4,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import Form from "../Form/index";
 import AuthService from "../services/auth.service";
-import { AuthDto, AuthenticationDto } from "../dto";
+import { AuthDto } from "../dto";
 import { FormError } from "../Form/types";
 import { FetchContext } from "../context";
 import StorageService from "../services/storage.services";
@@ -21,9 +21,7 @@ export default function Login() {
         whileLoading(
             AuthService.authenticate(loginData)
                 .then((res) => {
-                    StorageService.setToken(
-                        (res.body as AuthenticationDto).accessToken,
-                    );
+                    StorageService.setToken(res.body!.accessToken);
                     history.push("/home");
                 })
                 .catch((res) => setErrors(res.errors)),

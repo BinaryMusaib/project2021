@@ -183,6 +183,26 @@ export interface AnswerSheetDto {
 export interface ResultDto {
     userTestId: number;
     topicId: number;
+    topic?: PaperTopicDto;
     marks: number;
-    totalMarks: number
+    totalMarks: number;
+    createdAt: Date,
+    updatedAt: Date,
+}
+
+export interface TopicStatisticsFilterDto {
+    topicId: number,
+    userId?: number,
+    startTime: Date,
+    endTime: Date
+}
+
+export type PeriodType = "Monthly" | "Daily";
+
+export interface SubjectStatisticsFilterDto {
+    subjectId: number,
+    userId?: number,
+    startTime: Date,
+    endTime: Date,
+    period?: PeriodType
 }

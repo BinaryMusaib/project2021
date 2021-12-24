@@ -26,6 +26,8 @@ import UserTests from "./user-tests/List";
 import TakeUserTest from "./user-tests/Take";
 import UserTestDetails from "./user-tests/Details";
 import UserHome from "./UserHome";
+import SubjectsUndertaken from "./SubjectsUndertaken";
+import SubjectStatistics from "./user-tests/SubjectStatistics";
 
 export default function Router() {
     return (
@@ -131,6 +133,18 @@ export default function Router() {
                     path="/user-test/details/:id"
                     exact
                     component={UserTestDetails}
+                />
+
+                <Route
+                    path="/statistics/subject/:id"
+                    exact
+                    component={SubjectStatistics}
+                />
+
+                <Route
+                    path="/subjects-undertaken"
+                    exact
+                    component={SubjectsUndertaken}
                 />
 
                 <Route path="/home" exact component={UserHome} />

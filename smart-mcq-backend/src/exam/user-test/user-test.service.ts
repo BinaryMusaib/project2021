@@ -143,7 +143,7 @@ export class UserTestService {
 
     async startTest(userId: number, dto: UserTestDto): Promise<UserTestDto> {
         const startTime = new Date();
-        const paper = await this.paperService.getById(dto.test.userId, dto.test.listId);
+        const paper = await this.paperService.getById(dto.test.userId, dto.test.paperId);
         const endTime = new Date(
             startTime.valueOf() + paper.duration * 1000 * 60,
         );

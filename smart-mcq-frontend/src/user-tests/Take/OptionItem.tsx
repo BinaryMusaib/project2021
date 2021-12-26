@@ -26,7 +26,7 @@ export default function OptionItem({
 }: OptionItemProps) {
     const label = `question-checkbox-${option.id}`;
     return (
-        <ListItem disablePadding>
+        <ListItem disablePadding dense>
             <ListItemButton
                 sx={{ color: getColor(option, answers) }}
                 disabled={disabled}

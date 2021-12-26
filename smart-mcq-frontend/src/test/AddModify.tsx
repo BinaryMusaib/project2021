@@ -92,6 +92,7 @@ export default function AddModify() {
                     <Button type="submit" variant="contained" color="primary">
                         Save
                     </Button>
+                    &emsp;
                     <Button
                         type="button"
                         variant="contained"

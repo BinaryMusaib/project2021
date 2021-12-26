@@ -5,4 +5,5 @@ export class TestDto extends CreateTestDto {
     id: number;
     closed: boolean;
     user?: UserDto
+    userId: number;
 }

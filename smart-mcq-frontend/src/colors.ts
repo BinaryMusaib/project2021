@@ -1,6 +1,6 @@
 
 export enum Colors {
-    Error = "lightRed",
-    Correct = "red",
+    Error = "crimson",
+    Correct = "mediumseagreen",
     Primary = "#1976d2"
 }

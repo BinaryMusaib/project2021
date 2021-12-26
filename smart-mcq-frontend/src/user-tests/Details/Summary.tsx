@@ -6,6 +6,7 @@ import {
     ListItemText,
     Paper,
 } from "@mui/material";
+import { Colors } from "../../colors";
 import { PaperTopicDto, ResultDto } from "../../dto/question";
 
 type SummaryProps = {
@@ -28,7 +29,9 @@ export default function Summary({ results, topics }: SummaryProps) {
                                 secondary={`${result.marks} / ${result.totalMarks}`}
                             />
                             <ListItemAvatar>
-                                <Avatar sx={{ fontSize: 12, bgcolor: "green" }}>
+                                <Avatar
+                                    sx={{ fontSize: 12, bgcolor: Colors.Primary }}
+                                >
                                     {percentage(result)}%
                                 </Avatar>
                             </ListItemAvatar>

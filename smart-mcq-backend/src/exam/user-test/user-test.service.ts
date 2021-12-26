@@ -1,13 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { QuestionPaperTopic } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { QuestionPaperService } from 'src/question/question-paper/question-paper.service';
 import { QuestionService } from 'src/question/question.service';
 import { SubjectDto } from 'src/question/subject/subject.dto';
-import { AnswerSheetDto } from './answer-sheet.dto';
-import { CreateResultDto } from './create-result.dto';
-import { ResultDto } from './result.dto';
-import { SubjectStatisticsFilterDto } from './subject-statistics-filter.dto';
 import { UserTestDetailsDto } from './user-test-details.dto';
 import { UserTestFilterDto } from './user-test-filter.dto';
 import { UserTestDto } from './user-test.dto';
@@ -103,7 +98,7 @@ export class UserTestService {
                     not: null,
                 },
                 endTime: {
-                    lte: new Date(),
+                    gte: new Date(),
                 },
                 test: {
                     endTime: {
@@ -148,7 +143,7 @@ export class UserTestService {
 
     async startTest(userId: number, dto: UserTestDto): Promise<UserTestDto> {
         const startTime = new Date();
-        const paper = await this.paperService.getById(userId, dto.test.listId);
+        const paper = await this.paperService.getById(dto.test.userId, dto.test.listId);
         const endTime = new Date(
             startTime.valueOf() + paper.duration * 1000 * 60,
         );

@@ -31,6 +31,7 @@ function initFilter() {
     return {
         startDate: new Date(),
         endDate: new Date(),
+        subjectId: 0,
     };
 }
 

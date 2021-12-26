@@ -61,7 +61,9 @@ export default function OptionItem({
 }
 
 function getColor(option: OptionDto, answers: number[]) {
+    if (option.isCorrect === undefined) return undefined;
     if (!answers.includes(option.id) && option.isCorrect) return "green";
-    else if (answers.includes(option.id) && !option.isCorrect) return "red";
+    else if (answers.includes(option.id) && !option.isCorrect)
+        return "lightred";
     else return undefined;
 }

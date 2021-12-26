@@ -15,7 +15,8 @@ import { UserTestService } from './user-test.service';
 import { SetAnswerDto } from './set-answer.dto';
 import { UserTestFilterDto } from './user-test-filter.dto';
 import { UserTestDto } from './user-test.dto';
-import { SubjectStatisticsFilterDto } from './subject-statistics-filter.dto';
+import { SubjectStatisticsFilterDto } from '../result/subject-statistics-filter.dto';
+import { ResultService } from '../result/result.service';
 
 enum TestStatus {
     InProgress,
@@ -25,7 +26,8 @@ enum TestStatus {
 
 @Controller('user-test')
 export class UserTestController {
-    constructor(private UserTestService: UserTestService) { }
+    constructor(private userTestService: UserTestService,
+        private resultService: ResultService) { }
 
     @Get(':userTestId')
     async getById(
@@ -36,7 +38,7 @@ export class UserTestController {
     }
 
     private async getUserTest(userId: number, id: number) {
-        const userTest = await this.UserTestService.getUserTest(userId, id);
+        const userTest = await this.userTestService.getUserTest(userId, id);
         if (!userTest) throw new NotFoundException();
         return userTest;
     }
@@ -46,12 +48,12 @@ export class UserTestController {
         @Param('userTestId', ParseIntPipe) id: number,
         @User() user: UserPrincipal,
     ) {
-        return await this.UserTestService.getUserTestDetails(user.id, id);
+        return await this.userTestService.getUserTestDetails(user.id, id);
     }
 
     @Get()
     async getUserTests(@User() user: UserPrincipal) {
-        return await this.UserTestService.getUserTests(user.id);
+        return await this.userTestService.getUserTests(user.id);
     }
 
     @Post('query')
@@ -59,21 +61,21 @@ export class UserTestController {
         @Body() filter: UserTestFilterDto,
         @User() user: UserPrincipal,
     ) {
-        return await this.UserTestService.queryUserTests(user.id, filter);
+        return await this.userTestService.queryUserTests(user.id, filter);
     }
 
     @Get('list/upcoming')
     async getUpcomingTests(
         @User() user: UserPrincipal,
     ) {
-        return await this.UserTestService.getUpcomingTests(user.id);
+        return await this.userTestService.getUpcomingTests(user.id);
     }
 
     @Get('list/in-progress')
     async getInProgressTests(
         @User() user: UserPrincipal,
     ) {
-        return await this.UserTestService.getInProgressTests(user.id);
+        return await this.userTestService.getInProgressTests(user.id);
     }
 
     @Post('start/:userTestId')
@@ -84,7 +86,7 @@ export class UserTestController {
         const userTest = await this.getUserTest(user.id, id);
         try {
             this.ensureTestInProgress(userTest);
-            return this.UserTestService.startTest(user.id, userTest);
+            return this.userTestService.startTest(user.id, userTest);
         } catch (ex) {
             return userTest;
         }
@@ -95,7 +97,7 @@ export class UserTestController {
         @Param('userTestId', ParseIntPipe) id: number,
         @User() user: UserPrincipal,
     ) {
-        this.UserTestService.finishTest(user.id, id);
+        this.userTestService.finishTest(user.id, id);
     }
 
     @Put('answer/:userTestId')
@@ -107,7 +109,7 @@ export class UserTestController {
         const userTest = await this.getUserTest(user.id, id);
         this.ensureTestInProgress(userTest);
         this.ensureUserTestInProgress(userTest);
-        await this.UserTestService.setAnswer(userTest.id, answerSheetId, answer);
+        await this.userTestService.setAnswer(userTest.id, answerSheetId, answer);
     }
 
     private ensureTestInProgress(userTest: UserTestDto) {
@@ -142,13 +144,19 @@ export class UserTestController {
     @Post('subject/statistics')
     async getSubjectStatistics(
         @User() user: UserPrincipal, @Body() filter: SubjectStatisticsFilterDto) {
-        return this.UserTestService.getSubjectStatistics(user.id, filter);
+        return this.resultService.getUserSubjectStatistics(user.id, filter);
+    }
+
+    @Post('subject/statistics/mentor')
+    async getMentorSubjectStatistics(
+        @User() user: UserPrincipal, @Body() filter: SubjectStatisticsFilterDto) {
+        return this.resultService.getMentorSubjectStatistics(user.id, filter);
     }
 
     @Get('subjects/under-taken')
     async getSubjectsUndertaken(
         @User() user: UserPrincipal
     ) {
-        return this.UserTestService.getSubjectsUndertaken(user.id);
+        return this.userTestService.getSubjectsUndertaken(user.id);
     }
 }

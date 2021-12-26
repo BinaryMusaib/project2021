@@ -192,4 +192,3 @@ model AnswerSheet {
     createdAt   DateTime @default(now())
     @@unique([id, userTestId])
 }
-

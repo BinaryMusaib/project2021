@@ -6,7 +6,7 @@ import Layout from "../components/Layout";
 import { List, ListItem, ListItemText, Paper, Fab } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function ExamineeList() {
     const [examinees, setExaminees] = React.useState<ExamineeListDto[]>([]);
@@ -51,10 +51,13 @@ export default function ExamineeList() {
                                 </Fab>
                             }
                         >
-                            <ListItemText
-                                primary={examinee.title}
-                                secondary={examinee.description}
-                            />
+                            <ListItemText secondary={examinee.description}>
+                                <Link
+                                    to={`/examinee-list/details/${examinee.id}`}
+                                >
+                                    {examinee.title}
+                                </Link>
+                            </ListItemText>
                         </ListItem>
                     ))}
                 </List>

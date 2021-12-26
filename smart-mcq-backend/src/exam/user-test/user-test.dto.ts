@@ -19,4 +19,5 @@ export class UserTestDto {
     marks: number;
 
     totalMarks: number;
+
 }

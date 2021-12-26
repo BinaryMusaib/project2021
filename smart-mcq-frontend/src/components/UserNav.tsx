@@ -15,6 +15,7 @@ import React from "react";
 import AuthService from "../services/auth.service";
 import { useHistory } from "react-router-dom";
 import MyTestIcon from "@mui/icons-material/Assessment";
+import { ListItem } from "@mui/material";
 
 export default function UserNav() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -54,18 +55,36 @@ export default function UserNav() {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
+                <MenuItem disabled={true}>
+                    <ListItem>
+                        <ListItemText>Your Tests</ListItemText>
+                    </ListItem>
+                </MenuItem>
+
                 <NavMenuItem
                     url="/home"
                     startIcon={<MyTestIcon />}
-                    text="Take a Test"
+                    text="Take a test"
                     description="Take a test you have been assigned"
                 />
 
                 <NavMenuItem
+                    url="/subjects-undertaken"
+                    startIcon={<MyTestIcon />}
+                    text="Subject Statistics"
+                    description="Your performance statistics"
+                />
+                <Divider />
+                <MenuItem disabled={true}>
+                    <ListItem>
+                        <ListItemText>Mentoring</ListItemText>
+                    </ListItem>
+                </MenuItem>
+                <NavMenuItem
                     url="/tests"
                     startIcon={<QuizIcon />}
-                    text="Create Test"
-                    description="Create your own tests"
+                    text="Tests"
+                    description="Create & manage your own tests"
                 />
 
                 <NavMenuItem
@@ -79,12 +98,6 @@ export default function UserNav() {
                     text="Examinee Lists"
                     description="Manage your list of students/examinees"
                     startIcon={<GroupIcon />}
-                />
-                <NavMenuItem
-                    url="/subjects-undertaken"
-                    startIcon={<MyTestIcon />}
-                    text="Subject Statistics"
-                    description="Your performance statistics"
                 />
 
                 <Divider />

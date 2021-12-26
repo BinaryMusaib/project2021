@@ -16,6 +16,7 @@ export default class UserTestService {
             body: {
                 startDate: startOfDay(filter.startDate),
                 endDate: endOfDay(filter.endDate),
+                subjectId: filter.subjectId
             },
         });
     }

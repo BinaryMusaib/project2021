@@ -34,8 +34,6 @@ type Route = {
 
 function selectRoute(userTest: UserTestDto): Route {
     const status = testStatus(userTest);
-
-    console.log(status, userTest.test);
     switch (status) {
         case UserTestStatus.InProgress:
             return {

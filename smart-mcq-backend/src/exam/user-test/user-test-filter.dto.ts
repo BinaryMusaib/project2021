@@ -7,4 +7,6 @@ export class UserTestFilterDto {
 
     @IsNotEmpty()
     endDate: Date;
+
+    subjectId?: number;
 }

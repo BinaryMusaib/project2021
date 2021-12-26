@@ -16,7 +16,6 @@ type PlotProps = {
 };
 
 export default function Plot({ marksSummary, grouperFormatter }: PlotProps) {
-    console.log(marksSummary.topic);
     return (
         <Card className="statistics-plot-card">
             <CardHeader

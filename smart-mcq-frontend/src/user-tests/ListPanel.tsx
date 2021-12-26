@@ -3,6 +3,7 @@ import { List, ListItem, ListItemText } from "@mui/material";
 import UserTestRouter from "./UserTestRouter";
 import UserTestText from "./UserTestText";
 import DateRange from "./DateRange";
+import UserName from "./UserName";
 import "./ListPanel.css";
 
 type ListPanelProps = {
@@ -19,7 +20,12 @@ export default function ListPanel({ userTests }: ListPanelProps) {
                 >
                     <ListItemText
                         primary={<UserTestText userTest={userTest} />}
-                        secondary={<DateRange test={userTest.test} />}
+                        secondary={
+                            <span className="list-panel-secondary">
+                                <DateRange test={userTest.test} />
+                                <UserName user={userTest.test.user} />
+                            </span>
+                        }
                     />
                 </ListItem>
             ))}

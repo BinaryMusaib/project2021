@@ -5,8 +5,8 @@ export interface FormField {
     name: string;
     label: string;
     type: string;
-    options?: SelectOption[]
-    coerce?: 'int'
+    options?: SelectOption[];
+    coerce?: 'int';
     multiple?: boolean
     rows?: number
     disabled?: boolean

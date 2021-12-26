@@ -9,10 +9,12 @@ import { QuestionPaperService } from 'src/question/question-paper/question-paper
 import { QuestionModule } from 'src/question/question.module';
 import { UserTestService } from './user-test/user-test.service';
 import { UserTestController } from './user-test/user-test.controller';
+import { ResultService } from './result/result.service';
+import { PrepareResultService } from './prepare-result/prepare-result.service';
 
 @Module({
     imports: [PrismaModule, QuestionModule],
-    providers: [ExamineeListService, TestService, UserTestService],
+    providers: [ExamineeListService, TestService, UserTestService, ResultService, PrepareResultService],
     controllers: [ExamineeListController, TestController, UserTestController]
 })
 export class ExamModule { }

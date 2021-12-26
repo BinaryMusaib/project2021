@@ -129,6 +129,7 @@ export class TestService {
             },
         });
     }
+
     async getByUserId(userId: number): Promise<TestDto[]> {
         return await this.prisma.test.findMany({
             where: {

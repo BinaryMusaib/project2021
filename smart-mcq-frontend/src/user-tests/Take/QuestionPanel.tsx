@@ -41,7 +41,6 @@ export default function QuestionPanel({
         else set.add(option.id);
         const newAnswers = Array.from(set);
         setAnswers(newAnswers);
-        console.log("Select...");
         onSelect(newAnswers.join(","));
     };
 

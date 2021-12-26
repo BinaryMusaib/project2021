@@ -10,3 +10,7 @@
     font-variant: small-caps;
     margin-left:10px;
 }
+
+.user-name {
+    font-size: 0.8rem !important;
+}

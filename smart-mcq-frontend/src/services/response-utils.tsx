@@ -43,7 +43,6 @@ export function removeSpaces<T>(data: T | T[]): T | T[] {
 
 export const removeZerosInIds = (body: any | any[]) => {
     if (!body) return;
-
     if (Array.isArray(body)) body.forEach((e) => removeZerosInIds(e));
     else
         Object.keys(body).forEach((key: string) => {

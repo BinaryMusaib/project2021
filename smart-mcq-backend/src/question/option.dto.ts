@@ -1,5 +1,6 @@
-import { CreateOptionDto } from "./create-options.dto";
 
-export interface OptionDto extends CreateOptionDto {
+export interface OptionDto {
     id: number;
+    text: string;
+    isCorrect?: boolean;
 }

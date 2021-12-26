@@ -103,6 +103,7 @@ export interface CreateExamineeListDto {
 
 export interface ExamineeListDto extends CreateExamineeListDto {
     id: number;
+    examinees: UserDto[]
 }
 
 export interface CreateExamineesDto {
@@ -129,6 +130,7 @@ export interface UpdateTestDto {
 export interface TestDto extends CreateTestDto {
     id: number;
     closed: boolean;
+    user?: UserDto
 }
 
 export interface UserTestLightDto {
@@ -164,7 +166,8 @@ export interface UserTestDetailsDto extends UserTestDto {
 
 export interface UserTestFilterDto {
     startDate: Date,
-    endDate: Date
+    endDate: Date,
+    subjectId: number;
 }
 
 export interface SetAnswerDto {
@@ -184,6 +187,9 @@ export interface ResultDto {
     userTestId: number;
     topicId: number;
     topic?: PaperTopicDto;
+    userTest?: UserTestDto & {
+        user: UserDto
+    };
     marks: number;
     totalMarks: number;
     createdAt: Date,
@@ -200,7 +206,7 @@ export interface TopicStatisticsFilterDto {
 export type PeriodType = "Monthly" | "Daily";
 
 export interface SubjectStatisticsFilterDto {
-    subjectId: number,
+    subjectId?: number,
     userId?: number,
     startTime: Date,
     endTime: Date,

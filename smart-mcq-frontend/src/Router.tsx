@@ -17,9 +17,11 @@ import QuestionPaperList from "./question-paper/List";
 import QuestionPaperAddModify from "./question-paper/AddModify";
 import ExamineeList from "./examinee-list/List";
 import ExamineeListAddModify from "./examinee-list/AddModify";
+import ExamineeListDetails from "./examinee-list/Details";
 import Test from "./test/List";
 import TestAddModify from "./test/AddModify";
 import TestDetails from "./test/Details";
+import TestStatistics from "./test/Details/Plot";
 import Users from "./auth/user/List";
 import ModifyUser from "./auth/user/Modify";
 import UserTests from "./user-tests/List";
@@ -27,7 +29,8 @@ import TakeUserTest from "./user-tests/Take";
 import UserTestDetails from "./user-tests/Details";
 import UserHome from "./UserHome";
 import SubjectsUndertaken from "./SubjectsUndertaken";
-import SubjectStatistics from "./user-tests/SubjectStatistics";
+import UserTestStatistics from "./user-tests/Statistics";
+import ExamineeStatistics from "./examinee-list/Details/Statistics";
 
 export default function Router() {
     return (
@@ -108,6 +111,11 @@ export default function Router() {
                     exact
                     component={ExamineeListAddModify}
                 />
+                <Route
+                    path="/examinee-list/details/:id"
+                    exact
+                    component={ExamineeListDetails}
+                />
                 <Route path="/tests" exact component={Test} />
                 <Route path="/test/new" exact component={TestAddModify} />
                 <Route path="/test/:id" exact component={TestAddModify} />
@@ -117,6 +125,16 @@ export default function Router() {
                 <Route path="/test/new" exact component={TestAddModify} />
                 <Route path="/test/:id" exact component={TestAddModify} />
                 <Route path="/test/details/:id" exact component={TestDetails} />
+                <Route
+                    path="/test/statistics/:id"
+                    exact
+                    component={TestStatistics}
+                />
+                <Route
+                    path="/examinee/statistics/:userId"
+                    exact
+                    component={ExamineeStatistics}
+                />
                 <Route path="/user-tests" exact component={UserTests} />
                 <Route
                     path="/user-test/take/:testId"
@@ -136,9 +154,9 @@ export default function Router() {
                 />
 
                 <Route
-                    path="/statistics/subject/:id"
+                    path="/user-test/statistics/:id"
                     exact
-                    component={SubjectStatistics}
+                    component={UserTestStatistics}
                 />
 
                 <Route

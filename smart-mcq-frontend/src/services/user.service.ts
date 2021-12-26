@@ -3,6 +3,12 @@ import { UpdateUserDto, UserDto } from "../dto";
 
 export default class UserService {
 
+    static async query(query: string) {
+        return await Fetch.getJSON<UserDto[]>(
+            `/api/user/query/list?query=${encodeURIComponent(query)}`
+        );
+    }
+
     static async getAll() {
         return await Fetch.getJSON<UserDto[]>('/api/user');
     }

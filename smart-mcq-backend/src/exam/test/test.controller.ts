@@ -11,7 +11,9 @@ import {
 } from '@nestjs/common';
 import { User } from 'src/user/user.decorator';
 import { UserPrincipal } from 'src/user/user.principal';
-import { UserTestService } from '../user-test/user-test.service';
+import { PrepareResultService } from '../prepare-result/prepare-result.service';
+import { ResultService } from '../result/result.service';
+import { SubjectStatisticsFilterDto } from '../result/subject-statistics-filter.dto';
 import { CreateTestDto } from './create-test.dto';
 import { TestService } from './test.service';
 import { UpdateTestDto } from './update-test.dto';
@@ -19,7 +21,8 @@ import { UpdateTestDto } from './update-test.dto';
 @Controller('test')
 export class TestController {
     constructor(private testService: TestService,
-        private userTestService: UserTestService) { }
+        private prepareResultService: PrepareResultService,
+        private resultService: ResultService) { }
 
     @Get(':id')
     async getById(
@@ -56,7 +59,7 @@ export class TestController {
         @Param('id', ParseIntPipe) id: number,
         @User() user: UserPrincipal,
     ) {
-        this.userTestService.prepareTestResults(user.id, id);
+        this.prepareResultService.prepare(user.id, id);
         await this.testService.closeTest(user.id, id);
     }
 
@@ -67,6 +70,19 @@ export class TestController {
         @User() user: UserPrincipal,
     ) {
         await this.testService.update(user.id, id, dto);
+    }
+
+    @Post('subject/statistics')
+    async getSubjectStatistics(
+        @User() user: UserPrincipal, @Body() filter: SubjectStatisticsFilterDto) {
+        return this.resultService.getMentorSubjectStatistics(user.id, filter);
+    }
+
+    @Get(':id/statistics')
+    async getTestStatistics(
+        @Param('id', ParseIntPipe) id: number,
+        @User() user: UserPrincipal) {
+        return await this.resultService.getTestStatistics(user.id, id);
     }
 
     @Delete(':id')

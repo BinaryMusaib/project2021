@@ -13,7 +13,7 @@ export default function Actions({ userTest }: ActionsProps) {
     return (
         <Box>
             <IconButton onClick={toDetails}>
-                <DetailsIcon />
+                <DetailsIcon color="primary" />
             </IconButton>
         </Box>
     );

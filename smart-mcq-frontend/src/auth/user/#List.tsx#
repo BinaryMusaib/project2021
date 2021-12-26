@@ -1,0 +1,32 @@
+import { UserDto } from "../../dto";
+import UserService from "../../services/user.service";
+import React from "react";
+import { FetchContext } from "../../context";
+import Layout from "../../components/Layout";
+import { Paper } from "@mui/material";
+import QueryForm from "./QueryForm";
+import ListPanel from "./ListPanel";
+
+export default function UserList() {
+    const [users, setUsers] = React.useState<UserDto[]>([]);
+    const { whileLoading } = React.useContext(FetchContext);
+
+    const handleFilter = React.useCallback(
+        (query: string) => {
+            return whileLoading(
+                UserService.query(query).then((res) => setUsers(res.body!)),
+            );
+            
+        },
+        [whileLoading],
+    );
+
+    return (
+        <Layout title="Users">
+            <Paper className="entity-list paper paper-list">
+                <QueryForm onFilter={handleFilter} />
+                <ListPanel users={users} />
+            </Paper>
+        </Layout>
+    );
+}

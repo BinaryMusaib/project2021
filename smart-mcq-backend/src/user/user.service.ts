@@ -12,7 +12,6 @@ const randomstring = require('randomstring');
 
 @Injectable()
 export class UserService {
-
     private static SALT_ROUNDS = 10;
     private static _10Days = 1000 * 60 * 60 * 24 * 10;
 
@@ -25,12 +24,12 @@ export class UserService {
                 ...userDto,
                 otp: await bcrypt.hash(otp, UserService.SALT_ROUNDS),
                 otpExpiry: new Date(new Date().getTime() + UserService._10Days),
-            }
+            },
         });
 
         return {
             ...user,
-            otp
+            otp,
         };
     }
 
@@ -38,8 +37,8 @@ export class UserService {
         await this.prisma.user.update({
             data: dto,
             where: {
-                id
-            }
+                id,
+            },
         });
     }
 
@@ -50,16 +49,18 @@ export class UserService {
     async getById(id: number): Promise<UserDto> {
         return await this.prisma.user.findUnique({
             where: {
-                id
-            }
+                id,
+            },
         });
     }
 
     async setPassword(dto: SetPasswordDto): Promise<boolean> {
         const user = await this.findByEmail(dto.email);
         if (user != null) {
-            if (await bcrypt.compare(dto.otp, user.otp)
-                && !this.isExpired(user.otpExpiry)) {
+            if (
+                (await bcrypt.compare(dto.otp, user.otp)) &&
+                !this.isExpired(user.otpExpiry)
+            ) {
                 await this._setPassword(dto);
                 return true;
             }
@@ -75,13 +76,16 @@ export class UserService {
     private async _setPassword(dto: SetPasswordDto): Promise<void> {
         await this.prisma.user.update({
             where: {
-                email: dto.email
+                email: dto.email,
             },
             data: {
-                password: await bcrypt.hash(dto.password, UserService.SALT_ROUNDS),
+                password: await bcrypt.hash(
+                    dto.password,
+                    UserService.SALT_ROUNDS,
+                ),
                 otp: null,
-                otpExpiry: null
-            }
+                otpExpiry: null,
+            },
         });
     }
 
@@ -89,35 +93,64 @@ export class UserService {
         const otp = randomstring.generate();
         const user = await this.prisma.user.update({
             where: {
-                email: dto.email
+                email: dto.email,
             },
             data: {
                 otp: await bcrypt.hash(otp, UserService.SALT_ROUNDS),
                 otpExpiry: new Date(new Date().getTime() + UserService._10Days),
-            }
+            },
         });
 
         return {
             ...user,
-            otp
+            otp,
         };
     }
 
     async findByEmail(email: string): Promise<UserDto> {
         return await this.prisma.user.findUnique({
-            where: { email }
-        })
+            where: { email },
+        });
     }
 
     async authenticate(authData: AuthDataDto): Promise<UserDto> {
         const user = await this.prisma.user.findUnique({
-            where: { email: authData.email }
+            where: { email: authData.email },
         });
 
-        if (user?.password &&
-            await bcrypt.compare(authData.password, user?.password))
+        if (
+            user?.password &&
+            (await bcrypt.compare(authData.password, user?.password))
+        )
             return user;
-        else
-            return null;
+        else return null;
+    }
+
+    async query(query: string): Promise<UserDto[]> {
+        query = query.toLowerCase();
+        return await this.prisma.user.findMany({
+            where: {
+                OR: [
+                    {
+                        email: {
+                            startsWith: query,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        firstName: {
+                            startsWith: query,
+                            mode: 'insensitive',
+                        },
+                    },
+                    {
+                        lastName: {
+                            startsWith: query,
+                            mode: 'insensitive',
+                        },
+                    },
+                ],
+            },
+        });
     }
 }

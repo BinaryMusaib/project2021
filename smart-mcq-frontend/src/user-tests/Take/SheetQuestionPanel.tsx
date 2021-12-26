@@ -10,6 +10,7 @@ import {
 import { AnswerSheetDto, OptionDto } from "../../dto/question";
 import React from "react";
 import OptionItem from "./OptionItem";
+import { Colors } from "../../colors";
 
 type SheetQuestionPanelProps = {
     sheet: AnswerSheetDto;
@@ -49,9 +50,7 @@ export default function SheetQuestionPanel({
         <Card className="paper question-panel">
             <CardHeader
                 avatar={
-                    <Avatar sx={{ bgcolor: sheet.isCorrect ? "green" : "red" }}>
-                        {index + 1}
-                    </Avatar>
+                    <Avatar sx={{ bgcolor: getColor(sheet) }}>{index + 1}</Avatar>
                 }
                 title={sheet.question.text}
             />
@@ -73,4 +72,9 @@ export default function SheetQuestionPanel({
             </CardContent>
         </Card>
     );
+}
+
+function getColor(sheet: AnswerSheetDto) {
+    if (sheet.isCorrect === undefined) return Colors.Primary;
+    return sheet.isCorrect ? Colors.Correct : Colors.Error;
 }

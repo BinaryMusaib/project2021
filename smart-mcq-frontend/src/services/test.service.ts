@@ -5,6 +5,8 @@ import {
     UpdateTestDto,
     QuestionDto,
     TestDetailsDto,
+    SubjectStatisticsFilterDto,
+    ResultDto,
 } from "../dto/question";
 import Fetch, { FetchResponse } from "./fetch";
 
@@ -60,4 +62,9 @@ export default class TestService {
     static async closeTest(testId: number) {
         return await Fetch.putJSON<void>(`/api/test/close/${testId}`, {});
     }
+
+    static async getTestStatistics(testId: number) {
+        return await Fetch.getJSON<ResultDto[]>(`/api/test/${testId}/statistics`);
+    }
+
 }

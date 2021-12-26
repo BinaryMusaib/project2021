@@ -13,15 +13,7 @@ import LoadingPage from "../../components/LoadingPage";
 import Layout from "../../components/Layout";
 import Header from "./Header";
 import { Paper, Box } from "@mui/material";
-import {
-    format,
-    monthly,
-    monthlyFormatter,
-    TopicMarksSummary,
-    daily,
-    dailyFormatter,
-    periodFunctions,
-} from "./format";
+import { format, TopicMarksSummary, periodFunctions } from "./format";
 import Plot from "./Plot";
 import "./index.css";
 

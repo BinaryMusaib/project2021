@@ -9,6 +9,7 @@ import {
     UseGuards,
     Param,
     ParseIntPipe,
+    Query,
 } from '@nestjs/common';
 import { MailService } from '../mail/mail.service';
 import { CreateUserDto } from './create-user.dto';
@@ -118,6 +119,13 @@ export class UserController {
     @Roles(Role.Admin)
     async getById(@Param('id', ParseIntPipe) id: number) {
         return await this.userService.getById(id);
+    }
+
+    @Get("query/list")
+    async query(@Query("query") query: string) {
+        if (query && query.length >= 2) {
+            return this.userService.query(query);
+        }
     }
 
 }

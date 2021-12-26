@@ -73,15 +73,11 @@ export default function AddModify() {
         setTest((test) => ({ ...test, [key]: value }));
 
     const fields = React.useMemo(
-        () => formFields(examinees, papers),
-        [examinees, papers],
+        () => formFields(!id, examinees, papers),
+        [id, examinees, papers],
     );
 
-    const handleDelete = () => {
-        TestService.delete(Number.parseInt(id)).then(() =>
-            history.push("/tests"),
-        );
-    };
+    const handleBack = () => history.push("/tests");
 
     return (
         <Layout title="Add/Modify Test">
@@ -97,13 +93,12 @@ export default function AddModify() {
                         Save
                     </Button>
                     <Button
-                        onClick={handleDelete}
-                        disabled={!id}
                         type="button"
                         variant="contained"
                         color="secondary"
+                        onClick={handleBack}
                     >
-                        Delete
+                        Back
                     </Button>
                 </form>
             </Paper>
@@ -112,16 +107,18 @@ export default function AddModify() {
 }
 
 const formFields = (
+    isNew: boolean,
     examineeListOptions: SelectOption[],
     questionPaperOptions: SelectOption[],
 ): FormField[] => [
-        { name: "title", label: "Title", type: "text" },
+        { name: "title", label: "Title", type: "text", disabled: !isNew },
         {
             name: "listId",
             label: "ExamineeList",
             type: "select",
             coerce: "int",
             options: examineeListOptions,
+            disabled: !isNew,
         },
         {
             name: "paperId",
@@ -129,6 +126,7 @@ const formFields = (
             type: "select",
             coerce: "int",
             options: questionPaperOptions,
+            disabled: !isNew,
         },
         { name: "startTime", label: "Start Time", type: "datetime" },
         { name: "endTime", label: "End Time", type: "datetime" },

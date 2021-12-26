@@ -19,7 +19,7 @@ interface TableProps {
 export default function Table({ columns, data }: TableProps) {
     return (
         <TableContainer className="table-wrap">
-            <ReactTable className="table">
+            <ReactTable className="table" size="small">
                 <TableHead>
                     <TableRow>
                         {columns.map((col, index) => (
